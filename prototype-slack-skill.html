@@ -151,9 +151,9 @@
 
       <!-- user question -->
       <div class="msg">
-        <div class="ava user">MA</div>
+        <div class="ava user">AR</div>
         <div class="mbody">
-          <div class="mhead"><span class="nm">Manaswi Arja</span><span class="tm">3:14 PM</span></div>
+          <div class="mhead"><span class="nm">Alex Rivera</span><span class="tm">3:14 PM</span></div>
           <div class="mtext"><p>Why is my ACV credit off on order <b>31811494</b>? Commissionable shows 136,500 but eligible is only 105,000.</p></div>
         </div>
       </div>
@@ -165,7 +165,7 @@
           <div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">3:14 PM</span></div>
           <div class="used"><img class="sk" src="assets/robot.png" alt="" style="object-fit:contain;"> Used <b>🔷 Sales Compensation</b></div>
           <div class="mtext">
-            <p>Hi marja! Let me look into the ACV credit mismatch for order <b>31811494</b> right away.</p>
+            <p>Hi arivera! Let me look into the ACV credit mismatch for order <b>31811494</b> right away.</p>
             <div class="invoke">⚙ Used invoke 1 from <b style="color:#454545">SalesCompensationMCP (Salesforce)</b> MCP ›</div>
             <p>Here's what's causing the ACV credit mismatch on order <b>31811494</b>:</p>
             <p>The mismatch is due to <b>product eligibility</b> — not all products on this order qualify for commission under the Product Eligibility Matrix guidelines.</p>
@@ -203,17 +203,43 @@
 </div>
 
 <script>
-  // lightweight demo: pressing enter echoes a canned "looking into it" so the prototype feels live
+  // Demo composer: echoes the seller's question, then returns a short grounded-style
+  // answer after a brief "typing" beat so the prototype feels live.
   const q=document.getElementById('q'), stream=document.getElementById('stream');
-  q.addEventListener('keydown',e=>{
-    if(e.key!=='Enter'||!q.value.trim())return;
-    const text=q.value.trim(); q.value='';
+  const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+  // canned answers keyed by intent — matches the "grounded, never guess" behaviour
+  function answerFor(text){
+    const t=text.toLowerCase();
+    if(/(comp plan|which plan|my plan|quota)/.test(t))
+      return "You're on the <b>FY27 AE – Enterprise</b> plan (quota <b>$2.4M</b>), effective 2026-02-01. Attainment to date: <b>63%</b>. Want the plan doc or the credit rules for a specific product?";
+    if(/(pay|payout|when.*paid|commission.*paid)/.test(t))
+      return "Commission for closed-won deals in the current period pays on the <b>next cycle: Aug 15</b>. I can check a specific order's payout status if you give me the order number.";
+    if(/(eligib|new logo|bonus)/.test(t))
+      return "Eligibility depends on the product on the order. Tell me the order or opportunity number and I'll pull the Product Eligibility Matrix and show which lines qualify.";
+    if(/(credit|acv|split|50%|opp-|order)/.test(t))
+      return "I can break down the credit. Share the order/opp number and I'll pull it from Org62 and show the eligible vs. commissionable ACV with the rule applied.";
+    return "I can help with that — I pull live comp data from Org62 &amp; Spiff and always show the reasoning. Give me the order, opportunity, or plan detail and I'll ground the answer. If it needs a human, I'll route a case to the right team.";
+  }
+
+  function send(){
+    const text=q.value.trim(); if(!text)return; q.value='';
     stream.insertAdjacentHTML('beforeend',
-      '<div class="msg"><div class="ava user">MA</div><div class="mbody"><div class="mhead"><span class="nm">Manaswi Arja</span><span class="tm">now</span></div><div class="mtext"><p>'+text.replace(/</g,'&lt;')+'</p></div></div></div>');
-    stream.insertAdjacentHTML('beforeend',
-      '<div class="msg"><div class="ava slk"><svg viewBox="0 0 32 32"><use href="#botface"/></svg></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="used">Used <b>🔷 Sales Compensation</b></div><div class="mtext"><p>On it — pulling your live comp data from Org62 &amp; Spiff to answer that…</p></div></div></div>');
+      '<div class="msg"><div class="ava user">AR</div><div class="mbody"><div class="mhead"><span class="nm">Alex Rivera</span><span class="tm">now</span></div><div class="mtext"><p>'+esc(text)+'</p></div></div></div>');
     stream.scrollTop=stream.scrollHeight;
-  });
+    // typing indicator
+    const tip=document.createElement('div'); tip.className='msg'; tip.id='typing';
+    tip.innerHTML='<div class="ava slk"><img src="assets/robot.png" alt="" style="width:26px;height:26px;object-fit:contain;"></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="mtext" style="color:#8a8a8a;font-style:italic;">Sales Compensation is thinking…</div></div>';
+    stream.appendChild(tip); stream.scrollTop=stream.scrollHeight;
+    setTimeout(()=>{
+      const t=document.getElementById('typing'); if(t)t.remove();
+      stream.insertAdjacentHTML('beforeend',
+        '<div class="msg"><div class="ava slk"><img src="assets/robot.png" alt="" style="width:26px;height:26px;object-fit:contain;"></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="used"><img class="sk" src="assets/robot.png" alt="" style="object-fit:contain;"> Used <b>🔷 Sales Compensation</b></div><div class="invoke">⚙ Used invoke 1 from <b style="color:#454545">SalesCompensationMCP (Salesforce)</b> MCP ›</div><div class="mtext"><p>'+answerFor(text)+'</p></div></div></div>');
+      stream.scrollTop=stream.scrollHeight;
+    },900);
+  }
+
+  q.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault(); send();} });
 </script>
 </body>
 </html>

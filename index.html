@@ -222,15 +222,14 @@
   .present-btn{background:var(--navy)!important;}
   .present-btn:hover{background:#021f43!important;}
 
-  /* ===== fullscreen present mode ===== */
-  .deck:fullscreen{aspect-ratio:auto;width:100vw;height:100vh;max-width:none;border:none;border-radius:0;box-shadow:none;}
-  .deck:fullscreen .slide{padding:5vh 8vw;}
-  .deck:fullscreen .slide h2{font-size:clamp(34px,4.4vw,64px);}
-  .deck:fullscreen .slide h3{font-size:clamp(19px,2.2vw,32px);}
-  .deck:fullscreen .slide h3.blue{font-size:clamp(26px,3vw,44px);}
-  .deck:fullscreen .slide ul.chk li{font-size:clamp(16px,1.7vw,26px);}
-  .deck:fullscreen .slide table{font-size:clamp(14px,1.4vw,22px);}
-  .deck:fullscreen .slide .big-quote{font-size:clamp(20px,2.4vw,36px);}
+  /* ===== fullscreen present mode =====
+     Keep the SAME 16:9 stage (1040×585 design) and scale it up uniformly so the
+     layout stays pixel-identical to normal mode — just bigger, letterboxed on black. */
+  .deck:fullscreen{aspect-ratio:auto;width:1040px;height:585px;max-width:none;
+    border:none;border-radius:0;box-shadow:none;background:var(--sky);
+    position:fixed;top:50%;left:50%;
+    transform:translate(-50%,-50%) scale(var(--sc,1));transform-origin:center center;}
+  .deck:fullscreen::backdrop{background:#04101f;}
   .deck:fullscreen .fsnav{display:flex;}
   .fsnav{display:none;position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:20;
     align-items:center;gap:14px;background:rgba(3,45,96,.82);backdrop-filter:blur(6px);
@@ -920,10 +919,17 @@
     fspg.textContent=(cur+1)+' / '+slides.length;}
   prevBtn.addEventListener('click',()=>go(cur-1));nextBtn.addEventListener('click',()=>go(cur+1));
 
-  // Fullscreen "Present" mode
+  // Fullscreen "Present" mode — scale the fixed 1040×585 stage to fit the screen
+  function fitStage(){
+    if(!inFullscreen()){deckEl.style.removeProperty('--sc');return;}
+    const sc=Math.min(window.innerWidth/1040, window.innerHeight/585);
+    deckEl.style.setProperty('--sc',sc);}
   document.getElementById('present').addEventListener('click',()=>{
     if(deckEl.requestFullscreen)deckEl.requestFullscreen();
     else if(deckEl.webkitRequestFullscreen)deckEl.webkitRequestFullscreen();});
+  document.addEventListener('fullscreenchange',fitStage);
+  document.addEventListener('webkitfullscreenchange',fitStage);
+  window.addEventListener('resize',fitStage);
   document.getElementById('fsprev').addEventListener('click',()=>go(cur-1));
   document.getElementById('fsnext').addEventListener('click',()=>go(cur+1));
   document.getElementById('fsexit').addEventListener('click',()=>{

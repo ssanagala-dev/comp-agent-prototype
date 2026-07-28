@@ -26,7 +26,8 @@
   .item.active{background:#1164a3;color:#fff;font-weight:700;}
   .av{width:18px;height:18px;border-radius:4px;color:#fff;font-size:10px;font-weight:900;text-align:center;line-height:18px;
     background:linear-gradient(135deg,#36c5f0,#2eb67d);flex-shrink:0;}
-  .av.bot{background:#611f69;line-height:18px;}
+  .av.bot{background:transparent;line-height:18px;display:flex;align-items:center;justify-content:center;}
+  .av.bot svg{width:18px;height:18px;}
   .pres{width:8px;height:8px;border-radius:50%;background:#2bac76;}
   .pres.off{background:transparent;border:1.5px solid #b39bb4;}
 
@@ -38,7 +39,8 @@
   .topsearch .fb{color:#e9def0;font-size:12px;display:flex;gap:6px;align-items:center;}
 
   .chead{display:flex;align-items:center;gap:10px;padding:12px 20px;border-bottom:1px solid #e8e8e8;flex-shrink:0;}
-  .chead .bot{width:26px;height:26px;border-radius:6px;background:#611f69;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .chead .bot{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .chead .bot svg{width:26px;height:26px;}
   .chead h2{margin:0;font-size:17px;font-weight:900;}
   .chead .caret{color:#616061;font-size:12px;}
   .ctabs{display:flex;gap:20px;padding:0 20px;border-bottom:1px solid #e8e8e8;flex-shrink:0;}
@@ -55,8 +57,8 @@
   .msg:hover{background:#f8f8f8;}
   .msg .ava{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:14px;}
   .ava.user{background:linear-gradient(135deg,#36c5f0,#2eb67d);}
-  .ava.slk{background:#fff;border:1px solid #e0e0e0;}
-  .ava.slk img,.ava.slk svg{width:26px;height:26px;}
+  .ava.slk{background:transparent;}
+  .ava.slk img,.ava.slk svg{width:36px;height:36px;border-radius:8px;}
   .mbody{min-width:0;flex:1;}
   .mhead{display:flex;align-items:baseline;gap:8px;}
   .mhead .nm{font-weight:900;font-size:15px;color:#1d1c1d;}
@@ -92,12 +94,19 @@
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <symbol id="botface" viewBox="0 0 32 32">
-    <rect x="2" y="2" width="28" height="28" rx="7" fill="#f4f8fd"/>
-    <rect x="6" y="9" width="20" height="12" rx="6" fill="#0a3ea8"/>
-    <rect x="8" y="11" width="7" height="8" rx="3.5" fill="#1b96ff"/>
-    <rect x="17" y="11" width="7" height="8" rx="3.5" fill="#0d4fd1"/>
-    <circle cx="11" cy="15" r="1.6" fill="#bfe3ff"/>
+  <symbol id="slackbot" viewBox="0 0 36 36">
+    <clipPath id="sbclip"><rect x="1.5" y="1.5" width="33" height="33" rx="9"/></clipPath>
+    <g clip-path="url(#sbclip)">
+      <rect x="0" y="0" width="18" height="18" fill="#36C5F0"/>
+      <rect x="18" y="0" width="18" height="18" fill="#2EB67D"/>
+      <rect x="0" y="18" width="18" height="18" fill="#E01E5A"/>
+      <rect x="18" y="18" width="18" height="18" fill="#ECB22E"/>
+    </g>
+    <g fill="#241c2e">
+      <rect x="11.4" y="11.8" width="4.3" height="9.2" rx="2.15"/>
+      <rect x="20.3" y="11.8" width="4.3" height="9.2" rx="2.15"/>
+    </g>
+    <path d="M12.6 23.6 Q18 29.2 23.4 23.6" fill="none" stroke="#241c2e" stroke-width="2.6" stroke-linecap="round"/>
   </symbol>
 </defs></svg>
 
@@ -121,7 +130,7 @@
     <div class="item"><span class="pres"></span> smundreti</div>
     <div class="item"><span class="pres"></span> tgandhi</div>
     <h4 class="sec">Agents &amp; apps</h4>
-    <div class="item active"><span class="av bot">🤖</span> Slackbot</div>
+    <div class="item active"><span class="av bot"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></span> Slackbot</div>
     <div class="item"><span class="av bot" style="background:#0a3ea8;">⚡</span> Agentforce</div>
     <div class="item"><span class="av" style="background:#1164a3;">☁</span> Sales Agent</div>
   </div>
@@ -134,7 +143,7 @@
     </div>
 
     <div class="chead">
-      <div class="bot">🤖</div>
+      <div class="bot"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>
       <h2>Slackbot</h2>
       <span class="caret">⌄</span>
     </div>
@@ -160,7 +169,7 @@
 
       <!-- slackbot answer -->
       <div class="msg">
-        <div class="ava slk"><svg viewBox="0 0 32 32"><use href="#botface"/></svg></div>
+        <div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>
         <div class="mbody">
           <div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">3:14 PM</span></div>
           <div class="used"><img class="sk" src="assets/robot.png" alt="" style="object-fit:contain;"> Used <b>🔷 Sales Compensation</b></div>
@@ -208,18 +217,50 @@
   const q=document.getElementById('q'), stream=document.getElementById('stream');
   const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
-  // canned answers keyed by intent — matches the "grounded, never guess" behaviour
+  // Canned answers keyed to the MVP / Beta in-scope topics (Comp-Agent Response Library).
+  // Behaviour mirrors the pilot: ground in Org62, ask for the order #, Spiff-visibility
+  // disclaimer on eligibility, escalate cleanly — never fabricate a value.
   function answerFor(text){
     const t=text.toLowerCase();
-    if(/(comp plan|which plan|my plan|quota)/.test(t))
-      return "You're on the <b>FY27 AE – Enterprise</b> plan (quota <b>$2.4M</b>), effective 2026-02-01. Attainment to date: <b>63%</b>. Want the plan doc or the credit rules for a specific product?";
-    if(/(pay|payout|when.*paid|commission.*paid)/.test(t))
-      return "Commission for closed-won deals in the current period pays on the <b>next cycle: Aug 15</b>. I can check a specific order's payout status if you give me the order number.";
-    if(/(eligib|new logo|bonus)/.test(t))
-      return "Eligibility depends on the product on the order. Tell me the order or opportunity number and I'll pull the Product Eligibility Matrix and show which lines qualify.";
-    if(/(credit|acv|split|50%|opp-|order)/.test(t))
-      return "I can break down the credit. Share the order/opp number and I'll pull it from Org62 and show the eligible vs. commissionable ACV with the rule applied.";
-    return "I can help with that — I pull live comp data from Org62 &amp; Spiff and always show the reasoning. Give me the order, opportunity, or plan detail and I'll ground the answer. If it needs a human, I'll route a case to the right team.";
+
+    // Topic 2 — LOA Return
+    if(/(loa|leave of absence|came back|returned from leave|maternity|paternity)/.test(t))
+      return "Welcome back! Your <b>LOA Return Comp Plan</b> has been created and is being finalized — it passes through internal audits before it's issued. If you already received a full-quota plan, that's the <b>interim plan</b>; your adjusted LOA return plan (quota relief, credit &amp; TI) generates mid-month after your return and finalizes within <b>1–2 months</b>. You can track it on the Incentive Compensation Station dashboard. No action needed on your end.";
+
+    // Topic 1 — Comp Plan Issuance / status / quota
+    if(/(comp plan|my plan|which plan|plan status|pending quota|quota|territory|when.*plan|plan issued)/.test(t))
+      return "Your <b>FY27</b> comp plan has been created and is currently <b>Pending Quota</b> — your quota is being finalized, after which it passes through internal audits before it's issued. No action needed from you.<br>• <b>Role:</b> AE – Enterprise &nbsp; • <b>Plan Status:</b> Pending Quota<br>Track live updates on the Incentive Compensation Station dashboard. If there's no movement in a couple of weeks, reach out and I'll dig in.";
+
+    // Topic 4 — Payout timing
+    if(/(when.*pay|when.*paid|payout|get paid|receive.*commission|commission.*paid)/.test(t))
+      return "Happy to check that — can you share the <b>order number</b>? I'll look up the commission period and, per the GIC Consolidated Close Calendar, tell you the scheduled payout date. If the run for that period already completed and the order closed after the cutoff, it'll be picked up in the next scheduled run.";
+
+    // Topic 5 — Product eligibility (always carries the Spiff disclaimer)
+    if(/(eligib|which product|no credit for|not eligible|product.*credit)/.test(t))
+      return "Let me check the product eligibility for that order — what's the <b>order number</b>? I'll show your eligibility % by line item and the reason, based on your role under the FY27 Product Eligibility rules.<br><i>⚠️ Note: I don't currently have visibility into your Spiff statement — this is based solely on Org62 order data.</i>";
+
+    // Topic 3 — Credit / ACV discrepancy
+    if(/(credit|acv|split|only getting|50%|opportunity amount|clawback|negative)/.test(t))
+      return "I can break that down. Share the <b>order number</b> and I'll pull it from Org62 — credit is calculated on the <b>Commissionable ACV at the order level</b> (not the full opportunity amount), then your split % and role eligibility. I'll show the Commission Audit Comments, which are the source of truth for any crediting rule applied.";
+
+    // Topic 6 — Order / quote status, FDO, web-store
+    if(/(missing order|where is my order|order status|future.?dated|fdo|web ?store|not showing)/.test(t))
+      return "Let me run the checkpoints — what's the <b>order number</b>? I'll check whether you're on the order team, the incentive date, and product eligibility. If it's a <b>future-dated order</b>, credit is due on the commission date and goes to whoever's on the account team then — so it may simply not be due yet.";
+
+    // Topic 8 — New Hire Guarantee
+    if(/(new hire|guarantee|draw guarantee|ramp)/.test(t))
+      return "I can check your New Hire Guarantee eligibility against the FY27 policy — it's based on your hire date, segment, vertical and role, with payment timing set by the 15-day rule. Want me to pull your eligibility and the guarantee duration?";
+
+    // Topic 9 — Recoverable draw
+    if(/(recoverable draw|draw|advance)/.test(t))
+      return "A <b>recoverable draw</b> is an advance against future commissions — if earned commission in a period is less than the draw, the difference is recovered from later payments. It commonly applies at the start of a fiscal year, while a plan is pending, or on return from LOA. Want me to check which components you have a draw on?";
+
+    // Topic 10/11 — NRR / attrition relief (route, don't adjudicate)
+    if(/(nrr|net revenue|attrition|relief|nnaov)/.test(t))
+      return "I can't adjudicate relief directly, but I can get it to the right team. If this is an NRR/attrition-relief request, log a commissions case and GIC will review — <b>want me to start that case for you now?</b>";
+
+    // Fallback — stays in scope, offers the grounded path
+    return "I can help with comp plan status, credits &amp; ACV, product eligibility, payout timing, order status, LOA return, guarantees and draws — all grounded in your live Org62 data. For order-specific questions, just give me the <b>order number</b>. If it needs a human, I'll route a case to the right team.";
   }
 
   function send(){
@@ -227,14 +268,14 @@
     stream.insertAdjacentHTML('beforeend',
       '<div class="msg"><div class="ava user">AR</div><div class="mbody"><div class="mhead"><span class="nm">Alex Rivera</span><span class="tm">now</span></div><div class="mtext"><p>'+esc(text)+'</p></div></div></div>');
     stream.scrollTop=stream.scrollHeight;
-    // typing indicator
-    const tip=document.createElement('div'); tip.className='msg'; tip.id='typing';
-    tip.innerHTML='<div class="ava slk"><img src="assets/robot.png" alt="" style="width:26px;height:26px;object-fit:contain;"></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="mtext" style="color:#8a8a8a;font-style:italic;">Sales Compensation is thinking…</div></div>';
-    stream.appendChild(tip); stream.scrollTop=stream.scrollHeight;
+    // typing indicator (static markup — no user content)
+    stream.insertAdjacentHTML('beforeend',
+      '<div class="msg" id="typing"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="mtext" style="color:#8a8a8a;font-style:italic;">Sales Compensation is thinking…</div></div></div>');
+    stream.scrollTop=stream.scrollHeight;
     setTimeout(()=>{
       const t=document.getElementById('typing'); if(t)t.remove();
       stream.insertAdjacentHTML('beforeend',
-        '<div class="msg"><div class="ava slk"><img src="assets/robot.png" alt="" style="width:26px;height:26px;object-fit:contain;"></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="used"><img class="sk" src="assets/robot.png" alt="" style="object-fit:contain;"> Used <b>🔷 Sales Compensation</b></div><div class="invoke">⚙ Used invoke 1 from <b style="color:#454545">SalesCompensationMCP (Salesforce)</b> MCP ›</div><div class="mtext"><p>'+answerFor(text)+'</p></div></div></div>');
+        '<div class="msg"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="used"><img class="sk" src="assets/robot.png" alt="" style="object-fit:contain;"> Used <b>🔷 Sales Compensation</b></div><div class="invoke">⚙ Used invoke 1 from <b style="color:#454545">SalesCompensationMCP (Salesforce)</b> MCP ›</div><div class="mtext"><p>'+answerFor(text)+'</p></div></div></div>');
       stream.scrollTop=stream.scrollHeight;
     },900);
   }

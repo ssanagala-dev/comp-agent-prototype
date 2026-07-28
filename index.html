@@ -114,6 +114,24 @@
   .farrow{display:flex;align-items:center;color:var(--royal);font-size:22px;font-weight:800;padding:0 5px;}
   .fnote{font-size:12.5px;color:var(--mute);text-align:center;margin-top:8px;font-style:italic;}
 
+  /* faithful architecture diagram (navy nodes, matches the deck) */
+  .arch{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 22px;box-shadow:var(--shadow);}
+  .atier{display:flex;align-items:stretch;justify-content:center;gap:8px;flex-wrap:wrap;}
+  .anode{background:var(--navy);color:#fff;border-radius:12px;padding:11px 15px;text-align:center;min-width:122px;
+    display:flex;flex-direction:column;justify-content:center;box-shadow:0 2px 8px rgba(3,45,96,.16);}
+  .anode .at{font-size:13.5px;font-weight:800;color:#fff;line-height:1.15;}
+  .anode .as{font-size:10px;color:#a9cdf3;margin-top:3px;line-height:1.2;}
+  .anode.brain{background:var(--royal);}
+  .anode.src{background:#0a2f66;}
+  .aarrow{display:flex;align-items:center;color:var(--blue);font-size:20px;font-weight:800;}
+  .adown{text-align:center;color:var(--blue);font-size:20px;font-weight:800;margin:8px 0 4px;letter-spacing:6px;}
+  .aorg{border:2px dashed #9bbfe6;border-radius:14px;padding:20px 14px 12px;position:relative;background:#f5faff;display:flex;align-items:center;}
+  .aorg .orglbl{position:absolute;top:-11px;left:14px;background:#fff;padding:1px 8px;font-size:10.5px;font-weight:800;
+    color:var(--navy);letter-spacing:.5px;display:flex;align-items:center;gap:5px;}
+  .aorg .orglbl svg{width:16px;height:12px;}
+  .arch .acap{text-align:center;font-size:12.5px;color:var(--mute);margin-top:16px;font-style:italic;}
+  @media(max-width:760px){.aarrow{transform:rotate(90deg);width:100%;justify-content:center;}}
+
   /* today/after compare */
   .cmp{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow);}
   .cmp .h{padding:11px 15px;font-weight:800;font-size:14px;color:#fff;}
@@ -318,19 +336,33 @@
 
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Architecture</div>
-    <h2>Surface → brain → tools → sources of truth</h2>
-    <div class="flow">
-      <div class="fnode"><div class="ft">Seller</div><div class="fs">in Slack</div></div>
-      <div class="farrow">→</div>
-      <div class="fnode"><div class="ft">Slackbot Skill</div><div class="fs">"Sales Compensation"</div></div>
-      <div class="farrow">→</div>
-      <div class="fnode brain"><div class="ft">Sales Comp Agent</div><div class="fs">same Agentforce agent (headless)</div></div>
-      <div class="farrow">→</div>
-      <div class="fnode"><div class="ft">MCP + Apex</div><div class="fs">tools &amp; actions</div></div>
-      <div class="farrow">→</div>
-      <div class="fnode src"><div class="ft">Live systems</div><div class="fs">Org62 · Spiff</div></div>
+    <h2>State &amp; multi-turn reasoning</h2>
+    <p class="lead">The Skill is a thin MCP client — the reasoning, state, and grounding all run inside Org62. One engine, reachable from Slack.</p>
+    <div class="arch">
+      <div class="atier">
+        <div class="anode"><div class="at">Seller in Slack</div><div class="as">Slackbot</div></div>
+        <div class="aarrow">→</div>
+        <div class="anode"><div class="at">Slackbot Skill</div><div class="as">LLM reasoning · MCP client</div></div>
+        <div class="aarrow">→</div>
+        <div class="aorg">
+          <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62</div>
+          <div class="atier">
+            <div class="anode brain"><div class="at">Salesforce MCP server</div><div class="as">Block Kit UI · orchestration</div></div>
+            <div class="aarrow">→</div>
+            <div class="anode"><div class="at">Headless Comp Agent</div><div class="as">state · multi-turn conversations</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="adown">↓</div>
+      <div class="atier">
+        <div class="anode src"><div class="at">Org62</div><div class="as">cases · knowledge</div></div>
+        <div class="anode src"><div class="at">Snowflake</div><div class="as">comp data</div></div>
+        <div class="anode src"><div class="at">EOS</div><div class="as">plans · roles</div></div>
+        <div class="anode src"><div class="at">Apex services</div><div class="as">data &amp; knowledge access</div></div>
+        <div class="anode src"><div class="at">Data Cloud</div><div class="as">unified knowledge</div></div>
+      </div>
+      <div class="acap">The Slackbot skill calls the same headless Comp Agent in Org62 — grounded on Org62, Snowflake, EOS, Apex services &amp; Data Cloud.</div>
     </div>
-    <div class="fnote">↳ The Skill is just a new entry point — it calls the same Agentforce agent. We don't rebuild the engine. When policy or data is insufficient, it escalates to the right team, with full context.</div>
   </div>
 </div>
 
@@ -663,22 +695,32 @@
       <div class="slide">
         <span class="snum">13 / 15</span>
         <div class="kick">Architecture</div>
-        <h2>Same engine, new front door.</h2>
-        <div style="font-size:12px;font-weight:800;color:var(--mute);margin:10px 0 4px;">TODAY · Agentforce</div>
-        <div class="flow" style="justify-content:flex-start;">
-          <div class="fnode"><div class="ft">Seller</div><div class="fs">in Slack</div></div><div class="farrow">→</div>
-          <div class="fnode brain"><div class="ft">Sales Comp Agent</div><div class="fs">Agentforce agent</div></div><div class="farrow">→</div>
-          <div class="fnode src"><div class="ft">Apex</div><div class="fs">tools &amp; actions</div></div><div class="farrow">→</div>
-          <div class="fnode"><div class="ft">Live systems</div><div class="fs">Org62 · Spiff</div></div>
+        <h2 style="font-size:28px;">State &amp; multi-turn reasoning</h2>
+        <div class="arch" style="border:none;box-shadow:none;padding:8px 0 0;">
+          <div class="atier">
+            <div class="anode"><div class="at">Seller in Slack</div><div class="as">Slackbot</div></div>
+            <div class="aarrow">→</div>
+            <div class="anode"><div class="at">Slackbot Skill</div><div class="as">LLM reasoning · MCP client</div></div>
+            <div class="aarrow">→</div>
+            <div class="aorg">
+              <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62</div>
+              <div class="atier">
+                <div class="anode brain"><div class="at">Salesforce MCP server</div><div class="as">Block Kit UI · orchestration</div></div>
+                <div class="aarrow">→</div>
+                <div class="anode"><div class="at">Headless Comp Agent</div><div class="as">state · multi-turn</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="adown">↓</div>
+          <div class="atier">
+            <div class="anode src"><div class="at">Org62</div><div class="as">cases · knowledge</div></div>
+            <div class="anode src"><div class="at">Snowflake</div><div class="as">comp data</div></div>
+            <div class="anode src"><div class="at">EOS</div><div class="as">plans · roles</div></div>
+            <div class="anode src"><div class="at">Apex services</div><div class="as">data &amp; knowledge</div></div>
+            <div class="anode src"><div class="at">Data Cloud</div><div class="as">unified knowledge</div></div>
+          </div>
         </div>
-        <div style="font-size:12px;font-weight:800;color:var(--navy);margin:14px 0 4px;">AFTER THE PIVOT · Slackbot Skill</div>
-        <div class="flow" style="justify-content:flex-start;">
-          <div class="fnode"><div class="ft">Seller</div><div class="fs">in Slack</div></div><div class="farrow">→</div>
-          <div class="fnode"><div class="ft">Slackbot Skill</div><div class="fs">"Sales Compensation"</div></div><div class="farrow">→</div>
-          <div class="fnode brain"><div class="ft">Sales Comp Agent</div><div class="fs">same agent (headless)</div></div><div class="farrow">→</div>
-          <div class="fnode src"><div class="ft">MCP + Apex</div><div class="fs">Org62 · Spiff</div></div>
-        </div>
-        <div class="big-quote" style="font-size:16px;">The pivot changes where the seller starts, not how the answer is produced — same agent, same live data.</div>
+        <div class="big-quote" style="font-size:15px;">The Skill is a thin MCP client — the reasoning, state &amp; grounding all run inside Org62. One engine, reachable from Slack.</div>
       </div>
 
       <!-- 14 Why it matters -->

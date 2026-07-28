@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Comp Agent — Slackbot Skill in Slack</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;color:#1d1c1d;background:#fff;overflow:hidden;}
+  .app{display:flex;height:100vh;width:100vw;}
+
+  /* ===== Slack sidebar ===== */
+  .side{width:230px;flex-shrink:0;background:#3f0e40;color:#cfc3d1;padding:12px 0;overflow-y:auto;font-size:14px;}
+  .ws{display:flex;align-items:center;justify-content:space-between;padding:0 16px 12px;border-bottom:1px solid #532753;
+    color:#fff;font-weight:900;font-size:17px;}
+  .ws .cV{font-size:12px;color:#cfc3d1;}
+  .subnote{padding:8px 16px 4px;font-size:11px;color:#b39bb4;}
+  .subnote a{color:#9fd0ff;text-decoration:underline;cursor:pointer;}
+  .rail{display:flex;flex-direction:column;gap:1px;margin-top:6px;}
+  .ri{display:flex;align-items:center;gap:10px;padding:5px 16px;cursor:pointer;color:#cfc3d1;}
+  .ri:hover{background:#350d36;} .ri .ic{width:16px;text-align:center;opacity:.85;}
+  h4.sec{padding:14px 16px 3px;font-size:12px;font-weight:500;color:#b39bb4;}
+  .item{display:flex;align-items:center;gap:8px;padding:5px 16px;cursor:pointer;font-size:14px;color:#cfc3d1;}
+  .item:hover{background:#350d36;}
+  .item.active{background:#1164a3;color:#fff;font-weight:700;}
+  .av{width:18px;height:18px;border-radius:4px;color:#fff;font-size:10px;font-weight:900;text-align:center;line-height:18px;
+    background:linear-gradient(135deg,#36c5f0,#2eb67d);flex-shrink:0;}
+  .av.bot{background:#611f69;line-height:18px;}
+  .pres{width:8px;height:8px;border-radius:50%;background:#2bac76;}
+  .pres.off{background:transparent;border:1.5px solid #b39bb4;}
+
+  /* ===== main ===== */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column;background:#fff;height:100vh;}
+  .topsearch{background:#3f0e40;padding:8px 16px;display:flex;align-items:center;gap:10px;}
+  .topsearch .box{flex:1;max-width:640px;margin:0 auto;background:#5a2a5b;border-radius:6px;height:28px;
+    display:flex;align-items:center;padding:0 10px;color:#d6c6d7;font-size:13px;gap:8px;}
+  .topsearch .fb{color:#e9def0;font-size:12px;display:flex;gap:6px;align-items:center;}
+
+  .chead{display:flex;align-items:center;gap:10px;padding:12px 20px;border-bottom:1px solid #e8e8e8;flex-shrink:0;}
+  .chead .bot{width:26px;height:26px;border-radius:6px;background:#611f69;display:flex;align-items:center;justify-content:center;font-size:15px;}
+  .chead h2{margin:0;font-size:17px;font-weight:900;}
+  .chead .caret{color:#616061;font-size:12px;}
+  .ctabs{display:flex;gap:20px;padding:0 20px;border-bottom:1px solid #e8e8e8;flex-shrink:0;}
+  .ct{padding:9px 0;font-size:13px;color:#616061;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;display:flex;gap:6px;align-items:center;}
+  .ct.active{color:#1d1c1d;border-bottom-color:#611f69;font-weight:800;}
+
+  .stream{flex:1;overflow-y:auto;padding:18px 24px 8px;}
+  .day{text-align:center;margin:10px 0 18px;position:relative;}
+  .day::before{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:#e8e8e8;z-index:0;}
+  .day span{background:#fff;position:relative;z-index:1;padding:0 12px;font-size:12px;font-weight:800;color:#616061;
+    border:1px solid #e8e8e8;border-radius:12px;line-height:22px;display:inline-block;}
+
+  .msg{display:flex;gap:10px;padding:8px 6px;border-radius:8px;}
+  .msg:hover{background:#f8f8f8;}
+  .msg .ava{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:14px;}
+  .ava.user{background:linear-gradient(135deg,#36c5f0,#2eb67d);}
+  .ava.slk{background:#fff;border:1px solid #e0e0e0;}
+  .ava.slk img,.ava.slk svg{width:26px;height:26px;}
+  .mbody{min-width:0;flex:1;}
+  .mhead{display:flex;align-items:baseline;gap:8px;}
+  .mhead .nm{font-weight:900;font-size:15px;color:#1d1c1d;}
+  .mhead .app-pill{font-size:10px;background:#e8e8e8;color:#616061;padding:1px 5px;border-radius:3px;font-weight:800;letter-spacing:.3px;}
+  .mhead .tm{font-size:12px;color:#616061;}
+  .used{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#616061;margin:2px 0 6px;
+    background:#f4f0f7;border:1px solid #e6dcec;border-radius:6px;padding:3px 9px;}
+  .used b{color:#611f69;}
+  .used .sk{width:14px;height:14px;}
+  .invoke{font-size:12px;color:#8a8a8a;display:flex;align-items:center;gap:6px;margin:6px 0;}
+  .invoke .g{width:14px;height:14px;opacity:.7;}
+  .mtext{font-size:15px;line-height:1.55;color:#1d1c1d;}
+  .mtext p{margin:9px 0;}
+  .mtext ul{margin:6px 0;padding-left:22px;} .mtext li{margin:4px 0;}
+  .mtext b{font-weight:800;}
+  .kv{margin:6px 0;padding-left:22px;} .kv li{margin:3px 0;list-style:disc;}
+  .lbl{font-weight:800;}
+  .green-t{color:#2ba55b;font-weight:800;} .red-t{color:#c0392b;font-weight:800;}
+  .disclaimer{border-left:4px solid #dcdcdc;background:#fafafa;padding:10px 14px;margin:14px 0 4px;
+    font-size:12.5px;color:#616061;font-style:italic;border-radius:0 6px 6px 0;}
+  .disclaimer b{font-style:normal;color:#454545;}
+  .react{display:flex;gap:8px;margin-top:8px;color:#8a8a8a;font-size:15px;}
+  .react span{cursor:pointer;} .react span:hover{color:#1d1c1d;}
+
+  /* composer */
+  .composer{flex-shrink:0;padding:0 24px 20px;}
+  .cbox{border:1px solid #b6b6b6;border-radius:10px;padding:10px 12px;}
+  .cbox .toolbar{display:flex;gap:14px;color:#8a8a8a;font-size:14px;padding-bottom:8px;border-bottom:1px solid #eee;margin-bottom:8px;}
+  .cbox input{width:100%;border:none;outline:none;font-size:15px;font-family:inherit;color:#1d1c1d;background:transparent;}
+  .cbox input::placeholder{color:#9a9a9a;}
+  .hint{font-size:11px;color:#9a9a9a;margin-top:6px;}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="botface" viewBox="0 0 32 32">
+    <rect x="2" y="2" width="28" height="28" rx="7" fill="#f4f8fd"/>
+    <rect x="6" y="9" width="20" height="12" rx="6" fill="#0a3ea8"/>
+    <rect x="8" y="11" width="7" height="8" rx="3.5" fill="#1b96ff"/>
+    <rect x="17" y="11" width="7" height="8" rx="3.5" fill="#0d4fd1"/>
+    <circle cx="11" cy="15" r="1.6" fill="#bfe3ff"/>
+  </symbol>
+</defs></svg>
+
+<div class="app">
+  <!-- sidebar -->
+  <div class="side">
+    <div class="ws">Internal-Sandbox <span class="cV">⌄</span></div>
+    <div class="subnote">You're only viewing channels in this workspace.<br><a>Show all channels</a></div>
+    <div class="rail">
+      <div class="ri"><span class="ic">🏠</span>Home</div>
+      <div class="ri"><span class="ic">💬</span>DMs</div>
+      <div class="ri"><span class="ic">🔔</span>Activity</div>
+      <div class="ri"><span class="ic">✎</span>Sales</div>
+      <div class="ri"><span class="ic">🗂</span>Files</div>
+      <div class="ri"><span class="ic">•••</span>More</div>
+    </div>
+    <h4 class="sec">Channels</h4>
+    <div class="item"><span>#</span> general</div>
+    <div class="item"><span>#</span> random</div>
+    <h4 class="sec">Direct messages</h4>
+    <div class="item"><span class="pres"></span> smundreti</div>
+    <div class="item"><span class="pres"></span> tgandhi</div>
+    <h4 class="sec">Agents &amp; apps</h4>
+    <div class="item active"><span class="av bot">🤖</span> Slackbot</div>
+    <div class="item"><span class="av bot" style="background:#0a3ea8;">⚡</span> Agentforce</div>
+    <div class="item"><span class="av" style="background:#1164a3;">☁</span> Sales Agent</div>
+  </div>
+
+  <!-- main -->
+  <div class="main">
+    <div class="topsearch">
+      <div class="box">🔍 Search Salesforce Sandbox</div>
+      <div class="fb">🎈 Give Feedback</div>
+    </div>
+
+    <div class="chead">
+      <div class="bot">🤖</div>
+      <h2>Slackbot</h2>
+      <span class="caret">⌄</span>
+    </div>
+    <div class="ctabs">
+      <div class="ct active">💬 Messages</div>
+      <div class="ct">🕘 History</div>
+      <div class="ct">🧩 Skills</div>
+      <div class="ct">✨ Tasks</div>
+      <div class="ct">＋</div>
+    </div>
+
+    <div class="stream" id="stream">
+      <div class="day"><span>Today</span></div>
+
+      <!-- user question -->
+      <div class="msg">
+        <div class="ava user">MA</div>
+        <div class="mbody">
+          <div class="mhead"><span class="nm">Manaswi Arja</span><span class="tm">3:14 PM</span></div>
+          <div class="mtext"><p>Why is my ACV credit off on order <b>31811494</b>? Commissionable shows 136,500 but eligible is only 105,000.</p></div>
+        </div>
+      </div>
+
+      <!-- slackbot answer -->
+      <div class="msg">
+        <div class="ava slk"><svg viewBox="0 0 32 32"><use href="#botface"/></svg></div>
+        <div class="mbody">
+          <div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">3:14 PM</span></div>
+          <div class="used"><img class="sk" src="assets/robot.png" alt="" style="object-fit:contain;"> Used <b>🔷 Sales Compensation</b></div>
+          <div class="mtext">
+            <p>Hi marja! Let me look into the ACV credit mismatch for order <b>31811494</b> right away.</p>
+            <div class="invoke">⚙ Used invoke 1 from <b style="color:#454545">SalesCompensationMCP (Salesforce)</b> MCP ›</div>
+            <p>Here's what's causing the ACV credit mismatch on order <b>31811494</b>:</p>
+            <p>The mismatch is due to <b>product eligibility</b> — not all products on this order qualify for commission under the Product Eligibility Matrix guidelines.</p>
+            <p><b>Order Details:</b></p>
+            <ul class="kv">
+              <li><span class="lbl">Order Number:</span> 31811494</li>
+              <li><span class="lbl">Account:</span> Drew AWS UAT 10.1</li>
+              <li><span class="lbl">Commissionable ACV:</span> USD 136,500</li>
+              <li><span class="lbl">Eligible ACV:</span> USD 105,000</li>
+              <li><span class="lbl">Your Split Percent:</span> 100%</li>
+              <li><span class="lbl">Commission Period:</span> 2026-07-01</li>
+            </ul>
+            <p><b>Products with Reduced Eligibility:</b></p>
+            <ul class="kv"><li>AB1 — <span class="red-t">0% eligible</span></li></ul>
+            <p><b>Products with 100% Eligibility:</b></p>
+            <ul class="kv"><li>B — <span class="green-t">100% eligible</span></li></ul>
+            <p>So the difference of <b>USD 31,500</b> (136,500 − 105,000) corresponds to the portion of the order attributed to <b>AB1</b>, which carries 0% eligibility under the Product Eligibility Matrix. Only the <b>B</b> product line contributes to your creditable ACV.</p>
+            <p>Please note that the above is based on <b>Org62 order data</b> — there's no direct visibility into your Spiff statement from here. If you believe the eligibility determination is incorrect, you may want to raise it with your compensation team.</p>
+            <p>Let me know if there's anything else I can help with!</p>
+            <div class="disclaimer"><b>Disclaimer:</b> Sales Agent surfaces information from the compensation system of record and does not calculate or modify any figures. This AI-generated response is informational and does not replace, amend, or override your official Compensation Plan, statement, or payout records which remain the source of truth.</div>
+          </div>
+          <div class="react"><span>↪</span><span>👍</span><span>👎</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="composer">
+      <div class="cbox">
+        <div class="toolbar"><b style="color:#616061">B</b><i style="color:#616061">i</i><span>🔗</span><span>:)</span><span>@</span><span>📎</span></div>
+        <input id="q" placeholder="Message Slackbot — e.g. “Where is my comp plan?”" />
+      </div>
+      <div class="hint">Anyone in the workspace can add the <b>Sales Compensation</b> skill and just ask — grounded answers from Org62 &amp; Spiff, in seconds.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // lightweight demo: pressing enter echoes a canned "looking into it" so the prototype feels live
+  const q=document.getElementById('q'), stream=document.getElementById('stream');
+  q.addEventListener('keydown',e=>{
+    if(e.key!=='Enter'||!q.value.trim())return;
+    const text=q.value.trim(); q.value='';
+    stream.insertAdjacentHTML('beforeend',
+      '<div class="msg"><div class="ava user">MA</div><div class="mbody"><div class="mhead"><span class="nm">Manaswi Arja</span><span class="tm">now</span></div><div class="mtext"><p>'+text.replace(/</g,'&lt;')+'</p></div></div></div>');
+    stream.insertAdjacentHTML('beforeend',
+      '<div class="msg"><div class="ava slk"><svg viewBox="0 0 32 32"><use href="#botface"/></svg></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="used">Used <b>🔷 Sales Compensation</b></div><div class="mtext"><p>On it — pulling your live comp data from Org62 &amp; Spiff to answer that…</p></div></div></div>');
+    stream.scrollTop=stream.scrollHeight;
+  });
+</script>
+</body>
+</html>

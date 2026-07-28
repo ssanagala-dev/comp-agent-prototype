@@ -148,9 +148,8 @@
   .org-band.enable{background:#8a7fe0;}
   .org-band.gic{background:#4aa3e0;} .org-band.gic2{background:#4aa3e0;}
   .org-band.det{background:#2f8f7a;}
-  /* split rows: GIC region + DET region, equal halves */
-  .org-split{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0;}
-  .org-split.tri{grid-template-columns:1fr 1fr;} /* GIC area (left, may hold sub-cols) : DET (right) — equal */
+  /* split rows: GIC region (wider, holds sub-cols) + DET region — matches source ~2.4:1 */
+  .org-split{display:grid;grid-template-columns:2.4fr 1fr;gap:12px;min-width:0;}
   .org-subcols{display:grid;gap:10px;min-width:0;}
   .org-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12px;color:var(--body);}
   .org-legend span{display:flex;align-items:center;gap:6px;font-weight:700;}
@@ -280,9 +279,9 @@
 <div class="tabs" id="tabs">
   <div class="tab active" data-tab="overview"><span>✦</span> Overview</div>
   <div class="tab" data-tab="goal"><span>◎</span> Goal &amp; Roadmap</div>
-  <div class="tab" data-tab="team"><span>◇</span> Team Structure</div>
   <div class="tab" data-tab="proto"><span>▶</span> Prototype</div>
   <div class="tab" data-tab="deck"><span>▤</span> Walking Deck</div>
+  <div class="tab" data-tab="team"><span>◇</span> Team Structure</div>
 </div>
 
 <div class="wrap">

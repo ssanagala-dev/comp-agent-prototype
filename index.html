@@ -132,6 +132,31 @@
   .arch .acap{text-align:center;font-size:12.5px;color:var(--mute);margin-top:16px;font-style:italic;}
   @media(max-width:760px){.aarrow{transform:rotate(90deg);width:100%;justify-content:center;}}
 
+  /* ===== ORG CHART (Project Team Structure) ===== */
+  .org{background:#eaf3fd;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);overflow-x:auto;}
+  .org-row{display:grid;grid-template-columns:150px 1fr;gap:12px;margin-bottom:10px;align-items:stretch;}
+  .org-row:last-child{margin-bottom:0;}
+  .org-lbl{display:flex;align-items:center;font-size:13.5px;font-weight:800;color:var(--navy);line-height:1.15;padding-right:4px;}
+  .org-band{border-radius:10px;padding:12px 14px;color:#fff;text-align:center;display:flex;flex-direction:column;justify-content:center;
+    box-shadow:0 2px 7px rgba(3,45,96,.12);min-width:0;}
+  .org-band .rt{font-size:14px;font-weight:800;line-height:1.25;}
+  .org-band .rn{font-size:12.5px;font-weight:600;opacity:.95;line-height:1.35;margin-top:2px;}
+  .org-band.solid-navy{background:#0a2c8c;} .org-band.solid-navy .rt{font-size:15px;}
+  .org-band.dash{background:#8fc0f0;border:2px dashed #ffffff99;}
+  .org-band.gold{background:#e8b52e;color:#3a2e00;} .org-band.gold .rt,.org-band.gold .rn{color:#3a2e00;}
+  .org-band.purple{background:#b268d6;}
+  .org-band.enable{background:#8a7fe0;}
+  .org-band.gic{background:#4aa3e0;} .org-band.gic2{background:#4aa3e0;}
+  .org-band.det{background:#2f8f7a;}
+  /* split rows: GIC region + DET region, equal halves */
+  .org-split{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0;}
+  .org-split.tri{grid-template-columns:1fr 1fr;} /* GIC area (left, may hold sub-cols) : DET (right) — equal */
+  .org-subcols{display:grid;gap:10px;min-width:0;}
+  .org-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:12px;color:var(--body);}
+  .org-legend span{display:flex;align-items:center;gap:6px;font-weight:700;}
+  .org-legend i{width:14px;height:14px;border-radius:4px;display:inline-block;}
+  @media(max-width:820px){.org-row{grid-template-columns:110px 1fr;}.org-lbl{font-size:12px;}.org-band .rt{font-size:12.5px;}.org-band .rn{font-size:11px;}}
+
   /* today/after compare */
   .cmp{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--shadow);}
   .cmp .h{padding:11px 15px;font-weight:800;font-size:14px;color:#fff;}
@@ -255,6 +280,7 @@
 <div class="tabs" id="tabs">
   <div class="tab active" data-tab="overview"><span>✦</span> Overview</div>
   <div class="tab" data-tab="goal"><span>◎</span> Goal &amp; Roadmap</div>
+  <div class="tab" data-tab="team"><span>◇</span> Team Structure</div>
   <div class="tab" data-tab="proto"><span>▶</span> Prototype</div>
   <div class="tab" data-tab="deck"><span>▤</span> Walking Deck</div>
 </div>
@@ -445,6 +471,103 @@
       <tr><td><b>Data ingestion</b> (Org62, Snowflake)</td><td><span class="rk m">Medium</span></td><td>Hybrid logic — LLM reasoning + deterministic guardrails.</td></tr>
       <tr><td><b>Policy / reasoning mapping</b></td><td><span class="rk l">Low</span></td><td>Workshop-validated; captured with the build.</td></tr>
     </table>
+  </div>
+</div>
+
+<!-- ============ TAB — PROJECT TEAM STRUCTURE ============ -->
+<div class="panel" id="team">
+  <div class="hero" style="padding-bottom:28px;">
+    <div class="kick">Project Team Structure</div>
+    <h1>GIC-led structure, DET-partnered.</h1>
+    <p>GIC-led project structure with APX cross-functional dependencies — GIC and DET as equal delivery partners across every layer.</p>
+    <svg class="spk" style="top:28px;right:200px;width:18px;color:#f5b800;"><use href="#spark"/></svg>
+    <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
+  </div>
+
+  <div class="sec">
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Who's Building It</div>
+    <h2>GIC × DET — one team</h2>
+    <p class="lead">Executive sponsorship, APX program management, risk, and architecture span the whole program; delivery is split into equal GIC and DET partitions.</p>
+
+    <div class="org">
+      <!-- Executive Sponsor -->
+      <div class="org-row">
+        <div class="org-lbl">Executive Sponsor</div>
+        <div class="org-band solid-navy"><div class="rt">Manish Menon (GIC)</div><div class="rt">Andy White (DET)</div></div>
+      </div>
+      <!-- APX Biz PM -->
+      <div class="org-row">
+        <div class="org-lbl">APX Biz PM</div>
+        <div class="org-band dash"><div class="rt">Derek Basnet</div></div>
+      </div>
+      <!-- APX TPM -->
+      <div class="org-row">
+        <div class="org-lbl">APX TPM</div>
+        <div class="org-band dash"><div class="rt">JV Mennie</div></div>
+      </div>
+      <!-- SOX / Risk -->
+      <div class="org-row">
+        <div class="org-lbl">SOX / Risk</div>
+        <div class="org-band gold"><div class="rt">Saajan Patel, Vikas Tailor, Allison DeAngelis (SOX360) &nbsp;|&nbsp; Sonia Kim (GIC Risk &amp; Compliance)</div></div>
+      </div>
+      <!-- Architecture -->
+      <div class="org-row">
+        <div class="org-lbl">Architecture</div>
+        <div class="org-band purple"><div class="rt">David Thompson (Agent Orchestration Council), Kevin Berkline, Andrew Raymond</div></div>
+      </div>
+
+      <!-- Leadership Owners : equal GIC | DET -->
+      <div class="org-row">
+        <div class="org-lbl">Leadership Owners</div>
+        <div class="org-split">
+          <div class="org-subcols" style="grid-template-columns:1fr 1fr;">
+            <div class="org-band gic"><div class="rt">GIC Primary</div><div class="rn">Ramandeep Garcha</div></div>
+            <div class="org-band gic2"><div class="rt">GIC Secondary</div><div class="rn">Eli Zackheim</div></div>
+          </div>
+          <div class="org-band det"><div class="rt">DET Sales Comp</div><div class="rn">Amar Aujla</div><div class="rn">Anantha Kappagantu</div></div>
+        </div>
+      </div>
+
+      <!-- Product Management : equal GIC | DET -->
+      <div class="org-row">
+        <div class="org-lbl">Product Management</div>
+        <div class="org-split">
+          <div class="org-band gic"><div class="rt">GIC Product</div><div class="rn">Yini Zhou (+ Project Manager)</div><div class="rn">Fiona Luong (Project Lead)</div></div>
+          <div class="org-band det"><div class="rt">DET Product</div><div class="rn">Sai Sowmya Sanagala</div><div class="rn">Matthew Lee</div></div>
+        </div>
+      </div>
+
+      <!-- Core Team : equal GIC | DET -->
+      <div class="org-row">
+        <div class="org-lbl">Core Team</div>
+        <div class="org-split">
+          <div class="org-subcols" style="grid-template-columns:repeat(5,1fr);">
+            <div class="org-band gic"><div class="rt">GIC Agent Knowledge Owners</div><div class="rn">Chantelle Tomines (Design)</div><div class="rn">TBD (Policy)</div><div class="rn">TBD (Comp Ops)</div><div class="rn">TBD (Plan Ops)</div><div class="rn">TBD (Analytics)</div></div>
+            <div class="org-band gic"><div class="rt">Plan Ops</div><div class="rn">Tarun Chitikineni</div></div>
+            <div class="org-band gic"><div class="rt">Comp Ops</div><div class="rn">Srini Jangam</div><div class="rn">Mahesh Patil</div></div>
+            <div class="org-band gic"><div class="rt">Systems</div><div class="rn">Prabhakar Niraula</div><div class="rn">Mark Graybosch</div></div>
+            <div class="org-band gic"><div class="rt">Analytics</div><div class="rn">Sri Harsha Bashyam</div><div class="rn">Hongwu Wang</div></div>
+          </div>
+          <div class="org-band det"><div class="rt">DET Engineering</div><div class="rn">Bandhavi Siddani</div><div class="rn">Manaswi Arja</div><div class="rn">Srikanth Reddy Kambam</div></div>
+        </div>
+      </div>
+
+      <!-- Enablement / Feedback -->
+      <div class="org-row">
+        <div class="org-lbl">Enablement / Feedback</div>
+        <div class="org-band enable"><div class="rt">Maha Abdelaziz, Roland de Wit</div></div>
+      </div>
+
+      <div class="org-legend">
+        <span><i style="background:#4aa3e0;"></i> GIC</span>
+        <span><i style="background:#2f8f7a;"></i> DET</span>
+        <span><i style="background:#e8b52e;"></i> SOX / Risk</span>
+        <span><i style="background:#b268d6;"></i> Architecture</span>
+        <span><i style="background:#8a7fe0;"></i> Enablement</span>
+        <span><i style="background:#8fc0f0;border:1.5px dashed #6a9fd0;"></i> APX (program-wide)</span>
+      </div>
+    </div>
+    <div class="callout"><b>GIC and DET are equal partners.</b> GIC leads program governance, ops, systems and analytics; DET owns Sales Comp leadership, product and engineering — with APX providing program management, risk and architecture across both.</div>
   </div>
 </div>
 

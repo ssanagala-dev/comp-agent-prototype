@@ -133,6 +133,8 @@
   .adown.lbl{display:flex;flex-direction:column;align-items:center;gap:2px;letter-spacing:0;}
   .adown.lbl em{font-size:10.5px;font-style:normal;font-weight:800;color:var(--royal);background:var(--sky);
     border:1px solid var(--sky2);border-radius:999px;padding:2px 10px;letter-spacing:.2px;}
+  .adown.right{text-align:right;padding-right:110px;}
+  @media(max-width:760px){.adown.right{text-align:center;padding-right:0;}}
   .aorg{border:2px dashed #9bbfe6;border-radius:14px;padding:20px 14px 12px;position:relative;background:#f5faff;display:flex;align-items:center;}
   .aorg .orglbl{position:absolute;top:-11px;left:14px;background:#fff;padding:1px 8px;font-size:10.5px;font-weight:800;
     color:var(--navy);letter-spacing:.5px;display:flex;align-items:center;gap:5px;}
@@ -450,8 +452,8 @@
           </div>
         </div>
       </div>
-      <div class="adown">↓</div>
-      <div class="atier">
+      <div class="adown right">↓</div>
+      <div class="atier" style="justify-content:flex-end;">
         <div class="aorg">
           <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62 · AGENTFORCE</div>
           <div class="atier">
@@ -925,8 +927,8 @@
               </div>
             </div>
           </div>
-          <div class="adown">↓</div>
-          <div class="atier">
+          <div class="adown right">↓</div>
+          <div class="atier" style="justify-content:flex-end;">
             <div class="aorg">
               <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62 · AGENTFORCE</div>
               <div class="atier">

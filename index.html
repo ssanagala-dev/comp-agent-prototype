@@ -130,6 +130,9 @@
   .anode.src{background:#0a2f66;}
   .aarrow{display:flex;align-items:center;color:var(--blue);font-size:20px;font-weight:800;}
   .adown{text-align:center;color:var(--blue);font-size:20px;font-weight:800;margin:8px 0 4px;letter-spacing:6px;}
+  .adown.lbl{display:flex;flex-direction:column;align-items:center;gap:2px;letter-spacing:0;}
+  .adown.lbl em{font-size:10.5px;font-style:normal;font-weight:800;color:var(--royal);background:var(--sky);
+    border:1px solid var(--sky2);border-radius:999px;padding:2px 10px;letter-spacing:.2px;}
   .aorg{border:2px dashed #9bbfe6;border-radius:14px;padding:20px 14px 12px;position:relative;background:#f5faff;display:flex;align-items:center;}
   .aorg .orglbl{position:absolute;top:-11px;left:14px;background:#fff;padding:1px 8px;font-size:10.5px;font-weight:800;
     color:var(--navy);letter-spacing:.5px;display:flex;align-items:center;gap:5px;}
@@ -432,7 +435,7 @@
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Target Architecture</div>
     <h2>Slackbot-centric, comp decoupled</h2>
-    <p class="lead">Slackbot owns reasoning and skill selection, then hands off through the <b>Sales Comp MCP Server</b> into a dedicated <b>Comp Agent</b> in Org62 — which enforces guardrails and grounds every answer on live data.</p>
+    <p class="lead">Slackbot owns reasoning and skill selection, then hands off to the <b>Sales Comp MCP Server</b>. The server's <b>Comp Agent MCP Tool</b> is what bridges into <b>Agentforce</b> in Org62 — where the Comp Agent executes and enforces guardrails, grounded on live data.</p>
     <div class="arch">
       <div class="atier">
         <div class="anode"><div class="at">Seller in Slack</div><div class="as">Slackbot</div></div>
@@ -442,12 +445,12 @@
         <div class="aorg">
           <div class="orglbl"><svg><use href="#cloud"/></svg> SALES COMP MCP SERVER</div>
           <div class="atier" style="flex-direction:column;gap:8px;">
-            <div class="anode"><div class="at">Comp Agent MCP Tool</div><div class="as">plan &amp; crediting logic</div></div>
+            <div class="anode"><div class="at">Comp Agent MCP Tool</div><div class="as">plan &amp; crediting logic · bridges to Agentforce</div></div>
             <div class="anode"><div class="at">Fetch Knowledge MCP Tool</div><div class="as">reused from SSE</div></div>
           </div>
         </div>
       </div>
-      <div class="adown">↓</div>
+      <div class="adown lbl"><em>Comp Agent MCP Tool → Agentforce</em><span>↓</span></div>
       <div class="atier">
         <div class="aorg">
           <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62 · AGENTFORCE</div>
@@ -466,7 +469,7 @@
         <div class="anode src"><div class="at">Apex services</div><div class="as">data &amp; knowledge access</div></div>
         <div class="anode src"><div class="at">Data360</div><div class="as">policy &amp; knowledge</div></div>
       </div>
-      <div class="acap">Slackbot reasons &amp; selects the skill → Sales Comp MCP Server → Comp Agent in Org62 executes &amp; enforces guardrails → grounded on Org62, Snowflake, EOS, Apex &amp; Data360.</div>
+      <div class="acap">Slackbot reasons &amp; selects the skill → Sales Comp MCP Server → its Comp Agent MCP Tool bridges into Agentforce → the Comp Agent executes &amp; enforces guardrails → grounded on Org62, Snowflake, EOS, Apex &amp; Data360.</div>
     </div>
   </div>
 
@@ -907,19 +910,29 @@
       <div class="slide">
         <span class="snum">12 / 14</span>
         <div class="kick">Architecture</div>
-        <h2 style="font-size:28px;">One engine, reachable from Slack</h2>
+        <h2 style="font-size:28px;">Slackbot-centric, comp decoupled</h2>
         <div class="arch" style="border:none;box-shadow:none;padding:8px 0 0;">
           <div class="atier">
             <div class="anode"><div class="at">Seller in Slack</div><div class="as">Slackbot</div></div>
             <div class="aarrow">→</div>
-            <div class="anode"><div class="at">Slackbot Skill</div><div class="as">LLM reasoning · MCP client</div></div>
+            <div class="anode brain"><div class="at">Slackbot Skill</div><div class="as">reasoning · skill selection · MCP client</div></div>
             <div class="aarrow">→</div>
             <div class="aorg">
-              <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62</div>
+              <div class="orglbl"><svg><use href="#cloud"/></svg> SALES COMP MCP SERVER</div>
+              <div class="atier" style="flex-direction:column;gap:6px;">
+                <div class="anode"><div class="at">Comp Agent MCP Tool</div><div class="as">bridges to Agentforce</div></div>
+                <div class="anode"><div class="at">Fetch Knowledge MCP Tool</div><div class="as">reused from SSE</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="adown lbl"><em>Comp Agent MCP Tool → Agentforce</em><span>↓</span></div>
+          <div class="atier">
+            <div class="aorg">
+              <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62 · AGENTFORCE</div>
               <div class="atier">
-                <div class="anode brain"><div class="at">Salesforce MCP server</div><div class="as">Block Kit UI · orchestration</div></div>
+                <div class="anode"><div class="at">Comp Agent</div><div class="as">reused sub-agent flows · guardrails</div></div>
                 <div class="aarrow">→</div>
-                <div class="anode"><div class="at">Headless Comp Agent</div><div class="as">state · multi-turn</div></div>
+                <div class="anode"><div class="at">Comp Case Creation</div><div class="as">reused SSE case logic</div></div>
               </div>
             </div>
           </div>
@@ -929,10 +942,10 @@
             <div class="anode src"><div class="at">Snowflake</div><div class="as">comp data</div></div>
             <div class="anode src"><div class="at">EOS</div><div class="as">plans · roles</div></div>
             <div class="anode src"><div class="at">Apex services</div><div class="as">data &amp; knowledge</div></div>
-            <div class="anode src"><div class="at">Data Cloud</div><div class="as">unified knowledge</div></div>
+            <div class="anode src"><div class="at">Data360</div><div class="as">policy &amp; knowledge</div></div>
           </div>
         </div>
-        <div class="big-quote" style="font-size:15px;">The Skill is a thin MCP client — the reasoning, state &amp; grounding all run inside Org62. One engine, reachable from Slack.</div>
+        <div class="big-quote" style="font-size:14px;">Slackbot reasons &amp; selects the skill; the Sales Comp MCP Server's Comp Agent tool bridges into Agentforce, where the Comp Agent executes &amp; enforces guardrails — grounded on live data.</div>
       </div>
 
       <!-- 13 Why it matters -->

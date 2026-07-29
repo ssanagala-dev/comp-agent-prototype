@@ -43,6 +43,10 @@
     border-bottom:3px solid transparent;white-space:nowrap;user-select:none;transition:.13s;display:flex;gap:8px;align-items:center;}
   .tab:hover{color:var(--royal);}
   .tab.active{color:var(--royal);border-bottom-color:var(--royal);}
+  .tabpill{font-size:9.5px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:#8a5a00;
+    background:#ffe9b8;border:1px solid #f2ce7e;border-radius:999px;padding:1px 7px;line-height:1.5;}
+  .archlink{color:var(--royal);font-weight:800;text-decoration:none;border-bottom:1.5px solid var(--sky2);}
+  .archlink:hover{border-bottom-color:var(--royal);}
 
   .wrap{max-width:1160px;margin:0 auto;padding:30px 26px 50px;}
   .panel{display:none;} .panel.active{display:block;animation:fade .26s ease;}
@@ -298,6 +302,7 @@
 <!-- TABS -->
 <div class="tabs" id="tabs">
   <div class="tab active" data-tab="overview"><span>✦</span> Overview</div>
+  <div class="tab" data-tab="arch"><span>⛭</span> Architecture <span class="tabpill">Draft</span></div>
   <div class="tab" data-tab="goal"><span>◎</span> Goal &amp; Roadmap</div>
   <div class="tab" data-tab="proto"><span>▶</span> Prototype</div>
   <div class="tab" data-tab="deck"><span>▤</span> Walking Deck</div>
@@ -374,24 +379,80 @@
       </div>
     </div>
     <div class="callout"><b>The pivot sharpens the front door, not the engine</b> — from comp-inside-a-general-agent to a dedicated comp skill, same MCP + Apex tools, same live data. The seller stays exactly where they already work: Slack.</div>
+    <p style="margin-top:14px;font-size:14px;color:var(--mute)">Curious how it's wired end-to-end? See the <a href="#arch" class="archlink">Architecture</a> tab. <span class="tabpill">Draft</span></p>
+  </div>
+</div>
+
+<!-- ============ TAB — ARCHITECTURE (Draft) ============ -->
+<div class="panel" id="arch">
+  <div class="hero">
+    <div class="kick">Architecture <span class="tabpill" style="vertical-align:middle;">Draft · v18 direction</span></div>
+    <h1>How the Comp Agent is wired.</h1>
+    <p>A decoupled Comp Agent, reached from Slack through a dedicated Sales Comp MCP server. Same engine as the Sales Agent work — reused, not rebuilt.</p>
+    <svg class="spk" style="top:26px;right:210px;width:20px;color:#f5b800;"><use href="#spark"/></svg>
+    <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
+  </div>
+
+  <div class="callout" style="margin-top:0;"><b>Draft — under architecture review.</b> This reflects the current Slackbot-centric direction (Employee Agentic Architecture Proposal, v18). Details may change as Kevin, Srikanth &amp; the architects review.</div>
+
+  <div class="sec">
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> The Shift</div>
+    <h2>Why the design changed</h2>
+    <p class="lead">The north star is unchanged: seller support in Slack. What changed is <b>who orchestrates</b>. Slackbot Skills matured into a capable reasoning-and-orchestration layer, so the effort to wire Slackbot → Sales Agent → Agentforce for orchestration was retired.</p>
+    <div class="grid c2">
+      <div class="cmp today">
+        <div class="h">ORIGINAL · Slackbot invokes Sales Agent</div>
+        <div class="st"><div class="n">1</div><div><h4>Slackbot as pass-through</h4><p>Hands the request to the Sales Agent.</p></div></div>
+        <div class="st"><div class="n">2</div><div><h4>Agentforce orchestrates</h4><p>Agent-graph determinism does the heavy lifting.</p></div></div>
+        <div class="st"><div class="n">3</div><div><h4>Comp as a sub-agent</h4><p>Comp intents managed inside the Sales Agent graph.</p></div></div>
+      </div>
+      <div class="cmp after">
+        <div class="h">NOW · Slackbot owns orchestration</div>
+        <div class="st"><div class="n">1</div><div><h4>Slackbot reasons &amp; routes</h4><p>Determines the right skill, loads it.</p></div></div>
+        <div class="st"><div class="n">2</div><div><h4>Hands off via MCP</h4><p>Bridges into Agentforce through an MCP tool.</p></div></div>
+        <div class="st"><div class="n">3</div><div><h4>Agentforce executes</h4><p>Runs the action and enforces guardrails.</p></div></div>
+      </div>
+    </div>
+    <div class="callout"><b>Decouple to accelerate.</b> Comp delivery is separated from the Sales Support pilot — reuse what's built, stand up the minimum new infrastructure, and ship the comp skill on its own timeline.</div>
   </div>
 
   <div class="sec">
-    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Architecture</div>
-    <h2>State &amp; multi-turn reasoning</h2>
-    <p class="lead">The Skill is a thin MCP client — the reasoning, state, and grounding all run inside Org62. One engine, reachable from Slack.</p>
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Three Phases of Agentic Support</div>
+    <h2>Where comp fits in seller support</h2>
+    <p class="lead">Conversational agentic support spans three phases. Phases 1 and 3 are <b>shared</b> across all seller support; phase 2 is the <b>specialized</b> comp layer this program owns.</p>
+    <div class="grid c3">
+      <div class="box"><h4>1 · Knowledge-Based Search</h4>Reads policy documents and knowledge exposed via <b>Data360</b>.<div style="margin-top:8px;font-size:12px;font-weight:800;color:var(--mute)">SHARED experience</div></div>
+      <div class="box sky"><h4>2 · Specialized Comp Skills</h4>Comp plan &amp; crediting logic, delivered as <b>Apex-backed actions</b> — the comp-specific layer.<div style="margin-top:8px;font-size:12px;font-weight:800;color:var(--royal)">SPECIALIZED · this program</div></div>
+      <div class="box"><h4>3 · Case Creation</h4>When 1 &amp; 2 are insufficient, a case is created in the <b>Org62 case queue</b> and routed to Comp Ops.<div style="margin-top:8px;font-size:12px;font-weight:800;color:var(--mute)">SHARED experience</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Target Architecture</div>
+    <h2>Slackbot-centric, comp decoupled</h2>
+    <p class="lead">Slackbot owns reasoning and skill selection, then hands off through the <b>Sales Comp MCP Server</b> into a dedicated <b>Comp Agent</b> in Org62 — which enforces guardrails and grounds every answer on live data.</p>
     <div class="arch">
       <div class="atier">
         <div class="anode"><div class="at">Seller in Slack</div><div class="as">Slackbot</div></div>
         <div class="aarrow">→</div>
-        <div class="anode"><div class="at">Slackbot Skill</div><div class="as">LLM reasoning · MCP client</div></div>
+        <div class="anode brain"><div class="at">Slackbot Skill</div><div class="as">reasoning · skill selection · MCP client</div></div>
         <div class="aarrow">→</div>
         <div class="aorg">
-          <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62</div>
+          <div class="orglbl"><svg><use href="#cloud"/></svg> SALES COMP MCP SERVER</div>
+          <div class="atier" style="flex-direction:column;gap:8px;">
+            <div class="anode"><div class="at">Comp Agent MCP Tool</div><div class="as">plan &amp; crediting logic</div></div>
+            <div class="anode"><div class="at">Fetch Knowledge MCP Tool</div><div class="as">reused from SSE</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="adown">↓</div>
+      <div class="atier">
+        <div class="aorg">
+          <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62 · AGENTFORCE</div>
           <div class="atier">
-            <div class="anode brain"><div class="at">Salesforce MCP server</div><div class="as">Block Kit UI · orchestration</div></div>
+            <div class="anode"><div class="at">Comp Agent</div><div class="as">reused sub-agent flows · guardrails</div></div>
             <div class="aarrow">→</div>
-            <div class="anode"><div class="at">Headless Comp Agent</div><div class="as">state · multi-turn conversations</div></div>
+            <div class="anode"><div class="at">Comp Case Creation Sub-Agent</div><div class="as">reused SSE case logic</div></div>
           </div>
         </div>
       </div>
@@ -401,10 +462,32 @@
         <div class="anode src"><div class="at">Snowflake</div><div class="as">comp data</div></div>
         <div class="anode src"><div class="at">EOS</div><div class="as">plans · roles</div></div>
         <div class="anode src"><div class="at">Apex services</div><div class="as">data &amp; knowledge access</div></div>
-        <div class="anode src"><div class="at">Data Cloud</div><div class="as">unified knowledge</div></div>
+        <div class="anode src"><div class="at">Data360</div><div class="as">policy &amp; knowledge</div></div>
       </div>
-      <div class="acap">The Slackbot skill calls the same headless Comp Agent in Org62 — grounded on Org62, Snowflake, EOS, Apex services &amp; Data Cloud.</div>
+      <div class="acap">Slackbot reasons &amp; selects the skill → Sales Comp MCP Server → Comp Agent in Org62 executes &amp; enforces guardrails → grounded on Org62, Snowflake, EOS, Apex &amp; Data360.</div>
     </div>
+  </div>
+
+  <div class="sec">
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Plan of Action</div>
+    <h2>Six steps to accelerated delivery</h2>
+    <p class="lead">Reuse as much as possible, add the minimum new infrastructure, and decouple comp delivery from the Sales Support pilot.</p>
+    <table class="t">
+      <tr><th style="width:52px;">Step</th><th>What we build</th><th>Reuse / note</th></tr>
+      <tr><td><b>1</b></td><td><b>Build the Comp Agent</b> — decouple from the Sales Agent; own all comp plan &amp; crediting logic.</td><td>Reuses the existing sub-agent flows from Sales Agent delivery.</td></tr>
+      <tr><td><b>2</b></td><td><b>Comp Case Creation Sub-Agent</b> — inside the Comp Agent.</td><td>Reuses the SSE team's existing case-creation logic.</td></tr>
+      <tr><td><b>3</b></td><td><b>Expose the Comp Agent as an MCP tool.</b></td><td>New — thin wrapper over the agent.</td></tr>
+      <tr><td><b>4</b></td><td><b>Reuse the Fetch Knowledge MCP tool</b> from SSE.</td><td>Retrieves knowledge articles + unstructured comp policy content.</td></tr>
+      <tr><td><b>5</b></td><td><b>Create the Sales Comp MCP Server</b> with both tools: Comp Agent + Fetch Knowledge.</td><td>New — the dedicated comp surface for Slackbot.</td></tr>
+      <tr><td><b>6</b></td><td><b>Integrate with Slackbot &amp; build the skill</b> that invokes the MCP.</td><td>Needs coordination with Sales Support to minimize skill collision.</td></tr>
+    </table>
+    <div class="callout green"><b>Everything blue is reuse.</b> Only the MCP wrapper, the Sales Comp MCP Server, and the Slackbot skill are net-new — which is what makes the mid-August pilot reachable.</div>
+  </div>
+
+  <div class="sec">
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Reference</div>
+    <h2>Source of truth</h2>
+    <p class="lead">Employee Agentic Architecture Proposal — Slackbot-Centric Design (v18 Draft). This tab summarizes that direction for a leadership read; the Canvas is the living document.</p>
   </div>
 </div>
 
@@ -827,7 +910,7 @@
       <div class="slide">
         <span class="snum">12 / 14</span>
         <div class="kick">Architecture</div>
-        <h2 style="font-size:28px;">State &amp; multi-turn reasoning</h2>
+        <h2 style="font-size:28px;">One engine, reachable from Slack</h2>
         <div class="arch" style="border:none;box-shadow:none;padding:8px 0 0;">
           <div class="atier">
             <div class="anode"><div class="at">Seller in Slack</div><div class="as">Slackbot</div></div>
@@ -906,6 +989,7 @@
     window.scrollTo({top:0,behavior:'smooth'});location.hash=t.dataset.tab;
   }));
   if(location.hash){const t=document.querySelector('.tab[data-tab="'+location.hash.slice(1)+'"]');if(t)t.click();}
+  window.addEventListener('hashchange',()=>{const t=document.querySelector('.tab[data-tab="'+location.hash.slice(1)+'"]');if(t&&!t.classList.contains('active'))t.click();});
 
   const slides=document.querySelectorAll('#deckEl .slide'), dots=document.getElementById('dots');
   let cur=0;

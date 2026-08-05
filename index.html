@@ -312,7 +312,7 @@
 <!-- TABS -->
 <div class="tabs" id="tabs">
   <div class="tab active" data-tab="overview"><span>✦</span> Overview</div>
-  <div class="tab" data-tab="arch"><span>⛭</span> Architecture <span class="tabpill">Draft</span></div>
+  <div class="tab" data-tab="arch"><span>⛭</span> Architecture</div>
   <div class="tab" data-tab="goal"><span>◎</span> Goal &amp; Roadmap</div>
   <div class="tab" data-tab="proto"><span>▶</span> Prototype</div>
   <div class="tab" data-tab="deck"><span>▤</span> Walking Deck</div>
@@ -389,39 +389,39 @@
       </div>
     </div>
     <div class="callout"><b>The pivot sharpens the front door, not the engine</b> — from comp-inside-a-general-agent to a dedicated comp skill, same MCP + Apex tools, same live data. The seller stays exactly where they already work: Slack.</div>
-    <p style="margin-top:14px;font-size:14px;color:var(--mute)">Curious how it's wired end-to-end? See the <a href="#arch" class="archlink">Architecture</a> tab. <span class="tabpill">Draft</span></p>
+    <p style="margin-top:14px;font-size:14px;color:var(--mute)">Curious how it's wired end-to-end? See the <a href="#arch" class="archlink">Architecture</a> tab.</p>
   </div>
 </div>
 
 <!-- ============ TAB — ARCHITECTURE (Draft) ============ -->
 <div class="panel" id="arch">
   <div class="hero">
-    <div class="kick">Architecture <span class="tabpill" style="vertical-align:middle;">Draft</span></div>
+    <div class="kick">Architecture</div>
     <h1>How the Comp Agent is wired.</h1>
-    <p>A decoupled Comp Agent, reached from Slack through a dedicated Sales Comp MCP server. Same engine as the Sales Agent work — reused, not rebuilt.</p>
+    <p>The Comp Agent runs as a sub-agent inside Agentforce, reached from Slack through the Sales Agent MCP Server. Same engine as the beta — now surfaced through a dedicated Slackbot skill.</p>
     <svg class="spk" style="top:26px;right:210px;width:20px;color:#f5b800;"><use href="#spark"/></svg>
     <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
   </div>
 
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> The Shift</div>
-    <h2>Why the design changed</h2>
-    <p class="lead">The north star is unchanged: seller support in Slack. What changed is <b>who orchestrates</b>. Slackbot Skills matured into a capable reasoning-and-orchestration layer, so the effort to wire Slackbot → Sales Agent → Agentforce for orchestration was retired.</p>
+    <h2>From beta to Slackbot pivot</h2>
+    <p class="lead">The north star is unchanged: seller comp answers in Slack. What changed is <b>who orchestrates</b>. The beta shipped with the Comp Agent living inside the broad Sales Agent; the pivot gives comp a dedicated Slackbot skill — purpose-built, without rebuilding the engine.</p>
     <div class="grid c2">
       <div class="cmp today">
-        <div class="h">ORIGINAL · Slackbot invokes Sales Agent</div>
-        <div class="st"><div class="n">1</div><div><h4>Slackbot as pass-through</h4><p>Hands the request to the Sales Agent.</p></div></div>
-        <div class="st"><div class="n">2</div><div><h4>Agentforce orchestrates</h4><p>Agent-graph determinism does the heavy lifting.</p></div></div>
-        <div class="st"><div class="n">3</div><div><h4>Comp as a sub-agent</h4><p>Comp intents managed inside the Sales Agent graph.</p></div></div>
+        <div class="h">CURRENT STATE · Beta Live (Jul 14)</div>
+        <div class="st"><div class="n">1</div><div><h4>Slack → Sales Agent</h4><p>Seller asks in Slack; Sales Agent (Agentforce) receives the request.</p></div></div>
+        <div class="st"><div class="n">2</div><div><h4>Comp Sub-Agent handles it</h4><p>Sales Agent routes comp intents to the Comp Sub-Agent.</p></div></div>
+        <div class="st"><div class="n">3</div><div><h4>Case creation when needed</h4><p>Comp Sub-Agent escalates to the Sales Support Agent for case creation.</p></div></div>
       </div>
       <div class="cmp after">
-        <div class="h">NOW · Slackbot owns orchestration</div>
-        <div class="st"><div class="n">1</div><div><h4>Slackbot reasons &amp; routes</h4><p>Determines the right skill, loads it.</p></div></div>
-        <div class="st"><div class="n">2</div><div><h4>Hands off via MCP</h4><p>Bridges into Agentforce through an MCP tool.</p></div></div>
-        <div class="st"><div class="n">3</div><div><h4>Agentforce executes</h4><p>Runs the action and enforces guardrails.</p></div></div>
+        <div class="h">SLACKBOT PIVOT · In Progress</div>
+        <div class="st"><div class="n">1</div><div><h4>Dedicated Slackbot skill</h4><p>Seller adds "Sales Compensation" skill — comp has its own front door.</p></div></div>
+        <div class="st"><div class="n">2</div><div><h4>Skill calls Sales Agent MCP</h4><p>Routes directly into Agentforce via the existing Sales Agent MCP Server.</p></div></div>
+        <div class="st"><div class="n">3</div><div><h4>Same Comp Sub-Agent executes</h4><p>Same engine — reused, not rebuilt. Case creation unchanged.</p></div></div>
       </div>
     </div>
-    <div class="callout"><b>Decouple to accelerate.</b> Comp delivery is separated from the Sales Support pilot — reuse what's built, stand up the minimum new infrastructure, and ship the comp skill on its own timeline.</div>
+    <div class="callout"><b>The pivot sharpens the front door, not the engine.</b> The Comp Sub-Agent already exists and is live. The pivot adds one net-new piece — the dedicated Slackbot skill — and routes it through the Sales Agent MCP Server already in place.</div>
   </div>
 
   <div class="sec">
@@ -437,65 +437,19 @@
 
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Target Architecture</div>
-    <h2>Two options under evaluation</h2>
-    <p class="lead">Both reach the seller in Slack and reuse the same engine — the difference is <b>where comp lives</b>: its own decoupled agent, or a sub-agent inside the headless Sales Agent. We're converging on <b>Option 2</b> as the fastest, lowest-risk path.</p>
+    <h2>Slackbot pivot — decided direction</h2>
+    <p class="lead">The Comp Sub-Agent already exists and is live. The pivot adds one net-new piece — a dedicated <b>Sales Compensation Slackbot skill</b> — and routes it through the <b>Sales Agent MCP Server</b> already in place. No new MCP server needed.</p>
 
-    <div style="display:flex;align-items:center;gap:9px;margin:22px 0 10px;">
-      <span style="font-size:11px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:#5a6b7b;background:#eef3f8;border:1px solid #d7e2ee;border-radius:999px;padding:2px 10px;">Option 1</span>
-      <span style="font-size:14px;font-weight:800;color:var(--navy)">Standalone Comp Agent</span>
-    </div>
     <div class="arch">
       <div class="atier">
         <div class="anode"><div class="at">Seller in Slack</div><div class="as">Slackbot</div></div>
         <div class="aarrow">→</div>
-        <div class="anode brain"><div class="at">Slackbot Skill</div><div class="as">reasoning · skill selection · MCP client</div></div>
-        <div class="aarrow">→</div>
-        <div class="aorg">
-          <div class="orglbl"><svg><use href="#cloud"/></svg> SALES COMP MCP SERVER</div>
-          <div class="atier" style="flex-direction:column;gap:8px;">
-            <div class="anode"><div class="at">Comp Agent MCP Tool</div><div class="as">plan &amp; crediting logic · bridges to Agentforce</div></div>
-            <div class="anode"><div class="at">Fetch Knowledge MCP Tool</div><div class="as">reused from SSE</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="adown">↓</div>
-      <div class="atier">
-        <div class="aorg">
-          <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62 · AGENTFORCE</div>
-          <div class="atier">
-            <div class="anode"><div class="at">Comp Agent</div><div class="as">reused sub-agent flows · guardrails</div></div>
-            <div class="aarrow">→</div>
-            <div class="anode"><div class="at">Comp Case Creation Sub-Agent</div><div class="as">reused SSE case logic</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="adown">↓</div>
-      <div class="atier">
-        <div class="anode src"><div class="at">Org62</div><div class="as">crediting</div></div>
-        <div class="anode src"><div class="at">Snowflake</div><div class="as">Spiff</div></div>
-        <div class="anode src"><div class="at">EOS</div><div class="as">comp plan data</div></div>
-        <div class="anode src"><div class="at">Apex services</div><div class="as">data &amp; knowledge access</div></div>
-        <div class="anode src"><div class="at">Data Cloud</div><div class="as">EOS data</div></div>
-      </div>
-      <div class="acap">Slackbot reasons &amp; selects the skill → Sales Comp MCP Server → its Comp Agent MCP Tool bridges into Agentforce → the Comp Agent executes &amp; enforces guardrails → grounded on Org62, Snowflake, EOS, Apex &amp; Data Cloud.</div>
-    </div>
-
-    <div style="display:flex;align-items:center;gap:9px;margin:30px 0 10px;">
-      <span style="font-size:11px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:#fff;background:var(--royal);border-radius:999px;padding:2px 10px;">Option 2</span>
-      <span style="font-size:14px;font-weight:800;color:var(--navy)">Comp Sub-Agent within the Headless Sales Agent</span>
-      <span style="font-size:10px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;color:#1a6c33;background:#dcf3e3;border:1px solid #a9dcb8;border-radius:999px;padding:2px 9px;">✓ Recommended</span>
-    </div>
-    <div class="arch">
-      <div class="atier">
-        <div class="anode"><div class="at">Seller in Slack</div><div class="as">Slackbot</div></div>
-        <div class="aarrow">→</div>
-        <div class="anode brain"><div class="at">Sales Compensation Skill</div><div class="as">the only net-new piece · MCP client</div></div>
+        <div class="anode brain"><div class="at">Sales Compensation Skill</div><div class="as">net-new · MCP client · dedicated comp front door</div></div>
         <div class="aarrow">→</div>
         <div class="aorg">
           <div class="orglbl"><svg><use href="#cloud"/></svg> SALES AGENT MCP SERVER · REUSED</div>
           <div class="atier" style="flex-direction:column;gap:8px;">
             <div class="anode"><div class="at">Sales Agent MCP</div><div class="as">existing orchestration surface</div></div>
-            <div class="anode"><div class="at">Fetch Knowledge MCP Tool</div><div class="as">reused from SSE</div></div>
           </div>
         </div>
       </div>
@@ -506,9 +460,9 @@
           <div class="atier">
             <div class="anode"><div class="at">Headless Sales Agent</div><div class="as">owns the multi-turn thread</div></div>
             <div class="aarrow">→</div>
-            <div class="anode"><div class="at">Comp Sub-Agent</div><div class="as">already exists · deterministic comp &amp; crediting</div></div>
+            <div class="anode"><div class="at">Comp Sub-Agent</div><div class="as">already exists · live in beta · deterministic comp &amp; crediting</div></div>
             <div class="aarrow">→</div>
-            <div class="anode"><div class="at">Comp Case Creation</div><div class="as">reused SSE case logic</div></div>
+            <div class="anode"><div class="at">Sales Support Agent</div><div class="as">case creation when human needed</div></div>
           </div>
         </div>
       </div>
@@ -520,26 +474,24 @@
         <div class="anode src"><div class="at">Apex services</div><div class="as">data &amp; knowledge access</div></div>
         <div class="anode src"><div class="at">Data Cloud</div><div class="as">EOS data</div></div>
       </div>
-      <div class="acap">Only the <b>Comp Skill</b> is net-new — everything else is reused. The headless Sales Agent owns the thread, so sellers never re-enter the order number.</div>
+      <div class="acap">Seller asks in Slack → Sales Compensation skill routes via Sales Agent MCP Server → Headless Sales Agent delegates to the Comp Sub-Agent (live in beta) → grounded on Org62, Snowflake, EOS, Apex &amp; Data Cloud → escalates to Sales Support Agent for case creation when needed.</div>
     </div>
 
-    <div class="callout green"><b>Why we prefer Option 2.</b> One net-new component (the Comp Skill) vs. a dedicated MCP server + headless agent in Option 1. Reusing the Sales Agent's MCP and session context is the fastest, lowest-risk path to the August GA.</div>
+    <div class="callout green"><b>One net-new component.</b> The Sales Compensation Slackbot skill is the only thing being built. The Sales Agent MCP Server, the Comp Sub-Agent, and case creation are all reused from what's already live.</div>
   </div>
 
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Plan of Action</div>
-    <h2>Six steps to accelerated delivery</h2>
-    <p class="lead">Reuse as much as possible, add the minimum new infrastructure, and decouple comp delivery from the Sales Support pilot.</p>
+    <h2>Four steps to delivery</h2>
+    <p class="lead">The Comp Sub-Agent and case creation are already live from beta. The pivot requires only wiring a new Slackbot skill through the existing MCP surface.</p>
     <table class="t">
-      <tr><th style="width:52px;">Step</th><th>What we build</th><th>Reuse / note</th></tr>
-      <tr><td><b>1</b></td><td><b>Build the Comp Agent</b> — decouple from the Sales Agent; own all comp plan &amp; crediting logic.</td><td>Reuses the existing sub-agent flows from Sales Agent delivery.</td></tr>
-      <tr><td><b>2</b></td><td><b>Comp Case Creation Sub-Agent</b> — inside the Comp Agent.</td><td>Reuses the SSE team's existing case-creation logic.</td></tr>
-      <tr><td><b>3</b></td><td><b>Expose the Comp Agent as an MCP tool.</b></td><td>New — thin wrapper over the agent.</td></tr>
-      <tr><td><b>4</b></td><td><b>Reuse the Fetch Knowledge MCP tool</b> from SSE.</td><td>Retrieves knowledge articles + unstructured comp policy content.</td></tr>
-      <tr><td><b>5</b></td><td><b>Create the Sales Comp MCP Server</b> with both tools: Comp Agent + Fetch Knowledge.</td><td>New — the dedicated comp surface for Slackbot.</td></tr>
-      <tr><td><b>6</b></td><td><b>Integrate with Slackbot &amp; build the skill</b> that invokes the MCP.</td><td>Needs coordination with Sales Support to minimize skill collision.</td></tr>
+      <tr><th style="width:52px;">Step</th><th>What we build</th><th>Status / note</th></tr>
+      <tr><td><b>1</b></td><td><b>Comp Sub-Agent</b> — all comp plan &amp; crediting logic, decoupled from the Sales Agent.</td><td><span style="color:#1a6c33;font-weight:800;">✓ Live in beta</span> — reuses existing sub-agent flows.</td></tr>
+      <tr><td><b>2</b></td><td><b>Sales Support Agent</b> — case creation when a human is needed.</td><td><span style="color:#1a6c33;font-weight:800;">✓ Live in beta</span> — reuses SSE case-creation logic.</td></tr>
+      <tr><td><b>3</b></td><td><b>Expose the Comp Sub-Agent via the Sales Agent MCP Server.</b></td><td>Thin wrapper — routes the skill into Agentforce.</td></tr>
+      <tr><td><b>4</b></td><td><b>Build the Sales Compensation Slackbot skill</b> that invokes the MCP.</td><td>Net-new — needs coordination with Sales Support to minimize skill collision.</td></tr>
     </table>
-    <div class="callout green"><b>Everything blue is reuse.</b> Only the MCP wrapper, the Sales Comp MCP Server, and the Slackbot skill are net-new — which is what makes the Aug/Sept GA reachable.</div>
+    <div class="callout green"><b>Steps 1 and 2 are done.</b> The beta went live July 14. The pivot is steps 3 and 4 — wire the existing engine to a dedicated Slackbot skill through the Sales Agent MCP Server.</div>
   </div>
 
   <div class="sec">
@@ -963,18 +915,17 @@
       <div class="slide">
         <span class="snum">12 / 14</span>
         <div class="kick">Architecture</div>
-        <h2 style="font-size:28px;">Slackbot-centric, comp decoupled</h2>
+        <h2 style="font-size:28px;">One new skill. Same engine.</h2>
         <div class="arch" style="border:none;box-shadow:none;padding:8px 0 0;">
           <div class="atier">
             <div class="anode"><div class="at">Seller in Slack</div><div class="as">Slackbot</div></div>
             <div class="aarrow">→</div>
-            <div class="anode brain"><div class="at">Slackbot Skill</div><div class="as">reasoning · skill selection · MCP client</div></div>
+            <div class="anode brain"><div class="at">Sales Compensation Skill</div><div class="as">net-new · MCP client</div></div>
             <div class="aarrow">→</div>
             <div class="aorg">
-              <div class="orglbl"><svg><use href="#cloud"/></svg> SALES COMP MCP SERVER</div>
+              <div class="orglbl"><svg><use href="#cloud"/></svg> SALES AGENT MCP SERVER · REUSED</div>
               <div class="atier" style="flex-direction:column;gap:6px;">
-                <div class="anode"><div class="at">Comp Agent MCP Tool</div><div class="as">bridges to Agentforce</div></div>
-                <div class="anode"><div class="at">Fetch Knowledge MCP Tool</div><div class="as">reused from SSE</div></div>
+                <div class="anode"><div class="at">Sales Agent MCP</div><div class="as">existing orchestration surface</div></div>
               </div>
             </div>
           </div>
@@ -983,9 +934,11 @@
             <div class="aorg">
               <div class="orglbl"><svg><use href="#cloud"/></svg> SALESFORCE ORG62 · AGENTFORCE</div>
               <div class="atier">
-                <div class="anode"><div class="at">Comp Agent</div><div class="as">reused sub-agent flows · guardrails</div></div>
+                <div class="anode"><div class="at">Headless Sales Agent</div><div class="as">owns the multi-turn thread</div></div>
                 <div class="aarrow">→</div>
-                <div class="anode"><div class="at">Comp Case Creation</div><div class="as">reused SSE case logic</div></div>
+                <div class="anode"><div class="at">Comp Sub-Agent</div><div class="as">live in beta · comp &amp; crediting</div></div>
+                <div class="aarrow">→</div>
+                <div class="anode"><div class="at">Sales Support Agent</div><div class="as">case creation</div></div>
               </div>
             </div>
           </div>
@@ -998,7 +951,7 @@
             <div class="anode src"><div class="at">Data Cloud</div><div class="as">EOS data</div></div>
           </div>
         </div>
-        <div class="big-quote" style="font-size:14px;">Slackbot reasons &amp; selects the skill; the Sales Comp MCP Server's Comp Agent tool bridges into Agentforce, where the Comp Agent executes &amp; enforces guardrails — grounded on live data.</div>
+        <div class="big-quote" style="font-size:14px;">The Sales Compensation skill is the only net-new piece — it routes via the Sales Agent MCP Server into the Comp Sub-Agent already live in beta, grounded on Org62, Snowflake, EOS &amp; Data Cloud.</div>
       </div>
 
       <!-- 13 Why it matters -->
@@ -1094,3 +1047,4 @@
 </script>
 </body>
 </html>
+

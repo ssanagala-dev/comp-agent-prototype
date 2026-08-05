@@ -316,6 +316,7 @@
   <div class="tab" data-tab="goal"><span>◎</span> Goal &amp; Roadmap</div>
   <div class="tab" data-tab="proto"><span>▶</span> Prototype</div>
   <div class="tab" data-tab="deck"><span>▤</span> Walking Deck</div>
+  <div class="tab" data-tab="deps"><span>⬡</span> Dependencies</div>
   <div class="tab" data-tab="team"><span>◇</span> Team Structure</div>
 </div>
 
@@ -581,6 +582,97 @@
       <tr><td><b>Data ingestion</b> (Org62, Snowflake)</td><td><span class="rk m">Medium</span></td><td>Hybrid logic — LLM reasoning + deterministic guardrails.</td></tr>
       <tr><td><b>Policy / reasoning mapping</b></td><td><span class="rk l">Low</span></td><td>Workshop-validated; captured with the build.</td></tr>
     </table>
+  </div>
+</div>
+
+<!-- ============ TAB — DEPENDENCIES ============ -->
+<div class="panel" id="deps">
+  <div class="hero">
+    <div class="kick">Dependencies &amp; Collaboration</div>
+    <h1>What we're tracking, and who we need.</h1>
+    <p>Cross-team dependencies, open asks, and timeline alignment — live in a shared sheet the whole team can edit.</p>
+    <svg class="spk" style="top:26px;right:210px;width:20px;color:#f5b800;"><use href="#spark"/></svg>
+    <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
+  </div>
+
+  <div class="sec">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div>
+        <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Live Tracker</div>
+        <h2 style="margin-top:4px;">Open dependencies</h2>
+      </div>
+      <a href="https://docs.google.com/spreadsheets/d/1VlWICE33iqWTAnFLmGOXnfovmUtrXfEIP7yvth0MkdI/edit" target="_blank" rel="noopener"
+        style="display:inline-flex;align-items:center;gap:8px;background:var(--royal);color:#fff;font-size:13px;font-weight:800;
+        padding:9px 18px;border-radius:10px;text-decoration:none;box-shadow:0 2px 8px rgba(13,110,253,.25);transition:.15s;"
+        onmouseover="this.style.background='#0b5ed7'" onmouseout="this.style.background='var(--royal)'">
+        <svg style="width:15px;height:15px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Open in Google Sheet
+      </a>
+    </div>
+
+    <table class="t" style="table-layout:fixed;">
+      <colgroup>
+        <col style="width:22%">
+        <col style="width:14%">
+        <col style="width:11%">
+        <col style="width:24%">
+        <col style="width:10%">
+        <col style="width:19%">
+      </colgroup>
+      <tr>
+        <th>Dependency</th>
+        <th>Team / Owner</th>
+        <th>Status</th>
+        <th>Our Ask</th>
+        <th>Target Date</th>
+        <th>Notes / Latest Update</th>
+      </tr>
+      <tr>
+        <td><b>Sales Agent MCP Server access</b></td>
+        <td>Sales Agent team</td>
+        <td><span class="rk" style="background:#fef7e6;color:#a86403;">In Discussion</span></td>
+        <td>Grant comp skill routing access via existing Sales Agent MCP Server</td>
+        <td>Aug 2026</td>
+        <td>Gating the Slackbot pivot — engage owning team now</td>
+      </tr>
+      <tr style="background:var(--wash);">
+        <td><b>Metrics / Analytics onboarding</b></td>
+        <td>DNA team</td>
+        <td><span class="rk" style="background:#fef7e6;color:#a86403;">In Discussion</span></td>
+        <td>Onboard Comp Sub-Agent metrics into DNA dashboard</td>
+        <td>TBD</td>
+        <td>Conversations underway on how to surface sub-agent performance data</td>
+      </tr>
+      <tr>
+        <td><b>Slackbot skill config access</b></td>
+        <td>Slackbot platform team</td>
+        <td><span class="rk" style="background:#fef7e6;color:#a86403;">In Discussion</span></td>
+        <td>MCP config access to register the Sales Compensation skill</td>
+        <td>Aug 2026</td>
+        <td>High risk — gating the pivot</td>
+      </tr>
+      <tr style="background:var(--wash);">
+        <td><b>Spiff data integration</b></td>
+        <td>Spiff team</td>
+        <td><span class="rk" style="background:#f3f4f6;color:#5a6b7b;">Not Started</span></td>
+        <td>Direct Spiff statement visibility for sellers</td>
+        <td>Q3 2026</td>
+        <td>Wave 2 dependency — Spiff team engagement needed</td>
+      </tr>
+    </table>
+
+    <div style="margin-top:12px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+      <span style="font-size:12px;color:var(--mute);">Status key:</span>
+      <span class="rk" style="background:#fef7e6;color:#a86403;">In Discussion</span>
+      <span class="rk" style="background:#dcf3e3;color:#1a6c33;">Aligned</span>
+      <span class="rk" style="background:var(--red-bg);color:var(--red);">Blocked</span>
+      <span class="rk" style="background:var(--green-bg);color:var(--green);">Resolved</span>
+      <span class="rk" style="background:#f3f4f6;color:#5a6b7b;">Not Started</span>
+    </div>
+
+    <div class="callout" style="margin-top:18px;">
+      <b>This table is a snapshot.</b> The live version is in the Google Sheet — anyone on the team can add rows, update status, or leave notes. Changes here in the hub are manual syncs.
+    </div>
   </div>
 </div>
 
@@ -1047,5 +1139,6 @@
 </script>
 </body>
 </html>
+
 
 

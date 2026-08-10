@@ -324,6 +324,27 @@
 
 <!-- ============ TAB 1 — OVERVIEW ============ -->
 <div class="panel active" id="overview">
+
+  <div style="background:var(--navy);border-radius:16px;padding:18px 24px;margin-bottom:22px;display:flex;align-items:flex-start;gap:16px;">
+    <div style="font-size:22px;flex-shrink:0;">👋</div>
+    <div>
+      <div style="color:#fff;font-size:14px;font-weight:800;margin-bottom:6px;">New here? Start with this.</div>
+      <div style="color:#a8c4e8;font-size:13.5px;line-height:1.6;">
+        The <b style="color:#fff;">Comp Agent</b> is an AI that answers Salesforce seller compensation questions in Slack — in seconds, not days.
+        A <b style="color:#fff;">beta version went live July 14, 2026</b> inside Sales Agent.
+        We're now executing a <b style="color:#fff;">Slackbot pivot</b> — giving comp its own dedicated skill, same engine, sharper front door.
+      </div>
+      <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        <span style="color:#a8c4e8;font-size:12px;font-weight:700;">Suggested reading order:</span>
+        <span style="background:rgba(255,255,255,.12);color:#fff;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:999px;cursor:pointer;" onclick="document.querySelector('[data-tab=overview]').click()">1 · Overview</span>
+        <span style="background:rgba(255,255,255,.12);color:#fff;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:999px;cursor:pointer;" onclick="document.querySelector('[data-tab=proto]').click()">2 · Try the Prototype</span>
+        <span style="background:rgba(255,255,255,.12);color:#fff;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:999px;cursor:pointer;" onclick="document.querySelector('[data-tab=arch]').click()">3 · Architecture</span>
+        <span style="background:rgba(255,255,255,.12);color:#fff;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:999px;cursor:pointer;" onclick="document.querySelector('[data-tab=goal]').click()">4 · Roadmap</span>
+        <span style="background:rgba(255,255,255,.12);color:#fff;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:999px;cursor:pointer;" onclick="document.querySelector('[data-tab=deck]').click()">5 · Walking Deck</span>
+      </div>
+    </div>
+  </div>
+
   <div class="hero">
     <div class="kick">The Comp Agent</div>
     <h1>Instant compensation answers, right inside Slack.</h1>
@@ -399,7 +420,7 @@
   <div class="hero">
     <div class="kick">Architecture</div>
     <h1>How the Comp Agent is wired.</h1>
-    <p>The Comp Agent runs as a sub-agent inside Agentforce, reached from Slack through the Sales Agent MCP Server. Same engine as the beta — now surfaced through a dedicated Slackbot skill.</p>
+    <p>The beta launched July 14 with the Comp Agent running as a sub-agent inside Sales Agent. The Slackbot pivot keeps that engine exactly as-is — adding one net-new dedicated skill as the front door. If you're new: read the <b>Current State</b> first, then the <b>Slackbot Pivot</b>.</p>
     <svg class="spk" style="top:26px;right:210px;width:20px;color:#f5b800;"><use href="#spark"/></svg>
     <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
   </div>
@@ -1139,6 +1160,7 @@
 </script>
 </body>
 </html>
+
 
 
 

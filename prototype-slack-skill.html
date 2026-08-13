@@ -53,6 +53,18 @@
   .day span{background:#fff;position:relative;z-index:1;padding:0 12px;font-size:12px;font-weight:800;color:#616061;
     border:1px solid #e8e8e8;border-radius:12px;line-height:22px;display:inline-block;}
 
+  /* empty state */
+  .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;color:#616061;padding:40px;}
+  .empty .eicon{font-size:48px;margin-bottom:16px;}
+  .empty h3{font-size:18px;font-weight:900;color:#1d1c1d;margin:0 0 8px;}
+  .empty p{font-size:14px;line-height:1.6;max-width:320px;margin:0 0 20px;}
+  .empty .etip{display:flex;flex-direction:column;gap:8px;width:100%;max-width:340px;}
+  .empty .etip-row{display:flex;align-items:center;gap:10px;background:#f8f8f8;border:1px solid #e8e8e8;border-radius:8px;padding:10px 14px;font-size:13px;text-align:left;cursor:pointer;transition:.1s;}
+  .empty .etip-row:hover{background:#f0eef8;border-color:#d9d2e9;}
+  .empty .etip-row .eic{font-size:18px;flex-shrink:0;}
+  .empty .etip-row b{display:block;font-size:13px;font-weight:800;color:#1d1c1d;}
+  .empty .etip-row span{font-size:12px;color:#616061;}
+
   .msg{display:flex;gap:10px;padding:8px 6px;border-radius:8px;}
   .msg:hover{background:#f8f8f8;}
   .msg .ava{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:14px;}
@@ -68,6 +80,7 @@
     background:#f4f0f7;border:1px solid #e6dcec;border-radius:6px;padding:3px 9px;}
   .used b{color:#611f69;}
   .used .sk{width:14px;height:14px;}
+  .skill-launch{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;background:#f0eef8;border:1px solid #d9d2e9;border-radius:6px;padding:4px 10px;margin:4px 0 8px;color:#611f69;font-weight:700;}
   .invoke{font-size:12px;color:#8a8a8a;display:flex;align-items:center;gap:6px;margin:6px 0;}
   .invoke .g{width:14px;height:14px;opacity:.7;}
   .mtext{font-size:15px;line-height:1.55;color:#1d1c1d;}
@@ -83,10 +96,40 @@
   .react{display:flex;gap:8px;margin-top:8px;color:#8a8a8a;font-size:15px;}
   .react span{cursor:pointer;} .react span:hover{color:#1d1c1d;}
 
-  /* composer */
-  .composer{flex-shrink:0;padding:0 24px 20px;}
+  /* ===== composer ===== */
+  .composer{flex-shrink:0;padding:0 24px 20px;position:relative;}
+
+  /* slash suggest */
+  .slash-suggest{display:none;position:absolute;bottom:calc(100% - 12px);left:24px;right:24px;
+    background:#fff;border:1px solid #e8e8e8;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.12);
+    overflow:hidden;z-index:100;}
+  .slash-suggest .ss-item{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;transition:.1s;}
+  .slash-suggest .ss-item:hover{background:#f0eef8;}
+  .slash-suggest .ss-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#611f69,#9b59b6);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .slash-suggest .ss-icon img{width:20px;height:20px;object-fit:contain;}
+  .slash-suggest .ss-name{font-weight:800;font-size:13.5px;color:#1d1c1d;}
+  .slash-suggest .ss-desc{font-size:12px;color:#616061;}
+  .slash-suggest .ss-cmd{font-size:11px;color:#9b59b6;font-weight:700;background:#f4f0f7;padding:1px 6px;border-radius:4px;margin-left:auto;flex-shrink:0;}
+
+  /* skill picker */
+  .skill-picker{display:none;position:absolute;bottom:calc(100% - 12px);left:24px;
+    background:#fff;border:1px solid #e8e8e8;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.12);
+    min-width:280px;z-index:100;overflow:hidden;}
+  .skill-picker .sp-head{padding:10px 14px 6px;font-size:11px;font-weight:800;color:#616061;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #eee;}
+  .skill-picker .sp-item{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;transition:.1s;}
+  .skill-picker .sp-item:hover{background:#f0eef8;}
+  .skill-picker .sp-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#611f69,#9b59b6);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .skill-picker .sp-icon img{width:20px;height:20px;object-fit:contain;}
+  .skill-picker .sp-name{font-weight:800;font-size:13.5px;color:#1d1c1d;}
+  .skill-picker .sp-desc{font-size:12px;color:#616061;}
+
   .cbox{border:1px solid #b6b6b6;border-radius:10px;padding:10px 12px;}
-  .cbox .toolbar{display:flex;gap:14px;color:#8a8a8a;font-size:14px;padding-bottom:8px;border-bottom:1px solid #eee;margin-bottom:8px;}
+  .cbox .toolbar{display:flex;align-items:center;gap:14px;color:#8a8a8a;font-size:14px;padding-bottom:8px;border-bottom:1px solid #eee;margin-bottom:8px;}
+  .cbox .toolbar .skill-btn{display:flex;align-items:center;gap:5px;cursor:pointer;padding:2px 8px;border-radius:5px;font-size:12.5px;font-weight:700;color:#611f69;background:#f4f0f7;border:1px solid #e6dcec;transition:.1s;margin-left:auto;}
+  .cbox .toolbar .skill-btn:hover{background:#e9e0f5;}
+  .cbox .toolbar .skill-btn.active-skill{background:#611f69;color:#fff;border-color:#611f69;}
   .cbox input{width:100%;border:none;outline:none;font-size:15px;font-family:inherit;color:#1d1c1d;background:transparent;}
   .cbox input::placeholder{color:#9a9a9a;}
   .hint{font-size:11px;color:#9a9a9a;margin-top:6px;}
@@ -156,131 +199,249 @@
     </div>
 
     <div class="stream" id="stream">
-      <div class="day"><span>Today</span></div>
-
-      <!-- user question -->
-      <div class="msg">
-        <div class="ava user">AR</div>
-        <div class="mbody">
-          <div class="mhead"><span class="nm">Alex Rivera</span><span class="tm">3:14 PM</span></div>
-          <div class="mtext"><p>Why is my ACV credit off on order <b>31811494</b>? Commissionable shows 136,500 but eligible is only 105,000.</p></div>
-        </div>
-      </div>
-
-      <!-- slackbot answer -->
-      <div class="msg">
-        <div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>
-        <div class="mbody">
-          <div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">3:14 PM</span></div>
-          <div class="used"><img class="sk" src="assets/robot.png" alt="" style="object-fit:contain;"> Used <b>🔷 Sales Compensation</b></div>
-          <div class="mtext">
-            <p>Hi arivera! Let me look into the ACV credit mismatch for order <b>31811494</b> right away.</p>
-            <div class="invoke">⚙ Used invoke 1 from <b style="color:#454545">SalesCompensationMCP (Salesforce)</b> MCP ›</div>
-            <p>Here's what's causing the ACV credit mismatch on order <b>31811494</b>:</p>
-            <p>The mismatch is due to <b>product eligibility</b> — not all products on this order qualify for commission under the Product Eligibility Matrix guidelines.</p>
-            <p><b>Order Details:</b></p>
-            <ul class="kv">
-              <li><span class="lbl">Order Number:</span> 31811494</li>
-              <li><span class="lbl">Account:</span> Drew AWS UAT 10.1</li>
-              <li><span class="lbl">Commissionable ACV:</span> USD 136,500</li>
-              <li><span class="lbl">Eligible ACV:</span> USD 105,000</li>
-              <li><span class="lbl">Your Split Percent:</span> 100%</li>
-              <li><span class="lbl">Commission Period:</span> 2026-07-01</li>
-            </ul>
-            <p><b>Products with Reduced Eligibility:</b></p>
-            <ul class="kv"><li>AB1 — <span class="red-t">0% eligible</span></li></ul>
-            <p><b>Products with 100% Eligibility:</b></p>
-            <ul class="kv"><li>B — <span class="green-t">100% eligible</span></li></ul>
-            <p>So the difference of <b>USD 31,500</b> (136,500 − 105,000) corresponds to the portion of the order attributed to <b>AB1</b>, which carries 0% eligibility under the Product Eligibility Matrix. Only the <b>B</b> product line contributes to your creditable ACV.</p>
-            <p>Please note that the above is based on <b>Org62 order data</b> — there's no direct visibility into your Spiff statement from here. If you believe the eligibility determination is incorrect, you may want to raise it with your compensation team.</p>
-            <p>Let me know if there's anything else I can help with!</p>
-            <div class="disclaimer"><b>Disclaimer:</b> Sales Agent surfaces information from the compensation system of record and does not calculate or modify any figures. This AI-generated response is informational and does not replace, amend, or override your official Compensation Plan, statement, or payout records which remain the source of truth.</div>
+      <!-- empty state shown before skill is launched -->
+      <div class="empty" id="emptyState">
+        <div class="eicon">🤖</div>
+        <h3>Start with a skill</h3>
+        <p>Use the <b>⚡ Skills</b> button below or type <b>/incentive</b> to launch the Incentive Compensation skill and get instant answers about your comp.</p>
+        <div class="etip">
+          <div class="etip-row" onclick="launchSkill()">
+            <span class="eic">⚡</span>
+            <div>
+              <b>Incentive Compensation</b>
+              <span>Credits, comp plan, payout timing, eligibility &amp; more</span>
+            </div>
           </div>
-          <div class="react"><span>↪</span><span>👍</span><span>👎</span></div>
         </div>
       </div>
+      <div class="day" id="dayDivider" style="display:none;"><span>Today</span></div>
     </div>
 
     <div class="composer">
-      <div class="cbox">
-        <div class="toolbar"><b style="color:#616061">B</b><i style="color:#616061">i</i><span>🔗</span><span>:)</span><span>@</span><span>📎</span></div>
-        <input id="q" placeholder="Message Slackbot — e.g. “Where is my comp plan?”" />
+      <!-- slash command suggestion -->
+      <div class="slash-suggest" id="slashSuggest">
+        <div class="sp-head">Skills</div>
+        <div class="ss-item" onclick="confirmSlashLaunch()">
+          <div class="ss-icon"><img src="assets/robot.png" alt=""></div>
+          <div>
+            <div class="ss-name">Incentive Compensation</div>
+            <div class="ss-desc">Credits, comp plan, payout timing, eligibility &amp; more</div>
+          </div>
+          <span class="ss-cmd">/incentive compensation</span>
+        </div>
       </div>
-      <div class="hint">Anyone in the workspace can add the <b>Sales Compensation</b> skill and just ask — grounded answers from Org62 &amp; Spiff, in seconds.</div>
+
+      <!-- skill picker popover -->
+      <div class="skill-picker" id="skillPicker">
+        <div class="sp-head">Available Skills</div>
+        <div class="sp-item" onclick="launchSkill()">
+          <div class="sp-icon"><img src="assets/robot.png" alt=""></div>
+          <div>
+            <div class="sp-name">Incentive Compensation</div>
+            <div class="sp-desc">Credits, comp plan, payout timing, eligibility &amp; more</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cbox">
+        <div class="toolbar">
+          <b style="color:#616061">B</b><i style="color:#616061">i</i><span>🔗</span><span>:)</span><span>@</span><span>📎</span>
+          <div class="skill-btn" id="skillBtn" onclick="togglePicker(event)">⚡ Skills</div>
+        </div>
+        <input id="q" placeholder="Message Slackbot or type /incentive to launch a skill…" />
+      </div>
+      <div class="hint" id="hint">Type <b>/incentive compensation</b> or click <b>⚡ Skills</b> to launch the Incentive Compensation skill.</div>
     </div>
   </div>
 </div>
 
 <script>
-  // Demo composer: echoes the seller's question, then returns a short grounded-style
-  // answer after a brief "typing" beat so the prototype feels live.
-  const q=document.getElementById('q'), stream=document.getElementById('stream');
-  const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const q = document.getElementById('q');
+  const stream = document.getElementById('stream');
+  const slashSuggest = document.getElementById('slashSuggest');
+  const skillPicker = document.getElementById('skillPicker');
+  const skillBtn = document.getElementById('skillBtn');
+  const emptyState = document.getElementById('emptyState');
+  const dayDivider = document.getElementById('dayDivider');
+  const hint = document.getElementById('hint');
+  const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
-  // Canned answers keyed to the MVP / Beta in-scope topics (Comp-Agent Response Library).
-  // Behaviour mirrors the pilot: ground in Org62, ask for the order #, Spiff-visibility
-  // disclaimer on eligibility, escalate cleanly — never fabricate a value.
-  function answerFor(text){
-    const t=text.toLowerCase();
+  let skillActive = false;
 
-    // Topic 2 — LOA Return
-    if(/(loa|leave of absence|came back|returned from leave|maternity|paternity)/.test(t))
+  function togglePicker(e) {
+    e.stopPropagation();
+    skillPicker.style.display = skillPicker.style.display === 'block' ? 'none' : 'block';
+  }
+
+  document.addEventListener('click', () => {
+    skillPicker.style.display = 'none';
+    slashSuggest.style.display = 'none';
+  });
+
+  function confirmSlashLaunch() {
+    q.value = '';
+    slashSuggest.style.display = 'none';
+    launchSkill();
+  }
+
+  function launchSkill() {
+    if (skillActive) return;
+    skillActive = true;
+    skillPicker.style.display = 'none';
+
+    // hide empty state, show day divider
+    emptyState.style.display = 'none';
+    dayDivider.style.display = 'block';
+
+    // user launches the skill
+    stream.insertAdjacentHTML('beforeend',
+      '<div class="msg"><div class="ava user">AR</div><div class="mbody">' +
+      '<div class="mhead"><span class="nm">Alex Rivera</span><span class="tm">' + now() + '</span></div>' +
+      '<div class="mtext"><p style="color:#616061;font-size:13.5px;">⚡ Launched <b style="color:#611f69;">Incentive Compensation</b> skill</p></div>' +
+      '</div></div>');
+    stream.scrollTop = stream.scrollHeight;
+
+    // typing indicator
+    stream.insertAdjacentHTML('beforeend',
+      '<div class="msg" id="typing"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>' +
+      '<div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
+      '<div class="mtext" style="color:#8a8a8a;font-style:italic;">Incentive Compensation is loading…</div></div></div>');
+    stream.scrollTop = stream.scrollHeight;
+
+    setTimeout(() => {
+      const t = document.getElementById('typing'); if (t) t.remove();
+      stream.insertAdjacentHTML('beforeend',
+        '<div class="msg"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>' +
+        '<div class="mbody">' +
+        '<div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
+        '<div class="skill-launch"><img src="assets/robot.png" style="width:14px;height:14px;object-fit:contain;"> 🔷 Incentive Compensation skill is now active</div>' +
+        '<div class="mtext">' +
+        '<p>Hi Alex! 👋 I\'m the <b>Incentive Compensation</b> skill — your AI comp expert, right here in Slack.</p>' +
+        '<p>Here\'s what I can help you with:</p>' +
+        '<ul class="kv">' +
+        '<li>💰 <b>Credits &amp; ACV</b> — Is an order commissioned, and why or why not</li>' +
+        '<li>📋 <b>Comp Plan Status</b> — Your current plan, quota, and territory</li>' +
+        '<li>🎯 <b>Product Eligibility</b> — Which products qualify for commission on an order</li>' +
+        '<li>📅 <b>Payout Timing</b> — When you\'ll receive commission for a specific order</li>' +
+        '<li>📦 <b>Order Status</b> — Missing or unexpected order credits</li>' +
+        '<li>🏖 <b>LOA &amp; Plan Timing</b> — Return-from-leave plans, pending plans, promotions, transfers</li>' +
+        '<li>🤝 <b>Guarantees &amp; Draws</b> — New hire guarantee eligibility and recoverable draws</li>' +
+        '</ul>' +
+        '<p>Just ask me a question in plain language — or share an <b>order number</b> to get started. If something needs a human, I\'ll route a case to the right team.</p>' +
+        '</div>' +
+        '<div class="react"><span>↪</span><span>👍</span><span>👎</span></div>' +
+        '</div></div>');
+      stream.scrollTop = stream.scrollHeight;
+
+      // update composer hint and placeholder
+      q.placeholder = 'Ask Incentive Compensation a question…';
+      hint.innerHTML = 'Incentive Compensation skill is active — ask about credits, comp plan, payout timing, eligibility, and more.';
+      skillBtn.classList.add('active-skill');
+      skillBtn.textContent = '🔷 Incentive Compensation';
+    }, 900);
+  }
+
+  function now() {
+    const d = new Date();
+    let h = d.getHours(), m = d.getMinutes(), a = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return h + ':' + String(m).padStart(2,'0') + ' ' + a;
+  }
+
+  function answerFor(text) {
+    const t = text.toLowerCase();
+    if (/(loa|leave of absence|came back|returned from leave|maternity|paternity)/.test(t))
       return "Welcome back! Your <b>LOA Return Comp Plan</b> has been created and is being finalized — it passes through internal audits before it's issued. If you already received a full-quota plan, that's the <b>interim plan</b>; your adjusted LOA return plan (quota relief, credit &amp; TI) generates mid-month after your return and finalizes within <b>1–2 months</b>. You can track it on the Incentive Compensation Station dashboard. No action needed on your end.";
-
-    // Topic 1 — Comp Plan Issuance / status / quota
-    if(/(comp plan|my plan|which plan|plan status|pending quota|quota|territory|when.*plan|plan issued)/.test(t))
-      return "Your <b>FY27</b> comp plan has been created and is currently <b>Pending Quota</b> — your quota is being finalized, after which it passes through internal audits before it's issued. No action needed from you.<br>• <b>Role:</b> AE – Enterprise &nbsp; • <b>Plan Status:</b> Pending Quota<br>Track live updates on the Incentive Compensation Station dashboard. If there's no movement in a couple of weeks, reach out and I'll dig in.";
-
-    // Topic 4 — Payout timing
-    if(/(when.*pay|when.*paid|payout|get paid|receive.*commission|commission.*paid)/.test(t))
-      return "Happy to check that — can you share the <b>order number</b>? I'll look up the commission period and, per the GIC Consolidated Close Calendar, tell you the scheduled payout date. If the run for that period already completed and the order closed after the cutoff, it'll be picked up in the next scheduled run.";
-
-    // Topic 5 — Product eligibility (always carries the Spiff disclaimer)
-    if(/(eligib|which product|no credit for|not eligible|product.*credit)/.test(t))
+    if (/(comp plan|my plan|which plan|plan status|pending quota|quota|territory|when.*plan|plan issued)/.test(t))
+      return "Your <b>FY27</b> comp plan has been created and is currently <b>Pending Quota</b> — your quota is being finalized, after which it passes through internal audits before it's issued. No action needed from you.<br>• <b>Role:</b> AE – Enterprise &nbsp; • <b>Plan Status:</b> Pending Quota<br>Track live updates on the Incentive Compensation Station dashboard.";
+    if (/(when.*pay|when.*paid|payout|get paid|receive.*commission|commission.*paid)/.test(t))
+      return "Happy to check that — can you share the <b>order number</b>? I'll look up the commission period and, per the GIC Consolidated Close Calendar, tell you the scheduled payout date.";
+    if (/(eligib|which product|no credit for|not eligible|product.*credit)/.test(t))
       return "Let me check the product eligibility for that order — what's the <b>order number</b>? I'll show your eligibility % by line item and the reason, based on your role under the FY27 Product Eligibility rules.<br><i>⚠️ Note: I don't currently have visibility into your Spiff statement — this is based solely on Org62 order data.</i>";
-
-    // Topic 3 — Credit / ACV discrepancy
-    if(/(credit|acv|split|only getting|50%|opportunity amount|clawback|negative)/.test(t))
-      return "I can break that down. Share the <b>order number</b> and I'll pull it from Org62 — credit is calculated on the <b>Commissionable ACV at the order level</b> (not the full opportunity amount), then your split % and role eligibility. I'll show the Commission Audit Comments, which are the source of truth for any crediting rule applied.";
-
-    // Topic 6 — Order / quote status, FDO, web-store
-    if(/(missing order|where is my order|order status|future.?dated|fdo|web ?store|not showing)/.test(t))
-      return "Let me run the checkpoints — what's the <b>order number</b>? I'll check whether you're on the order team, the incentive date, and product eligibility. If it's a <b>future-dated order</b>, credit is due on the commission date and goes to whoever's on the account team then — so it may simply not be due yet.";
-
-    // Topic 8 — New Hire Guarantee
-    if(/(new hire|guarantee|draw guarantee|ramp)/.test(t))
-      return "I can check your New Hire Guarantee eligibility against the FY27 policy — it's based on your hire date, segment, vertical and role, with payment timing set by the 15-day rule. Want me to pull your eligibility and the guarantee duration?";
-
-    // Topic 9 — Recoverable draw
-    if(/(recoverable draw|draw|advance)/.test(t))
-      return "A <b>recoverable draw</b> is an advance against future commissions — if earned commission in a period is less than the draw, the difference is recovered from later payments. It commonly applies at the start of a fiscal year, while a plan is pending, or on return from LOA. Want me to check which components you have a draw on?";
-
-    // Topic 10/11 — NRR / attrition relief (route, don't adjudicate)
-    if(/(nrr|net revenue|attrition|relief|nnaov)/.test(t))
+    if (/(credit|acv|split|only getting|50%|opportunity amount|clawback|negative)/.test(t))
+      return "I can break that down. Share the <b>order number</b> and I'll pull it from Org62 — credit is calculated on the <b>Commissionable ACV at the order level</b>, then your split % and role eligibility. I'll show the Commission Audit Comments, which are the source of truth for any crediting rule applied.";
+    if (/(missing order|where is my order|order status|future.?dated|fdo|web ?store|not showing)/.test(t))
+      return "Let me run the checkpoints — what's the <b>order number</b>? I'll check whether you're on the order team, the incentive date, and product eligibility. If it's a <b>future-dated order</b>, credit is due on the commission date and goes to whoever's on the account team then.";
+    if (/(new hire|guarantee|draw guarantee|ramp)/.test(t))
+      return "I can check your New Hire Guarantee eligibility against the FY27 policy — it's based on your hire date, segment, vertical and role. Want me to pull your eligibility and the guarantee duration?";
+    if (/(recoverable draw|draw|advance)/.test(t))
+      return "A <b>recoverable draw</b> is an advance against future commissions — if earned commission in a period is less than the draw, the difference is recovered from later payments. Want me to check which components you have a draw on?";
+    if (/(nrr|net revenue|attrition|relief|nnaov)/.test(t))
       return "I can't adjudicate relief directly, but I can get it to the right team. If this is an NRR/attrition-relief request, log a commissions case and GIC will review — <b>want me to start that case for you now?</b>";
-
-    // Fallback — stays in scope, offers the grounded path
     return "I can help with comp plan status, credits &amp; ACV, product eligibility, payout timing, order status, LOA return, guarantees and draws — all grounded in your live Org62 data. For order-specific questions, just give me the <b>order number</b>. If it needs a human, I'll route a case to the right team.";
   }
 
-  function send(){
-    const text=q.value.trim(); if(!text)return; q.value='';
-    stream.insertAdjacentHTML('beforeend',
-      '<div class="msg"><div class="ava user">AR</div><div class="mbody"><div class="mhead"><span class="nm">Alex Rivera</span><span class="tm">now</span></div><div class="mtext"><p>'+esc(text)+'</p></div></div></div>');
-    stream.scrollTop=stream.scrollHeight;
-    // typing indicator (static markup — no user content)
-    stream.insertAdjacentHTML('beforeend',
-      '<div class="msg" id="typing"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="mtext" style="color:#8a8a8a;font-style:italic;">Sales Compensation is thinking…</div></div></div>');
-    stream.scrollTop=stream.scrollHeight;
-    setTimeout(()=>{
-      const t=document.getElementById('typing'); if(t)t.remove();
+  function send() {
+    const text = q.value.trim(); if (!text) return;
+    q.value = '';
+
+    if (!skillActive) {
       stream.insertAdjacentHTML('beforeend',
-        '<div class="msg"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">now</span></div><div class="used"><img class="sk" src="assets/robot.png" alt="" style="object-fit:contain;"> Used <b>🔷 Sales Compensation</b></div><div class="invoke">⚙ Used invoke 1 from <b style="color:#454545">SalesCompensationMCP (Salesforce)</b> MCP ›</div><div class="mtext"><p>'+answerFor(text)+'</p></div></div></div>');
-      stream.scrollTop=stream.scrollHeight;
-    },900);
+        '<div class="msg"><div class="ava user">AR</div><div class="mbody">' +
+        '<div class="mhead"><span class="nm">Alex Rivera</span><span class="tm">' + now() + '</span></div>' +
+        '<div class="mtext"><p>' + esc(text) + '</p></div></div></div>');
+      stream.insertAdjacentHTML('beforeend',
+        '<div class="msg"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody">' +
+        '<div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
+        '<div class="mtext"><p>To get comp answers, launch the <b>Incentive Compensation</b> skill first — click <b>⚡ Skills</b> below or type <b>/incentive compensation</b>.</p></div></div></div>');
+      emptyState.style.display = 'none';
+      dayDivider.style.display = 'block';
+      stream.scrollTop = stream.scrollHeight;
+      return;
+    }
+
+    stream.insertAdjacentHTML('beforeend',
+      '<div class="msg"><div class="ava user">AR</div><div class="mbody">' +
+      '<div class="mhead"><span class="nm">Alex Rivera</span><span class="tm">' + now() + '</span></div>' +
+      '<div class="mtext"><p>' + esc(text) + '</p></div></div></div>');
+    stream.scrollTop = stream.scrollHeight;
+
+    stream.insertAdjacentHTML('beforeend',
+      '<div class="msg" id="typing"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>' +
+      '<div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
+      '<div class="mtext" style="color:#8a8a8a;font-style:italic;">Incentive Compensation is thinking…</div></div></div>');
+    stream.scrollTop = stream.scrollHeight;
+
+    setTimeout(() => {
+      const t = document.getElementById('typing'); if (t) t.remove();
+      stream.insertAdjacentHTML('beforeend',
+        '<div class="msg"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody">' +
+        '<div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
+        '<div class="used"><img class="sk" src="assets/robot.png" style="object-fit:contain;"> Used <b>🔷 Incentive Compensation</b></div>' +
+        '<div class="invoke">⚙ Used invoke 1 from <b style="color:#454545">SalesCompensationMCP (Salesforce)</b> MCP ›</div>' +
+        '<div class="mtext"><p>' + answerFor(text) + '</p></div>' +
+        '<div class="react"><span>↪</span><span>👍</span><span>👎</span></div>' +
+        '</div></div>');
+      stream.scrollTop = stream.scrollHeight;
+    }, 900);
   }
 
-  q.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault(); send();} });
+  // slash command detection
+  q.addEventListener('input', () => {
+    const val = q.value;
+    if (/^\/incentive/i.test(val) && !skillActive) {
+      slashSuggest.style.display = 'block';
+    } else {
+      slashSuggest.style.display = 'none';
+    }
+  });
+
+  q.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (/^\/incentive/i.test(q.value.trim()) && !skillActive) {
+        q.value = '';
+        slashSuggest.style.display = 'none';
+        launchSkill();
+      } else {
+        send();
+      }
+    }
+    if (e.key === 'Tab' && slashSuggest.style.display === 'block') {
+      e.preventDefault();
+      q.value = '/incentive compensation';
+    }
+  });
 </script>
 </body>
 </html>

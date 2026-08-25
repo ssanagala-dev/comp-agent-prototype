@@ -172,6 +172,53 @@
   .ai-suggest{display:flex;align-items:center;gap:6px;padding:6px 14px 8px;font-size:12.5px;color:#616061;border-top:1px solid #eee;background:#fafafa;}
   .ai-suggest b{color:#1d1c1d;}
   .ai-suggest .tab-hint{background:#e8e8e8;border-radius:3px;padding:1px 6px;font-size:11px;font-family:monospace;color:#454545;}
+
+  /* toast */
+  .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#1d1c1d;color:#fff;border-radius:8px;padding:10px 18px;font-size:13.5px;font-weight:600;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.22);display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .2s;}
+  .toast.show{opacity:1;}
+
+  /* tab panels */
+  .tab-panel{display:none;flex:1;overflow-y:auto;padding:20px;}
+  .tab-panel.active{display:flex;flex-direction:column;}
+
+  /* history panel */
+  .hist-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0;cursor:pointer;}
+  .hist-item:hover{background:#f8f8f8;margin:0 -8px;padding:12px 8px;border-radius:6px;}
+  .hist-date{font-size:11px;color:#9a9a9a;min-width:48px;padding-top:2px;}
+  .hist-preview{font-size:13.5px;color:#1d1c1d;flex:1;}
+  .hist-preview b{display:block;font-size:13px;font-weight:800;margin-bottom:2px;}
+  .hist-preview span{color:#616061;font-size:12.5px;}
+
+  /* skills browser */
+  .skill-browser-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #f0f0f0;cursor:pointer;}
+  .skill-browser-item:hover .sbi-name{text-decoration:underline;}
+  .sbi-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#611f69,#9b59b6);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .sbi-name{font-size:14px;font-weight:800;color:#1d1c1d;}
+  .sbi-desc{font-size:12.5px;color:#616061;margin-top:2px;}
+  .sbi-badge{margin-left:auto;font-size:11px;background:#e6f4ea;color:#1e7e34;border-radius:4px;padding:2px 8px;font-weight:700;flex-shrink:0;}
+
+  /* tasks empty */
+  .tasks-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;color:#616061;padding:40px;}
+  .tasks-empty .te-icon{font-size:44px;margin-bottom:12px;}
+  .tasks-empty h4{font-size:16px;font-weight:900;color:#1d1c1d;margin:0 0 6px;}
+  .tasks-empty p{font-size:13.5px;line-height:1.5;max-width:280px;margin:0;}
+
+  /* reaction active state */
+  .react-active{color:#611f69 !important;font-weight:700;}
+  .react-count{font-size:12px;color:#616061;margin-left:2px;}
+
+  /* add btn states */
+  .add-btn.added{background:#1a7a4a;}
+  .add-btn.added::before{content:'✓ ';}
+
+  /* share popover */
+  .share-pop{display:none;position:absolute;background:#fff;border:1px solid #e8e8e8;border-radius:10px;box-shadow:0 4px 18px rgba(0,0,0,.12);padding:14px 18px;z-index:200;min-width:240px;font-size:13.5px;}
+  .share-pop h5{margin:0 0 10px;font-size:13px;font-weight:800;}
+  .share-pop input{width:100%;border:1px solid #ddd;border-radius:6px;padding:6px 10px;font-size:13px;outline:none;}
+  .share-pop .sp-footer{display:flex;gap:8px;margin-top:10px;justify-content:flex-end;}
+  .share-pop .sp-footer button{border-radius:5px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;border:none;}
+  .sp-cancel{background:#f0f0f0;color:#1d1c1d;}
+  .sp-copy{background:#611f69;color:#fff;}
 </style>
 </head>
 <body>
@@ -237,15 +284,23 @@
       <span class="skill-pill">Skill</span>
     </div>
     <div class="sd-meta">Created by <b>smundreti</b> &nbsp;·&nbsp; Last updated <b>Aug 21</b></div>
-    <div class="sd-btns">
-      <button class="add-btn" onclick="launchSkill()">+ Add to Slackbot</button>
-      <button class="view-btn">View only</button>
-      <button class="view-btn">Share</button>
+    <div class="sd-btns" style="position:relative;">
+      <button class="add-btn" id="addBtn" onclick="handleAddToSlackbot()">+ Add to Slackbot</button>
+      <button class="view-btn" onclick="handleViewOnly()">View only</button>
+      <button class="view-btn" onclick="handleShare(event)">Share</button>
+      <div class="share-pop" id="sharePop">
+        <h5>Share skill link</h5>
+        <input id="shareInput" value="https://slack.com/skills/incentive-compensation" readonly onclick="this.select()"/>
+        <div class="sp-footer">
+          <button class="sp-cancel" onclick="closeShare()">Cancel</button>
+          <button class="sp-copy" onclick="copyShare()">Copy link</button>
+        </div>
+      </div>
     </div>
     <div class="sd-desc">Use when seller/AE asks sales compensation related queries like ACV/credit disputes, missing commissions, incorrect/lower credit, product eligibility for commission, attrition relief, and compensation plan questions (LOA Plans, Compensation Plan Components, G4G Plans, and related).</div>
     <div class="sd-note">Slackbot uses this description to determine when to run this skill.</div>
-    <div class="sd-hide">Hide details</div>
-    <div class="sd-card">
+    <div class="sd-hide" id="hideDetailsBtn" onclick="toggleDetails()">Hide details</div>
+    <div class="sd-card" id="sdCard">
       <h3>Incentive Compensation</h3>
       <p>This skill helps you with sales compensation questions — covering credit disputes, missing commissions, product eligibility, attrition relief, and compensation plans. Ask your question and Slackbot will look into it and respond directly.</p>
       <hr class="sd-divider">
@@ -281,47 +336,108 @@
       </div>
     </div>
     <div class="ctabs">
-      <div class="ct active">💬 Messages</div>
-      <div class="ct">🕘 History</div>
-      <div class="ct">⚡ Skills</div>
-      <div class="ct">✓ Tasks</div>
-      <div class="ct">＋</div>
+      <div class="ct active" onclick="switchTab('messages',this)">💬 Messages</div>
+      <div class="ct" onclick="switchTab('history',this)">🕘 History</div>
+      <div class="ct" onclick="switchTab('skills',this)">⚡ Skills</div>
+      <div class="ct" onclick="switchTab('tasks',this)">✓ Tasks</div>
+      <div class="ct" onclick="showToast('＋ Opening new tab…')">＋</div>
     </div>
 
-    <div class="stream" id="stream">
-      <!-- welcome state matching real Slackbot -->
-      <div class="welcome" id="welcomeState">
-        <svg class="wlogo" viewBox="0 0 36 36"><use href="#slackbot"/></svg>
-        <h3>Good afternoon, ssanagala!</h3>
-        <p class="wsub">I've been here the whole time, but it's nicer when you're here, too.</p>
-        <div class="wcards">
-          <div class="wcard" onclick="launchSkill()">
-            <div class="wcard-icon">⚡</div>
-            <div>
-              <h4>Incentive Compensation</h4>
-              <p>Credits, comp plan, payout timing, eligibility &amp; more — ask in plain language</p>
+    <!-- MESSAGES TAB -->
+    <div class="tab-panel active" id="tab-messages" style="padding:0;overflow-y:auto;flex:1;">
+      <div id="stream" style="padding:0 20px 8px;flex:1;overflow-y:auto;">
+        <div class="welcome" id="welcomeState">
+          <svg class="wlogo" viewBox="0 0 36 36"><use href="#slackbot"/></svg>
+          <h3>Good afternoon, ssanagala!</h3>
+          <p class="wsub">I've been here the whole time, but it's nicer when you're here, too.</p>
+          <div class="wcards">
+            <div class="wcard" onclick="launchSkill()">
+              <div class="wcard-icon">⚡</div>
+              <div>
+                <h4>Incentive Compensation</h4>
+                <p>Credits, comp plan, payout timing, eligibility &amp; more — ask in plain language</p>
+              </div>
+              <span class="wcard-arrow">›</span>
             </div>
-            <span class="wcard-arrow">›</span>
-          </div>
-          <div class="wcard">
-            <div class="wcard-icon">📚</div>
-            <div>
-              <h4>Get the most out of Slack</h4>
-              <p>Prompts, skills and integrations to help you get your work done</p>
+            <div class="wcard" onclick="showToast('Opening Slack tips…')">
+              <div class="wcard-icon">📚</div>
+              <div>
+                <h4>Get the most out of Slack</h4>
+                <p>Prompts, skills and integrations to help you get your work done</p>
+              </div>
+              <span class="wcard-arrow">›</span>
             </div>
-            <span class="wcard-arrow">›</span>
-          </div>
-          <div class="wcard">
-            <div class="wcard-icon">⚙️</div>
-            <div>
-              <h4>Automate something</h4>
-              <p>Set up a workflow in seconds</p>
+            <div class="wcard" onclick="showToast('Opening workflow builder…')">
+              <div class="wcard-icon">⚙️</div>
+              <div>
+                <h4>Automate something</h4>
+                <p>Set up a workflow in seconds</p>
+              </div>
+              <span class="wcard-arrow">›</span>
             </div>
-            <span class="wcard-arrow">›</span>
           </div>
         </div>
+        <div class="day" id="dayDivider" style="display:none;"><span>Today</span></div>
       </div>
-      <div class="day" id="dayDivider" style="display:none;"><span>Today</span></div>
+    </div>
+
+    <!-- HISTORY TAB -->
+    <div class="tab-panel" id="tab-history">
+      <div style="font-size:15px;font-weight:900;margin-bottom:14px;">Recent conversations</div>
+      <div class="hist-item" onclick="switchTab('messages',document.querySelector('.ct'));launchSkill();">
+        <div class="hist-date">Today</div>
+        <div class="hist-preview"><b>⚡ Incentive Compensation</b><span>Session started — Hey Sai Sowmya 👋 I'm here to help with your incentive compensation…</span></div>
+      </div>
+      <div class="hist-item" onclick="showToast('Loading previous session…')">
+        <div class="hist-date">Aug 24</div>
+        <div class="hist-preview"><b>Why am I not paid on Order 36203228?</b><span>The commission calculation cycle runs on the 10th of each month…</span></div>
+      </div>
+      <div class="hist-item" onclick="showToast('Loading previous session…')">
+        <div class="hist-date">Aug 21</div>
+        <div class="hist-preview"><b>What is NNAOV?</b><span>Net New Annual Order Value (NNAOV) is a company metric that measures net growth…</span></div>
+      </div>
+      <div class="hist-item" onclick="showToast('Loading previous session…')">
+        <div class="hist-date">Aug 19</div>
+        <div class="hist-preview"><b>Comp plan status check</b><span>Your FY27 comp plan is currently Pending Quota — your quota is being finalized…</span></div>
+      </div>
+    </div>
+
+    <!-- SKILLS TAB -->
+    <div class="tab-panel" id="tab-skills">
+      <div style="font-size:15px;font-weight:900;margin-bottom:14px;">Available Skills</div>
+      <div class="skill-browser-item" onclick="handleAddToSlackbot();switchTab('messages',document.querySelectorAll('.ct')[0])">
+        <div class="sbi-icon">⚡</div>
+        <div>
+          <div class="sbi-name">Incentive Compensation</div>
+          <div class="sbi-desc">ACV/credit disputes, comp plans, product eligibility, payout timing</div>
+        </div>
+        <span class="sbi-badge" id="skillBadge">Added</span>
+      </div>
+      <div class="skill-browser-item" onclick="showToast('Sales Support skill — coming soon')">
+        <div class="sbi-icon" style="background:linear-gradient(135deg,#0a3ea8,#36c5f0);">🎯</div>
+        <div>
+          <div class="sbi-name">Sales Support</div>
+          <div class="sbi-desc">Case creation, discount approvals, and sales support routing</div>
+        </div>
+        <span class="sbi-badge" style="background:#fff3cd;color:#856404;">Coming soon</span>
+      </div>
+      <div class="skill-browser-item" onclick="showToast('Opportunity Assistant — coming soon')">
+        <div class="sbi-icon" style="background:linear-gradient(135deg,#007a5a,#2eb67d);">💼</div>
+        <div>
+          <div class="sbi-name">Opportunity Assistant</div>
+          <div class="sbi-desc">Deal coaching, close plans, and forecast guidance</div>
+        </div>
+        <span class="sbi-badge" style="background:#fff3cd;color:#856404;">Coming soon</span>
+      </div>
+    </div>
+
+    <!-- TASKS TAB -->
+    <div class="tab-panel" id="tab-tasks">
+      <div class="tasks-empty">
+        <div class="te-icon">✅</div>
+        <h4>No tasks yet</h4>
+        <p>Tasks assigned to you by Slackbot skills will appear here.</p>
+      </div>
     </div>
 
     <div class="composer">
@@ -389,6 +505,9 @@
   </div>
 </div>
 
+<!-- toast notification -->
+<div class="toast" id="toast"></div>
+
 <script>
   const q = document.getElementById('q');
   const stream = document.getElementById('stream');
@@ -398,37 +517,140 @@
   const dayDivider = document.getElementById('dayDivider');
   const aiSuggest = document.getElementById('aiSuggest');
   const aiSuggestText = document.getElementById('aiSuggestText');
+  const addBtn = document.getElementById('addBtn');
+  const toastEl = document.getElementById('toast');
   const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
   let skillActive = false;
+  let skillAdded = false;
+  let detailsVisible = true;
+  let toastTimer = null;
 
+  // ── Toast ──────────────────────────────────────────────────────────
+  function showToast(msg, duration=2200) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), duration);
+  }
+
+  // ── Tab switching ──────────────────────────────────────────────────
+  function switchTab(name, el) {
+    document.querySelectorAll('.ct').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    if (el) el.classList.add('active');
+    const panel = document.getElementById('tab-' + name);
+    if (panel) panel.classList.add('active');
+    // show/hide composer only on messages tab
+    document.querySelector('.composer').style.display = name === 'messages' ? 'block' : 'none';
+  }
+
+  // ── Add to Slackbot ────────────────────────────────────────────────
+  function handleAddToSlackbot() {
+    if (skillAdded) {
+      // already added — switch to messages and launch
+      switchTab('messages', document.querySelectorAll('.ct')[0]);
+      launchSkill();
+      return;
+    }
+    skillAdded = true;
+    addBtn.textContent = '✓ Added to Slackbot';
+    addBtn.classList.add('added');
+    addBtn.style.cursor = 'default';
+    // update skill badge
+    const badge = document.getElementById('skillBadge');
+    if (badge) { badge.textContent = 'Added'; badge.style.background='#e6f4ea'; badge.style.color='#1e7e34'; }
+    showToast('⚡ Incentive Compensation added to Slackbot!');
+    // switch to messages and launch after short delay
+    setTimeout(() => {
+      switchTab('messages', document.querySelectorAll('.ct')[0]);
+      launchSkill();
+    }, 600);
+  }
+
+  // ── View only ──────────────────────────────────────────────────────
+  function handleViewOnly() {
+    showToast('Viewing skill in read-only mode');
+  }
+
+  // ── Share ──────────────────────────────────────────────────────────
+  function handleShare(e) {
+    e.stopPropagation();
+    const pop = document.getElementById('sharePop');
+    pop.style.display = pop.style.display === 'block' ? 'none' : 'block';
+  }
+  function closeShare() {
+    document.getElementById('sharePop').style.display = 'none';
+  }
+  function copyShare() {
+    const val = document.getElementById('shareInput').value;
+    navigator.clipboard.writeText(val).catch(() => {});
+    closeShare();
+    showToast('✓ Link copied to clipboard');
+  }
+
+  // ── Hide/show details ──────────────────────────────────────────────
+  function toggleDetails() {
+    const card = document.getElementById('sdCard');
+    const btn = document.getElementById('hideDetailsBtn');
+    detailsVisible = !detailsVisible;
+    card.style.display = detailsVisible ? 'block' : 'none';
+    btn.textContent = detailsVisible ? 'Hide details' : 'Show details';
+  }
+
+  // ── Sidebar nav ────────────────────────────────────────────────────
+  document.querySelectorAll('.ri').forEach(el => {
+    el.addEventListener('click', () => showToast('Opening ' + el.textContent.trim() + '…'));
+  });
+  document.querySelectorAll('.item:not(.active)').forEach(el => {
+    el.addEventListener('click', () => showToast('Opening ' + el.textContent.trim() + '…'));
+  });
+  document.querySelectorAll('.fn:not(.active-file)').forEach(el => {
+    el.addEventListener('click', () => showToast('Opening ' + el.textContent.trim() + '…'));
+  });
+
+  // ── Skill picker toggle ────────────────────────────────────────────
   function togglePicker(e) {
     e.stopPropagation();
     skillPicker.style.display = skillPicker.style.display === 'block' ? 'none' : 'block';
     slashSuggest.style.display = 'none';
   }
 
-  document.addEventListener('click', () => {
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#sharePop') && !e.target.closest('.view-btn')) {
+      document.getElementById('sharePop').style.display = 'none';
+    }
     skillPicker.style.display = 'none';
     slashSuggest.style.display = 'none';
   });
 
+  // ── Slash command launch ───────────────────────────────────────────
   function confirmSlashLaunch() {
     q.value = '';
     slashSuggest.style.display = 'none';
     aiSuggest.style.display = 'none';
+    if (!skillAdded) { skillAdded = true; }
     launchSkill();
   }
 
+  // ── Launch skill ───────────────────────────────────────────────────
   function launchSkill() {
-    if (skillActive) return;
+    if (skillActive) {
+      // already active, just focus chat
+      q.focus();
+      return;
+    }
     skillActive = true;
+    skillAdded = true;
     skillPicker.style.display = 'none';
+
+    // update add button
+    addBtn.textContent = '✓ Added to Slackbot';
+    addBtn.classList.add('added');
 
     welcomeState.style.display = 'none';
     dayDivider.style.display = 'block';
 
-    // user skill launch message
     stream.insertAdjacentHTML('beforeend',
       '<div class="msg"><div class="ava user">SS</div><div class="mbody">' +
       '<div class="mhead"><span class="nm">Sai Sowmya Sanagala</span><span class="tm">' + now() + '</span></div>' +
@@ -436,7 +658,6 @@
       '</div></div>');
     stream.scrollTop = stream.scrollHeight;
 
-    // typing indicator
     stream.insertAdjacentHTML('beforeend',
       '<div class="msg" id="typing"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>' +
       '<div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
@@ -445,8 +666,9 @@
 
     setTimeout(() => {
       const t = document.getElementById('typing'); if (t) t.remove();
+      const msgId = 'msg_' + Date.now();
       stream.insertAdjacentHTML('beforeend',
-        '<div class="msg"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>' +
+        '<div class="msg" id="' + msgId + '"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>' +
         '<div class="mbody">' +
         '<div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
         '<div class="used">⚡ <b>Incentive Compensation</b></div>' +
@@ -461,16 +683,36 @@
         '</ul>' +
         '<p>What would you like to look into?</p>' +
         '</div>' +
-        '<div class="react"><span>↪</span><span>👍</span><span>👎</span></div>' +
+        '<div class="react" data-mid="' + msgId + '"><span onclick="react(this,\'↪\')">↪</span><span onclick="react(this,\'👍\')">👍</span><span onclick="react(this,\'👎\')">👎</span></div>' +
         '</div></div>');
       stream.scrollTop = stream.scrollHeight;
 
       q.placeholder = 'Ask Incentive Compensation a question…';
       aiSuggest.style.display = 'flex';
       aiSuggestText.innerHTML = 'How is NNAOV calculated in practice? &nbsp;';
+      q.focus();
     }, 900);
   }
 
+  // ── Reactions ──────────────────────────────────────────────────────
+  function react(el, emoji) {
+    if (el.classList.contains('react-active')) {
+      el.classList.remove('react-active');
+      const cnt = el.querySelector('.react-count');
+      if (cnt) cnt.remove();
+    } else {
+      document.querySelectorAll('.react span').forEach(s => {
+        if (s.parentElement === el.parentElement) { s.classList.remove('react-active'); const c=s.querySelector('.react-count'); if(c)c.remove(); }
+      });
+      el.classList.add('react-active');
+      el.innerHTML = emoji + ' <span class="react-count">1</span>';
+      if (emoji === '👍') showToast('Thanks for the feedback! 👍');
+      if (emoji === '👎') showToast('Feedback noted — we\'ll keep improving');
+      if (emoji === '↪') showToast('Opening reply thread…');
+    }
+  }
+
+  // ── Time ───────────────────────────────────────────────────────────
   function now() {
     const d = new Date();
     let h = d.getHours(), m = d.getMinutes(), a = h >= 12 ? 'PM' : 'AM';
@@ -478,29 +720,35 @@
     return h + ':' + String(m).padStart(2,'0') + ' ' + a;
   }
 
+  // ── Answer engine ──────────────────────────────────────────────────
   function answerFor(text) {
     const t = text.toLowerCase();
     if (/(nnaov|net new|annual order value)/.test(t))
-      return '<p>Net New Annual Order Value (NNAOV) is a company metric that measures net growth by combining expansion and loss. It\'s calculated as ACV minus Attrition, or Ending Total AOV minus Beginning Total AOV for a given period. NNAOV is applied across all eligible Customer 360 products and is targeted and credited at the Country Company or territory level. It aligns teams to focus on sustainable growth and revenue retention, not just bookings.</p>' +
-        '<p><b>Sources:</b></p><ul><li><a style="color:#1264a3;">Global NNAOV Policy Guide</a></li><li><a style="color:#1264a3;">FY27 Net New AOV (NNAOV) FAQs OFFICIAL</a></li><li><a style="color:#1264a3;">FY27 Incentive Compensation Policies</a></li><li><a style="color:#1264a3;">[SHARED] FY27 GIC G4G NNAOV Enablement</a></li></ul>' +
-        '<div class="disclaimer">Sales Agent is provided solely for sales enablement and offers on-demand support, enablement navigation, and general insights. The information above is AI-generated and does not replace, amend, or override the Plan Package.</div>';
+      return '<p>Net New Annual Order Value (NNAOV) is a company metric that measures net growth by combining expansion and loss. It\'s calculated as ACV minus Attrition, or Ending Total AOV minus Beginning Total AOV for a given period. NNAOV is applied across all eligible Customer 360 products and targeted at the Country Company or territory level.</p>' +
+        '<p><b>Sources:</b></p><ul><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening NNAOV Policy Guide…\')">Global NNAOV Policy Guide</a></li><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening FAQs…\')">FY27 Net New AOV (NNAOV) FAQs OFFICIAL</a></li><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening policies…\')">FY27 Incentive Compensation Policies</a></li><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening enablement…\')">[SHARED] FY27 GIC G4G NNAOV Enablement</a></li></ul>' +
+        '<div class="disclaimer"><b>Disclaimer:</b> Sales Agent is provided solely for sales enablement and does not replace, amend, or override the Plan Package.</div>';
     if (/(loa|leave of absence|came back|returned from leave|maternity|paternity)/.test(t))
-      return '<p>Your <b>LOA Return Comp Plan</b> has been created and is being finalized — it passes through internal audits before it\'s issued. If you already received a full-quota plan, that\'s the interim plan; your adjusted LOA return plan generates mid-month after your return and finalizes within <b>1–2 months</b>. You can track it on the Compensation Station dashboard. No action needed on your end.</p>';
-    if (/(comp plan|my plan|which plan|plan status|pending quota|quota|territory|when.*plan|plan issued)/.test(t))
-      return '<p>Your <b>FY27</b> comp plan has been created and is currently <b>Pending Quota</b> — your quota is being finalized, after which it passes through internal audits before it\'s issued. No action needed from you.</p><p>• <b>Role:</b> AE – Enterprise &nbsp;•&nbsp; <b>Plan Status:</b> Pending Quota<br>Track live updates on the <a style="color:#1264a3;">Compensation Station Dashboard</a>.</p>';
+      return '<p>Your <b>LOA Return Comp Plan</b> has been created and is being finalized — it passes through internal audits before it\'s issued. Your adjusted LOA return plan generates mid-month after your return and finalizes within <b>1–2 months</b>. Track it on <a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening Compensation Station…\')">Compensation Station</a>. No action needed on your end.</p>';
+    if (/(comp plan|my plan|which plan|plan status|pending quota|quota|territory|when.*plan|plan issued|where.*comp plan)/.test(t))
+      return '<p>Your <b>FY27</b> comp plan has been created and is currently <b>Pending Quota</b> — your quota is being finalized, after which it passes through internal audits before being issued. No action needed from you.</p><p>• <b>Role:</b> AE – Enterprise &nbsp;•&nbsp; <b>Plan Status:</b> Pending Quota</p><p>Track live updates on the <a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening Compensation Station…\')">Compensation Station Dashboard</a>.</p>';
     if (/(when.*pay|when.*paid|payout|get paid|receive.*commission|commission.*paid)/.test(t))
       return '<p>Happy to check that — can you share the <b>order number</b>? I\'ll look up the commission period and tell you the scheduled payout date per the GIC Consolidated Close Calendar.</p>';
     if (/(eligib|which product|not eligible|product.*credit)/.test(t))
       return '<p>Let me check product eligibility for that order — what\'s the <b>order number</b>? I\'ll show your eligibility % by line item and the reason, based on your role under FY27 Product Eligibility rules.</p>';
-    if (/(credit|acv|split|only getting|opportunity amount|mismatch)/.test(t))
+    if (/(credit|acv|split|only getting|opportunity amount|mismatch|not getting paid|not paid)/.test(t))
       return '<p>I can break that down. Share the <b>order number</b> and I\'ll pull it from Org62 — credit is calculated on the Commissionable ACV at the order level, then your split % and role eligibility. I\'ll show the Commission Audit Comments, which are the source of truth for any crediting rule applied.</p>';
-    if (/(missing order|where is my order|order status|not showing in spiff|not in spiff)/.test(t))
+    if (/(missing order|where is my order|order status|not showing in spiff|not in spiff|not appearing)/.test(t))
       return '<p>Let me run the checkpoints — what\'s the <b>order number</b>? I\'ll check whether you\'re on the order team, the incentive date, and product eligibility. If it\'s a future-dated order, credit is due on the commission date.</p>';
     if (/(recoverable draw|draw|advance|ramp|new hire|guarantee)/.test(t))
       return '<p>A <b>recoverable draw</b> is an advance against future commissions — if earned commission in a period is less than the draw, the difference is recovered from later payments. Want me to check which components you have a draw on?</p>';
+    if (/(open.*case|create.*case|submit.*case|case for|speak to human|talk to someone)/.test(t))
+      return '<p>I\'ll help route this to the right team. To open a compensation case, I need a few details:</p><ul><li><b>Order number</b> (if applicable)</li><li><b>Brief description</b> of the issue</li></ul><p>Once you share those, I\'ll create a Sales Support case and give you the case number. Typical response time is <b>1–2 business days</b>.</p>';
+    if (/(spiff|statement|spif)/.test(t))
+      return '<p>I can check Org62 data for your order — note that I don\'t have direct access to your Spiff statement. For Spiff-specific discrepancies, I can help compare what Org62 shows vs. what you\'re seeing, and open a case if there\'s a mismatch. What\'s the <b>order number</b>?</p>';
     return '<p>I can help with comp plan status, credits &amp; ACV, product eligibility, payout timing, order status, LOA return, and commission policies — all grounded in your live Org62 data. For order-specific questions, just give me the <b>order number</b>. If it needs a human, I\'ll route a case to the right team.</p>';
   }
 
+  // ── Send message ───────────────────────────────────────────────────
   function send() {
     const text = q.value.trim(); if (!text) return;
     q.value = '';
@@ -535,20 +783,21 @@
 
     setTimeout(() => {
       const t = document.getElementById('typing'); if (t) t.remove();
+      const msgId = 'msg_' + Date.now();
       stream.insertAdjacentHTML('beforeend',
-        '<div class="msg"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody">' +
+        '<div class="msg" id="' + msgId + '"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody">' +
         '<div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
         '<div class="used">⚡ <b>Incentive Compensation</b></div>' +
         '<div class="invoke"><span class="bullet">●</span> Used Sales Agent from Seller Hub (Salesforce) MCP ›</div>' +
         '<div class="mtext">' + answerFor(text) + '</div>' +
-        '<div class="canvas-tag">📄 Sandra McCarrell · Canvas ▼</div>' +
-        '<div class="react"><span>↪</span><span>👍</span><span>👎</span></div>' +
+        '<div class="canvas-tag" onclick="showToast(\'Opening canvas…\')">📄 Sandra McCarrell · Canvas ▼</div>' +
+        '<div class="react" data-mid="' + msgId + '"><span onclick="react(this,\'↪\')">↪</span><span onclick="react(this,\'👍\')">👍</span><span onclick="react(this,\'👎\')">👎</span></div>' +
         '</div></div>');
       stream.scrollTop = stream.scrollHeight;
     }, 900);
   }
 
-  // slash command detection
+  // ── Input handlers ─────────────────────────────────────────────────
   q.addEventListener('input', () => {
     const val = q.value;
     if (/^\/incentive/i.test(val) && !skillActive) {
@@ -579,6 +828,15 @@
         q.value = 'How is NNAOV calculated in practice?';
       }
     }
+    if (e.key === 'Escape') {
+      slashSuggest.style.display = 'none';
+      skillPicker.style.display = 'none';
+    }
+  });
+
+  // ── Search bar click ───────────────────────────────────────────────
+  document.querySelector('.topsearch .box').addEventListener('click', () => {
+    showToast('🔍 Search coming soon in prototype');
   });
 </script>
 </body>

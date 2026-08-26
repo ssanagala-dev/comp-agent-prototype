@@ -469,38 +469,47 @@
         </div>
       </div>
       <div class="adown">↓</div>
-      <div class="atier" style="align-items:stretch;gap:10px;flex-wrap:wrap;">
 
-        <!-- Org62 -->
-        <div class="anode src" style="display:flex;flex-direction:column;justify-content:center;">
+      <!-- DATA LAYER -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:stretch;">
+
+        <!-- Org62 standalone -->
+        <div class="anode src" style="min-width:130px;">
           <div class="at">Org62</div>
           <div class="as">crediting &amp; order data</div>
         </div>
 
-        <!-- Data Cloud group -->
-        <div class="aorg" style="flex-direction:column;gap:8px;padding:18px 14px 12px;background:#0d2545;border-color:#2a5298;">
-          <div class="orglbl" style="background:#0d2545;color:#a9cdf3;border-color:#2a5298;">DATA CLOUD</div>
-          <div class="anode src"><div class="at">EOS</div><div class="as">comp plan data</div></div>
-          <div style="text-align:center;font-size:10px;color:#6b9fd4;font-weight:700;padding:2px 0;">+</div>
-          <div class="anode src"><div class="at">Snowflake</div><div class="as">Spiff data · current path</div></div>
+        <!-- Data Cloud group: EOS + Snowflake -->
+        <div class="aorg" style="gap:8px;flex-direction:column;background:#eaf3fd;border-color:#9bbfe6;">
+          <div class="orglbl"><svg><use href="#cloud"/></svg> DATA CLOUD</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+            <div class="anode src"><div class="at">EOS</div><div class="as">comp plan data</div></div>
+            <div class="anode src"><div class="at">Snowflake</div><div class="as">Spiff data · current path</div></div>
+          </div>
         </div>
 
-        <!-- Spiff data group -->
-        <div class="aorg" style="flex-direction:column;gap:8px;padding:18px 14px 12px;background:#1a1a2e;border-color:#4a4a8a;border-style:dashed;">
-          <div class="orglbl" style="background:#1a1a2e;color:#9b9bcc;border-color:#4a4a8a;">SPIFF DATA</div>
-          <div class="anode src" style="background:#1a3a5c;"><div class="at">Snowflake → Spiff</div><div class="as">current path · via Data Cloud</div></div>
-          <div style="text-align:center;font-size:10px;color:#9b9bcc;font-weight:700;padding:2px 0;">future ↓</div>
-          <div class="anode src" style="background:#2d1b4e;border:1.5px dashed #9b6fd4;"><div class="at">Spiff MCP Server</div><div class="as">future path · direct integration</div></div>
+        <!-- Spiff standalone + future -->
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;">
+          <div class="anode src" style="width:100%;text-align:center;">
+            <div class="at">Spiff</div>
+            <div class="as">commission statements</div>
+          </div>
+          <div style="font-size:10px;font-weight:800;color:var(--mute);letter-spacing:.3px;">FUTURE PATH ↓</div>
+          <div class="anode src" style="width:100%;text-align:center;background:#1a2744;border:1.5px dashed #6b9fd4;opacity:.85;">
+            <div class="at">Spiff MCP Server</div>
+            <div class="as">direct integration · planned</div>
+          </div>
         </div>
 
-        <!-- Apex -->
-        <div class="anode src" style="display:flex;flex-direction:column;justify-content:center;">
+        <!-- Apex standalone -->
+        <div class="anode src" style="min-width:130px;">
           <div class="at">Apex services</div>
           <div class="as">data &amp; knowledge access</div>
         </div>
 
       </div>
-      <div class="acap">Seller asks in Slack → Sales Compensation skill routes via Sales Agent MCP Server → Headless Sales Agent delegates to the Comp Sub-Agent (live in beta) → grounded on Org62, EOS &amp; Spiff data via Data Cloud/Snowflake (current) or Spiff MCP Server (future) → escalates to Sales Support Agent for case creation when needed.</div>
+
+      <div class="acap">Seller asks in Slack → Sales Compensation skill routes via Sales Agent MCP Server → Headless Sales Agent delegates to the Comp Sub-Agent (live in beta) → grounded on Org62, EOS &amp; Spiff data via Snowflake/Data Cloud today, direct Spiff MCP Server in future → escalates to Sales Support Agent for case creation when needed.</div>
     </div>
 
     <div class="callout green"><b>One net-new component.</b> The Sales Compensation Slackbot skill is the only thing being built. The Sales Agent MCP Server, the Comp Sub-Agent, and case creation are all reused from what's already live.</div>
@@ -1053,15 +1062,17 @@
           <div class="adown">↓</div>
           <div class="atier">
             <div class="anode src"><div class="at">Org62</div><div class="as">crediting</div></div>
-            <div class="aorg" style="flex-direction:column;gap:6px;padding:14px 10px 10px;background:#0d2545;border-color:#2a5298;">
-              <div class="orglbl" style="background:#0d2545;color:#a9cdf3;border-color:#2a5298;font-size:9px;">DATA CLOUD</div>
-              <div class="anode src"><div class="at">EOS</div><div class="as">comp plan data</div></div>
-              <div class="anode src"><div class="at">Snowflake</div><div class="as">Spiff · current</div></div>
+            <div class="aorg" style="gap:6px;flex-direction:column;background:#eaf3fd;border-color:#9bbfe6;">
+              <div class="orglbl"><svg><use href="#cloud"/></svg> DATA CLOUD</div>
+              <div style="display:flex;gap:6px;">
+                <div class="anode src"><div class="at">EOS</div><div class="as">comp plan data</div></div>
+                <div class="anode src"><div class="at">Snowflake</div><div class="as">Spiff · current</div></div>
+              </div>
             </div>
-            <div class="aorg" style="flex-direction:column;gap:6px;padding:14px 10px 10px;background:#1a1a2e;border-color:#4a4a8a;border-style:dashed;">
-              <div class="orglbl" style="background:#1a1a2e;color:#9b9bcc;border-color:#4a4a8a;font-size:9px;">SPIFF DATA</div>
-              <div class="anode src" style="background:#1a3a5c;"><div class="at">Snowflake → Spiff</div><div class="as">current · via Data Cloud</div></div>
-              <div class="anode src" style="background:#2d1b4e;border:1.5px dashed #9b6fd4;"><div class="at">Spiff MCP</div><div class="as">future path</div></div>
+            <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
+              <div class="anode src"><div class="at">Spiff</div><div class="as">statements</div></div>
+              <div style="font-size:9px;font-weight:800;color:var(--mute);">FUTURE ↓</div>
+              <div class="anode src" style="background:#1a2744;border:1.5px dashed #6b9fd4;opacity:.85;"><div class="at">Spiff MCP</div><div class="as">planned</div></div>
             </div>
             <div class="anode src"><div class="at">Apex services</div><div class="as">data &amp; knowledge</div></div>
           </div>

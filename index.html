@@ -875,11 +875,27 @@
       </div>
 
       <!-- 3 The pitch -->
-      <div class="slide">
+      <div class="slide" style="justify-content:center;gap:0;">
         <span class="snum">3 / 14</span>
-        <div class="kick">Instant answers — right inside Sales Agent, right inside Slack</div>
-        <h2 style="font-size:32px;">Comp questions shouldn't mean a case and a wait.</h2>
-        <p style="font-size:17px;color:var(--body);margin-top:14px;max-width:820px;">Every "Where's my comp plan?" or "Why isn't this order commissioned?" has meant logging a case, joining a queue, and losing selling time — across every seller, every plan change, every quarter.</p>
+        <div style="display:flex;flex-direction:column;justify-content:center;flex:1;gap:20px;">
+          <div class="kick">Instant answers — right inside Sales Agent, right inside Slack</div>
+          <h2 style="font-size:36px;line-height:1.15;max-width:700px;">Comp questions shouldn't mean a case and a wait.</h2>
+          <p style="font-size:17px;color:var(--body);max-width:680px;line-height:1.6;">Every "Where's my comp plan?" or "Why isn't this order commissioned?" has meant logging a case, joining a queue, and losing selling time — across every seller, every plan change, every quarter.</p>
+          <div style="display:flex;gap:24px;margin-top:8px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--sky2);border-radius:12px;padding:14px 20px;flex:1;min-width:180px;box-shadow:var(--shadow);">
+              <span style="font-size:26px;">⏱</span>
+              <div><div style="font-size:22px;font-weight:900;color:var(--red);">9.8 days</div><div style="font-size:12px;color:var(--mute);font-weight:700;">avg time to close a comp case</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--sky2);border-radius:12px;padding:14px 20px;flex:1;min-width:180px;box-shadow:var(--shadow);">
+              <span style="font-size:26px;">📋</span>
+              <div><div style="font-size:22px;font-weight:900;color:var(--red);">70,000</div><div style="font-size:12px;color:var(--mute);font-weight:700;">comp cases opened per year</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--sky2);border-radius:12px;padding:14px 20px;flex:1;min-width:180px;box-shadow:var(--shadow);">
+              <span style="font-size:26px;">⚡</span>
+              <div><div style="font-size:22px;font-weight:900;color:var(--green);">12 sec</div><div style="font-size:12px;color:var(--mute);font-weight:700;">with Comp Agent</div></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- 4 The solution -->
@@ -919,39 +935,43 @@
       </div>
 
       <!-- 6 Tuesday 3:14 timeline + math -->
-      <div class="slide">
+      <div class="slide" style="padding:28px 44px;justify-content:center;gap:0;">
         <span class="snum">6 / 14</span>
-        <h2>Tuesday · <span style="color:var(--blue)">3:14 PM</span></h2>
-        <h3 style="font-size:15px;">Same question. Same seller. Same data. <b>Two completely different outcomes.</b></h3>
-        <div class="track today">
-          <span class="tlabel">TODAY</span>
-          <div class="row">
-            <div class="pt"><div class="d"></div><div class="tt">Tue 3:14p</div><div class="ss">files case</div></div>
-            <div class="pt"><div class="d"></div><div class="tt">Wed</div><div class="ss">queue</div></div>
-            <div class="pt"><div class="d"></div><div class="tt">Thu 10a</div><div class="ss">assigned</div></div>
-            <div class="pt"><div class="d"></div><div class="tt">Thu 2p</div><div class="ss">clarification</div></div>
-            <div class="pt"><div class="d"></div><div class="tt">Fri 9a</div><div class="ss">re-explains</div></div>
-            <div class="pt"><div class="d"></div><div class="tt">Mon 11a</div><div class="ss">answer</div></div>
-            <div class="badge"><div class="bn">4 DAYS</div><div class="bl">6 touchpoints</div></div>
+        <div style="display:flex;flex-direction:column;gap:12px;flex:1;justify-content:center;">
+          <div>
+            <h2 style="font-size:28px;margin:0 0 2px;">Tuesday · <span style="color:var(--blue)">3:14 PM</span></h2>
+            <p style="font-size:13px;color:var(--body);margin:0;">Same question. Same seller. Same data. <b>Two completely different outcomes.</b></p>
           </div>
-        </div>
-        <div class="track agent" style="margin-top:14px;">
-          <span class="tlabel">WITH COMP AGENT</span>
-          <div class="row">
-            <div class="pt"><div class="d"></div><div class="tt">3:14:00</div><div class="ss">asks in Slack</div></div>
-            <div class="pt"><div class="d"></div><div class="tt">3:14:03</div><div class="ss">checks Org62</div></div>
-            <div class="pt"><div class="d"></div><div class="tt">3:14:05</div><div class="ss">policy + knowledge</div></div>
-            <div class="pt"><div class="d"></div><div class="tt">3:14:08</div><div class="ss">draft answer</div></div>
-            <div class="pt"><div class="d"></div><div class="tt">3:14:12</div><div class="ss">delivered</div></div>
-            <div class="badge"><div class="bn">12 SEC</div><div class="bl">1 touchpoint</div></div>
+          <div class="track today">
+            <span class="tlabel">TODAY</span>
+            <div class="row">
+              <div class="pt"><div class="d"></div><div class="tt">Tue 3:14p</div><div class="ss">files case</div></div>
+              <div class="pt"><div class="d"></div><div class="tt">Wed</div><div class="ss">queue</div></div>
+              <div class="pt"><div class="d"></div><div class="tt">Thu 10a</div><div class="ss">assigned</div></div>
+              <div class="pt"><div class="d"></div><div class="tt">Thu 2p</div><div class="ss">clarification</div></div>
+              <div class="pt"><div class="d"></div><div class="tt">Fri 9a</div><div class="ss">re-explains</div></div>
+              <div class="pt"><div class="d"></div><div class="tt">Mon 11a</div><div class="ss">answer</div></div>
+              <div class="badge"><div class="bn">4 DAYS</div><div class="bl">6 touchpoints</div></div>
+            </div>
           </div>
-        </div>
-        <div class="mathrow">
-          <div class="mathbox"><div class="n">70,000</div><div class="l">comp cases · FY26</div></div>
-          <div class="mathop">×</div>
-          <div class="mathbox"><div class="n">9.8</div><div class="l">avg days to close</div></div>
-          <div class="mathop">=</div>
-          <div class="mathbox res"><div class="n">703,816</div><div class="l">case-days waiting / yr</div></div>
+          <div class="track agent">
+            <span class="tlabel">WITH COMP AGENT</span>
+            <div class="row">
+              <div class="pt"><div class="d"></div><div class="tt">3:14:00</div><div class="ss">asks in Slack</div></div>
+              <div class="pt"><div class="d"></div><div class="tt">3:14:03</div><div class="ss">checks Org62</div></div>
+              <div class="pt"><div class="d"></div><div class="tt">3:14:05</div><div class="ss">policy + knowledge</div></div>
+              <div class="pt"><div class="d"></div><div class="tt">3:14:08</div><div class="ss">draft answer</div></div>
+              <div class="pt"><div class="d"></div><div class="tt">3:14:12</div><div class="ss">delivered</div></div>
+              <div class="badge"><div class="bn">12 SEC</div><div class="bl">1 touchpoint</div></div>
+            </div>
+          </div>
+          <div class="mathrow" style="margin-top:4px;">
+            <div class="mathbox"><div class="n">70,000</div><div class="l">comp cases · FY26</div></div>
+            <div class="mathop">×</div>
+            <div class="mathbox"><div class="n">9.8</div><div class="l">avg days to close</div></div>
+            <div class="mathop">=</div>
+            <div class="mathbox res"><div class="n">703,816</div><div class="l">case-days waiting / yr</div></div>
+          </div>
         </div>
       </div>
 

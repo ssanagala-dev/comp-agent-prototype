@@ -318,6 +318,7 @@
   <div class="tab" data-tab="deck"><span>▤</span> Walking Deck</div>
   <div class="tab" data-tab="deps"><span>⬡</span> Dependencies</div>
   <div class="tab" data-tab="team"><span>◇</span> Team Structure</div>
+  <div class="tab" data-tab="metrics"><span>📊</span> Metrics</div>
 </div>
 
 <div class="wrap">
@@ -794,6 +795,45 @@
       </div>
     </div>
     <div class="callout"><b>GIC and DET are equal partners.</b> GIC leads program governance, ops, systems and analytics; DET owns Sales Comp leadership, product and engineering — with APX providing program management, risk and architecture across both.</div>
+  </div>
+</div>
+
+<!-- ============ TAB — METRICS ============ -->
+<div class="panel" id="metrics">
+  <div class="hero">
+    <div class="kick">Live Data</div>
+    <h1>Comp Agent — Usage &amp; Performance Metrics</h1>
+    <p>Live session data from the Comp Agent. Refresh the page or click the button below to pull the latest numbers.</p>
+    <svg class="spk" style="top:26px;right:210px;width:20px;color:#f5b800;"><use href="#spark"/></svg>
+    <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
+  </div>
+
+  <div class="sec">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div>
+        <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Google Apps Script Dashboard</div>
+        <h2 style="margin-top:4px;">Session metrics</h2>
+      </div>
+      <button onclick="document.getElementById('metricsFrame').src=document.getElementById('metricsFrame').src"
+        style="display:inline-flex;align-items:center;gap:8px;background:var(--royal);color:#fff;font-size:13px;font-weight:800;
+        padding:9px 18px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(13,110,253,.25);">
+        ↺ Refresh Metrics
+      </button>
+    </div>
+
+    <div class="callout" style="margin-bottom:16px;">
+      <b>Note:</b> This dashboard does not auto-refresh. Click <b>↺ Refresh Metrics</b> above to pull the latest data.
+    </div>
+
+    <div style="border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);">
+      <iframe
+        id="metricsFrame"
+        src="https://script.google.com/a/macros/salesforce.com/s/AKfycbySxCgxBFsZpACW7P7w8TQ1qveGH6j_lieYcieaKkqLmoGAUQaEX6jFewvWAyu8ia7dpw/exec"
+        style="width:100%;height:780px;border:none;display:block;background:#f6fafe;"
+        title="Comp Agent Metrics Dashboard"
+        loading="lazy">
+      </iframe>
+    </div>
   </div>
 </div>
 

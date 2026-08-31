@@ -809,32 +809,25 @@
   </div>
 
   <div class="sec">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-      <div>
-        <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Google Apps Script Dashboard</div>
-        <h2 style="margin-top:4px;">Session metrics</h2>
-      </div>
-      <button onclick="document.getElementById('metricsFrame').src=document.getElementById('metricsFrame').src"
-        style="display:inline-flex;align-items:center;gap:8px;background:var(--royal);color:#fff;font-size:13px;font-weight:800;
-        padding:9px 18px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(13,110,253,.25);">
-        ↺ Refresh Metrics
-      </button>
+    <div style="margin-bottom:16px;">
+      <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Google Apps Script Dashboard</div>
+      <h2 style="margin-top:4px;">Session metrics</h2>
     </div>
 
     <div class="callout" style="margin-bottom:16px;">
-      <b>Note:</b> This dashboard does not auto-refresh. Click <b>↺ Refresh Metrics</b> above to pull the latest data.
+      <b>Note:</b> This dashboard does not auto-refresh. Reload the page to pull the latest data.
     </div>
 
-    <div style="border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);">
-      <div style="overflow:hidden;height:620px;">
-        <iframe
-          id="metricsFrame"
-          src="https://script.google.com/a/macros/salesforce.com/s/AKfycbySxCgxBFsZpACW7P7w8TQ1qveGH6j_lieYcieaKkqLmoGAUQaEX6jFewvWAyu8ia7dpw/exec"
-          style="width:100%;height:900px;border:none;display:block;background:#f6fafe;"
-          title="Comp Agent Metrics Dashboard"
-          loading="lazy">
-        </iframe>
-      </div>
+    <div style="border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);position:relative;">
+      <iframe
+        id="metricsFrame"
+        src="https://script.google.com/a/macros/salesforce.com/s/AKfycbySxCgxBFsZpACW7P7w8TQ1qveGH6j_lieYcieaKkqLmoGAUQaEX6jFewvWAyu8ia7dpw/exec"
+        scrolling="no"
+        style="width:100%;height:620px;border:none;display:block;border-radius:14px;background:#f6fafe;"
+        title="Comp Agent Metrics Dashboard"
+        loading="lazy">
+      </iframe>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:220px;background:var(--wash);border-radius:0 0 14px 14px;pointer-events:none;"></div>
     </div>
   </div>
 </div>

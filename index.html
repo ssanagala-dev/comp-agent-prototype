@@ -350,7 +350,7 @@
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> The Solution</div>
     <h2>Just ask. Right in Slack.</h2>
-    <p class="lead">The Comp Agent lives inside Sales Agent — where sellers already work — as a Sub Agent within the Sales Agent in Org62. Anyone asks in plain language and gets an instant, grounded answer from the compensation system of record. When something genuinely needs a human, it routes to the right team.</p>
+    <p class="lead">The Incentive Compensation Skill lives inside Slackbot — where sellers already work. Ask in plain language and get an instant, grounded answer from the compensation system of record. When something genuinely needs a human, it routes to the right team.</p>
     <div class="grid c3">
       <div class="box sky"><h4>Real-time interaction</h4>Ask in plain language in Slack — no case, no queue, no context switch.</div>
       <div class="box sky"><h4>Instant resolutions</h4>Grounded answers from Org62 &amp; Spiff, with the reasoning shown — never a guessed number.</div>
@@ -374,24 +374,24 @@
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> The Pivot</div>
     <h2>Same engine, new front door</h2>
-    <p class="lead">The seller never leaves Slack. Today comp rides inside the broad <b>Sales Agent</b> in Slack; the pivot is a dedicated <b>Incentive Compensation</b> Slackbot skill — purpose-built for comp, without rebuilding the engine. Same headless Comp Agent, called a different way.</p>
+    <p class="lead">The seller never leaves Slack. The Incentive Compensation Skill is purpose-built for comp — a dedicated Slackbot skill that routes through MCP into the same headless Comp Agent. Same engine, better front door.</p>
     <div class="grid c2">
-      <div class="cmp today">
-        <div class="h">TODAY · Sales Agent in Slack</div>
-        <div class="st"><div class="n">1</div><div><h4>Already in Slack</h4><p>Comp rides inside the broad Sales Agent.</p></div></div>
-        <div class="st"><div class="n">2</div><div><h4>One agent, many jobs</h4><p>Comp is one of many things it handles.</p></div></div>
-        <div class="st"><div class="n">3</div><div><h4>Ask your question</h4><p>Get the answer in the DM.</p></div></div>
-        <div class="st"><div class="n">4</div><div><h4>General-purpose</h4><p>Not purpose-built for comp reasoning.</p></div></div>
-      </div>
       <div class="cmp after">
-        <div class="h">AFTER · Incentive Compensation skill</div>
-        <div class="st"><div class="n">1</div><div><h4>Still in Slack</h4><p>Same flow — no new tool.</p></div></div>
-        <div class="st"><div class="n">2</div><div><h4>Add the skill once</h4><p>"Incentive Compensation" in the Slackbot DM.</p></div></div>
-        <div class="st"><div class="n">3</div><div><h4>Just ask</h4><p>Purpose-built for comp questions.</p></div></div>
-        <div class="st"><div class="n">4</div><div><h4>Grounded answer</h4><p>Live comp answer in seconds, in the DM.</p></div></div>
+        <div class="h">TODAY · Incentive Compensation Skill · GA Sep 22</div>
+        <div class="st"><div class="n">1</div><div><h4>Already in Slack</h4><p>Add the skill once in Slackbot — no new tool, no portal.</p></div></div>
+        <div class="st"><div class="n">2</div><div><h4>Purpose-built for comp</h4><p>Dedicated skill — not a general-purpose agent.</p></div></div>
+        <div class="st"><div class="n">3</div><div><h4>Just ask</h4><p>Plain language comp questions, answered instantly.</p></div></div>
+        <div class="st"><div class="n">4</div><div><h4>Grounded answer</h4><p>Live Org62 data, with reasoning shown — never a guess.</p></div></div>
+      </div>
+      <div class="cmp today">
+        <div class="h">HISTORY · Sales Agent Beta · Jul 14</div>
+        <div class="st"><div class="n">1</div><div><h4>Slack → Sales Agent</h4><p>Comp rode inside the broad Sales Agent in Agentforce.</p></div></div>
+        <div class="st"><div class="n">2</div><div><h4>One agent, many jobs</h4><p>Comp was one of many capabilities it handled.</p></div></div>
+        <div class="st"><div class="n">3</div><div><h4>UAT signal</h4><p>Sellers don't live in Agentforce — they live in Slack.</p></div></div>
+        <div class="st"><div class="n">4</div><div><h4>Pivot decision · Aug 26</h4><p>Moved to dedicated Slackbot skill without rebuilding the engine.</p></div></div>
       </div>
     </div>
-    <div class="callout"><b>The pivot sharpens the front door, not the engine</b> — from comp-inside-a-general-agent to a dedicated comp skill, same MCP + Apex tools, same live data. The seller stays exactly where they already work: Slack.</div>
+    <div class="callout"><b>Same engine, new front door.</b> The Comp Sub-Agent, MCP layer, and case creation are all unchanged. The Incentive Compensation Slackbot skill is the only net-new piece — purpose-built for comp, right where sellers already work.</div>
     <p style="margin-top:14px;font-size:14px;color:var(--mute)">Curious how it's wired end-to-end? See the <a href="#arch" class="archlink">Architecture</a> tab.</p>
   </div>
 </div>
@@ -401,30 +401,30 @@
   <div class="hero">
     <div class="kick">Architecture</div>
     <h1>How the Comp Agent is wired.</h1>
-    <p>The beta launched July 14 with the Comp Agent running as a sub-agent inside Sales Agent. The Slackbot pivot keeps that engine exactly as-is — adding one net-new dedicated skill as the front door. If you're new: read the <b>Current State</b> first, then the <b>Slackbot Pivot</b>.</p>
+    <p>The Incentive Compensation Skill lives in Slackbot — GA September 22. It routes via MCP into the same headless Comp Sub-Agent. One net-new component. Same engine.</p>
     <svg class="spk" style="top:26px;right:210px;width:20px;color:#f5b800;"><use href="#spark"/></svg>
     <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
   </div>
 
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> The Shift</div>
-    <h2>From beta to Slackbot pivot</h2>
-    <p class="lead">The north star is unchanged: seller comp answers in Slack. What changed is <b>who orchestrates</b>. The beta shipped with the Comp Agent living inside the broad Sales Agent; the pivot gives comp a dedicated Slackbot skill — purpose-built, without rebuilding the engine.</p>
+    <h2>How it works today</h2>
+    <p class="lead">The Incentive Compensation Skill is live in Slackbot — GA September 22. Same engine as beta, purpose-built front door.</p>
     <div class="grid c2">
-      <div class="cmp today">
-        <div class="h">CURRENT STATE · Beta Live (Jul 14)</div>
-        <div class="st"><div class="n">1</div><div><h4>Slack → Sales Agent</h4><p>Seller asks in Slack; Sales Agent (Agentforce) receives the request.</p></div></div>
-        <div class="st"><div class="n">2</div><div><h4>Comp Sub-Agent handles it</h4><p>Sales Agent routes comp intents to the Comp Sub-Agent.</p></div></div>
-        <div class="st"><div class="n">3</div><div><h4>Case creation when needed</h4><p>Comp Sub-Agent escalates to the Sales Support Agent for case creation.</p></div></div>
-      </div>
       <div class="cmp after">
-        <div class="h">SLACKBOT PIVOT · In Progress</div>
-        <div class="st"><div class="n">1</div><div><h4>Dedicated Slackbot skill</h4><p>Seller adds "Incentive Compensation" skill — comp has its own front door.</p></div></div>
-        <div class="st"><div class="n">2</div><div><h4>Skill calls Sales Agent MCP</h4><p>Routes directly into Agentforce via the existing Sales Agent MCP Server.</p></div></div>
-        <div class="st"><div class="n">3</div><div><h4>Same Comp Sub-Agent executes</h4><p>Same engine — reused, not rebuilt. Case creation unchanged.</p></div></div>
+        <div class="h">TODAY · Incentive Compensation Skill · GA Sep 22</div>
+        <div class="st"><div class="n">1</div><div><h4>Dedicated Slackbot skill</h4><p>Seller adds "Incentive Compensation" once — comp has its own front door in Slack.</p></div></div>
+        <div class="st"><div class="n">2</div><div><h4>Skill calls MCP → Headless Sales Agent</h4><p>Routes directly into Agentforce via MCP.</p></div></div>
+        <div class="st"><div class="n">3</div><div><h4>Comp Sub-Agent executes</h4><p>Same engine — reused, not rebuilt. Case creation unchanged.</p></div></div>
+      </div>
+      <div class="cmp today">
+        <div class="h">HISTORY · Sales Agent Beta · Jul 14 – Aug 26</div>
+        <div class="st"><div class="n">1</div><div><h4>Slack → Sales Agent</h4><p>Comp rode inside the broad Sales Agent in Agentforce.</p></div></div>
+        <div class="st"><div class="n">2</div><div><h4>Comp Sub-Agent handled it</h4><p>Sales Agent routed comp intents to the Comp Sub-Agent.</p></div></div>
+        <div class="st"><div class="n">3</div><div><h4>Pivot decision · Aug 26</h4><p>UAT showed sellers live in Slack, not Agentforce. Moved to dedicated skill.</p></div></div>
       </div>
     </div>
-    <div class="callout"><b>The pivot sharpens the front door, not the engine.</b> The Comp Sub-Agent already exists and is live. The pivot adds one net-new piece — the dedicated Slackbot skill — and routes it through the Sales Agent MCP Server already in place.</div>
+    <div class="callout"><b>Same engine, new front door.</b> The Comp Sub-Agent, MCP layer, and case creation are all unchanged. The Incentive Compensation Slackbot skill is the only net-new piece.</div>
   </div>
 
   <div class="sec">
@@ -440,8 +440,8 @@
 
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Target Architecture</div>
-    <h2>Slackbot pivot</h2>
-    <p class="lead">The Comp Sub-Agent already exists and is live. The pivot adds one net-new piece — a dedicated <b>Incentive Compensation Slackbot skill</b> — and routes it through the <b>Sales Agent MCP Server</b> already in place. No new MCP server needed.</p>
+    <h2>Incentive Compensation Skill · GA Sep 22</h2>
+    <p class="lead">One net-new component — the dedicated <b>Incentive Compensation Slackbot skill</b> — routes via MCP into the Comp Sub-Agent already in place. No new MCP server needed.</p>
 
     <div class="arch">
       <div class="atier">
@@ -463,7 +463,7 @@
           <div class="atier">
             <div class="anode"><div class="at">Headless Sales Agent</div><div class="as">owns the multi-turn thread</div></div>
             <div class="aarrow">→</div>
-            <div class="anode"><div class="at">Comp Sub-Agent</div><div class="as">already exists · live in beta · deterministic comp &amp; crediting</div></div>
+            <div class="anode"><div class="at">Comp Sub-Agent</div><div class="as">deterministic comp &amp; crediting</div></div>
             <div class="aarrow">→</div>
             <div class="anode"><div class="at">Sales Support Agent</div><div class="as">case creation when human needed</div></div>
           </div>
@@ -510,24 +510,24 @@
 
       </div>
 
-      <div class="acap">Seller asks in Slack → Incentive Compensation skill routes via Sales Agent MCP Server → Headless Sales Agent delegates to the Comp Sub-Agent (live in beta) → grounded on Org62, EOS &amp; Spiff data via Snowflake/Data Cloud today, direct Spiff MCP Server in future → escalates to Sales Support Agent for case creation when needed.</div>
+      <div class="acap">Seller asks in Slack → Incentive Compensation Skill routes via MCP → Headless Sales Agent delegates to the Comp Sub-Agent → grounded on Org62, EOS &amp; Spiff data via Snowflake/Data Cloud today, direct Spiff MCP Server in future → escalates to Sales Support Agent for case creation when needed.</div>
     </div>
 
-    <div class="callout green"><b>One net-new component.</b> The Incentive Compensation Slackbot skill is the only thing being built. The Sales Agent MCP Server, the Comp Sub-Agent, and case creation are all reused from what's already live.</div>
+    <div class="callout green"><b>One net-new component.</b> The Incentive Compensation Slackbot skill is the only thing built. The MCP layer, the Comp Sub-Agent, and case creation are all reused.</div>
   </div>
 
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Plan of Action</div>
     <h2>Four steps to delivery</h2>
-    <p class="lead">The Comp Sub-Agent and case creation are already live from beta. The pivot requires only wiring a new Slackbot skill through the existing MCP surface.</p>
+    <p class="lead">All four components are complete. GA is September 22.</p>
     <table class="t">
-      <tr><th style="width:52px;">Step</th><th>What we build</th><th>Status / note</th></tr>
-      <tr><td><b>1</b></td><td><b>Comp Sub-Agent</b> — all comp plan &amp; crediting logic, decoupled from the Sales Agent.</td><td><span style="color:#1a6c33;font-weight:800;">✓ Live in beta</span> — reuses existing sub-agent flows.</td></tr>
-      <tr><td><b>2</b></td><td><b>Sales Support Agent</b> — case creation when a human is needed.</td><td><span style="color:#1a6c33;font-weight:800;">✓ Live in beta</span> — reuses SSE case-creation logic.</td></tr>
-      <tr><td><b>3</b></td><td><b>Expose the Comp Sub-Agent via the Sales Agent MCP Server.</b></td><td>Thin wrapper — routes the skill into Agentforce.</td></tr>
-      <tr><td><b>4</b></td><td><b>Build the Incentive Compensation Slackbot skill</b> that invokes the MCP.</td><td>Net-new — needs coordination with Sales Support to minimize skill collision.</td></tr>
+      <tr><th style="width:52px;">Step</th><th>What we built</th><th>Status</th></tr>
+      <tr><td><b>1</b></td><td><b>Comp Sub-Agent</b> — all comp plan &amp; crediting logic.</td><td><span style="color:#1a6c33;font-weight:800;">✓ Complete</span></td></tr>
+      <tr><td><b>2</b></td><td><b>Sales Support Agent</b> — case creation when a human is needed.</td><td><span style="color:#1a6c33;font-weight:800;">✓ Complete</span></td></tr>
+      <tr><td><b>3</b></td><td><b>MCP routing</b> — exposes the Comp Sub-Agent via MCP Server.</td><td><span style="color:#1a6c33;font-weight:800;">✓ Complete</span></td></tr>
+      <tr><td><b>4</b></td><td><b>Incentive Compensation Slackbot skill</b> — the dedicated front door.</td><td><span style="color:#1a6c33;font-weight:800;">✓ Complete · GA Sep 22</span></td></tr>
     </table>
-    <div class="callout green"><b>Steps 1 and 2 are done.</b> The beta went live July 14. The pivot is steps 3 and 4 — wire the existing engine to a dedicated Slackbot skill through the Sales Agent MCP Server.</div>
+    <div class="callout green"><b>All steps complete.</b> The Incentive Compensation Skill is live in Slackbot. GA for all sellers September 22.</div>
   </div>
 
   <div class="sec">
@@ -581,9 +581,9 @@
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> High-Level Timeline</div>
     <h2>September: GA for Sellers</h2>
     <div class="path">
-      <div class="step done"><div class="dot"></div><div class="ph">Pilot Beta Live</div><div class="tm">Jul 14</div></div>
-      <div class="step now"><div class="dot"></div><div class="ph">UAT</div><div class="tm">Aug 26</div></div>
-      <div class="step"><div class="dot"></div><div class="ph">GA for Sellers</div><div class="tm">Sep 22</div></div>
+      <div class="step done"><div class="dot"></div><div class="ph">Sales Agent Beta</div><div class="tm">Jul 14</div></div>
+      <div class="step done"><div class="dot"></div><div class="ph">Slackbot Pivot</div><div class="tm">Aug 26</div></div>
+      <div class="step now"><div class="dot"></div><div class="ph">GA for Sellers</div><div class="tm">Sep 22</div></div>
       <div class="step"><div class="dot"></div><div class="ph">Spiff Integration</div><div class="tm">Q3</div></div>
       <div class="step"><div class="dot"></div><div class="ph">Ops Persona</div><div class="tm">Q3</div></div>
       <div class="step"><div class="dot"></div><div class="ph">GA for Ops</div><div class="tm">Q4</div></div>
@@ -797,7 +797,7 @@
   <div class="sec" style="margin-top:6px;">
     <div style="margin-bottom:14px;">
       <h2>Comp Agent — Usage &amp; Performance Metrics</h2>
-      <p class="lead">Live session data from the Comp Agent beta — updated each time you load this page.</p>
+      <p class="lead">Live session data from the Incentive Compensation Skill — updated each time you load this page.</p>
     </div>
     <!-- Clip the Sessions Requiring Attention section at the bottom by constraining the wrapper height -->
     <div style="border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);height:540px;overflow:hidden;">
@@ -816,7 +816,7 @@
   <div class="hero">
     <div class="kick">The Experience</div>
     <h1>Add the skill. Ask in Slack.</h1>
-    <p>Anyone in the workspace adds the <b>Incentive Compensation</b> skill to Slackbot — then asks in plain language, the same way they'd talk to Sales Agent. Grounded answers from Org62 &amp; Spiff, in the DM.</p>
+    <p>Anyone in the workspace adds the <b>Incentive Compensation</b> skill to Slackbot — then asks in plain language. Grounded answers from Org62 &amp; Spiff, right in the DM.</p>
     <svg class="spk" style="top:28px;right:200px;width:18px;color:#f5b800;"><use href="#spark"/></svg>
     <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
   </div>
@@ -830,7 +830,7 @@
   <div class="sec" style="margin-top:32px;">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> How the Skill Fires</div>
     <h2>"Incentive Compensation" — the Slackbot skill</h2>
-    <div class="callout"><b>Routing description:</b> Answers a person's compensation questions using their live Salesforce data — commission &amp; payout status, comp-plan &amp; quota, credit &amp; ACV on an order/opp, product/deal eligibility, Spiff visibility &amp; sync, and comp-plan/LOA timing. Retrieves real-time data from Org62 and Spiff via the Sales Agent MCP server — never estimates a number. Creates a support case when a human is needed.</div>
+    <div class="callout"><b>Routing description:</b> Answers a person's compensation questions using their live Salesforce data — commission &amp; payout status, comp-plan &amp; quota, credit &amp; ACV on an order/opp, product/deal eligibility, Spiff visibility &amp; sync, and comp-plan/LOA timing. Retrieves real-time data from Org62 and Spiff via MCP — never estimates a number. Creates a support case when a human is needed.</div>
     <div class="grid c2">
       <div class="box"><h4>How it's integrated</h4>
         <ul class="plain">
@@ -892,7 +892,7 @@
       <div class="slide" style="justify-content:center;gap:0;">
         <span class="snum">3 / 14</span>
         <div style="display:flex;flex-direction:column;justify-content:center;flex:1;gap:20px;">
-          <div class="kick">Instant answers — right inside Sales Agent, right inside Slack</div>
+          <div class="kick">Instant answers — right inside Slackbot, right where sellers already work</div>
           <h2 style="font-size:36px;line-height:1.15;max-width:700px;">Comp questions shouldn't mean a case and a wait.</h2>
           <p style="font-size:17px;color:var(--body);max-width:680px;line-height:1.6;">Every "Where's my comp plan?" or "Why isn't this order commissioned?" has meant logging a case, joining a queue, and losing selling time — across every seller, every plan change, every quarter.</p>
           <div style="display:flex;gap:24px;margin-top:8px;flex-wrap:wrap;">
@@ -917,7 +917,7 @@
         <span class="snum">4 / 14</span>
         <h2><span class="accent"></span>The Solution</h2>
         <h3 class="blue">Just ask. Right in Slack.</h3>
-        <p style="font-size:16px;max-width:840px;">The Comp Agent lives inside Sales Agent — where sellers already work — and functions as a Sub Agent within the Sales Agent in Org62. Sellers ask in plain language and get an instant, grounded answer from the compensation system of record. When something genuinely needs a human, it routes to the right team.</p>
+        <p style="font-size:16px;max-width:840px;">The Incentive Compensation Skill lives in Slackbot — where sellers already work. Ask in plain language and get an instant, grounded answer from the compensation system of record. When something genuinely needs a human, it routes to the right team.</p>
         <div style="display:flex;gap:14px;margin-top:24px;flex-wrap:wrap;">
           <div class="scard" style="flex:1;min-width:180px;"><h4>Real-time interaction</h4><p>Ask in plain language in Slack — no case, no queue, no context switch.</p></div>
           <div class="scard" style="flex:1;min-width:180px;"><h4>Instant resolutions</h4><p>Grounded answers from Org62 &amp; Spiff, with the reasoning shown — never a guessed number.</p></div>
@@ -1009,9 +1009,9 @@
         <h2>How It Works: Follow Alex's Question</h2>
         <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:18px;">
           <div class="scard" style="text-align:left;">
-            <div style="background:var(--aub);color:#fff;font-weight:800;font-size:12px;padding:5px 10px;border-radius:6px 6px 0 0;margin:-14px -16px 10px;"># Sales Agent · comp-questions</div>
+            <div style="background:var(--aub);color:#fff;font-weight:800;font-size:12px;padding:5px 10px;border-radius:6px 6px 0 0;margin:-14px -16px 10px;"># Slackbot · Incentive Compensation</div>
             <p style="font-size:13px;"><b>Alex Rivera</b> · 3:14 PM<br>Why am I only getting 50% credit on OPP-88512? Initech, Marketing Cloud Pilot, $120K — shouldn't this be 100%?</p>
-            <p style="font-size:13px;border-top:1px solid var(--line);padding-top:8px;"><b>⚡ Sales Agent</b> · <span style="background:var(--navy);color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;">AGENTFORCE</span><br>
+            <p style="font-size:13px;border-top:1px solid var(--line);padding-top:8px;"><b>⚡ Incentive Compensation</b> · <span style="background:var(--navy);color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;">SLACKBOT SKILL</span><br>
             <i style="color:var(--mute)">Pulling OPP-88512 from Compensation Agent…</i><br><br>
             <b>Initech – Marketing Cloud Pilot · $120K</b><br>Per FY27 Product Eligibility Matrix:<br>• Marketing Cloud is co-sold<br>• Base AE (you): 25%<br>• MC Specialist: 75%<br><br>Your 50% is the blended credit: <b>Sales Cloud (100%) + Marketing Cloud (25%) = 50% effective.</b></p>
           </div>
@@ -1052,7 +1052,7 @@
         <h3>📍 September: GA for Sellers</h3>
         <table>
           <tr><th>Phase</th><th>When</th><th>Milestone</th></tr>
-          <tr><td><b>Pilot Beta Live</b></td><td><b>Jul 14</b></td><td>Comp rides in the Sales Agent pilot</td></tr>
+          <tr><td><b>Sales Agent Beta</b></td><td><b>Jul 14</b></td><td>Comp rides in Sales Agent — internal pilot</td></tr>
           <tr><td><b>UAT</b></td><td><b>Aug 26</b></td><td>User acceptance testing for Slackbot pivot</td></tr>
           <tr><td><b>GA for Sellers</b></td><td><b>Sep 22</b></td><td>Dedicated "Incentive Compensation" skill · GA for sellers</td></tr>
           <tr><td>Spiff Integration</td><td>Q3</td><td>Wave 2 grounding</td></tr>
@@ -1086,7 +1086,7 @@
               <div class="atier">
                 <div class="anode"><div class="at">Headless Sales Agent</div><div class="as">owns the multi-turn thread</div></div>
                 <div class="aarrow">→</div>
-                <div class="anode"><div class="at">Comp Sub-Agent</div><div class="as">live in beta · comp &amp; crediting</div></div>
+                <div class="anode"><div class="at">Comp Sub-Agent</div><div class="as">comp &amp; crediting</div></div>
                 <div class="aarrow">→</div>
                 <div class="anode"><div class="at">Sales Support Agent</div><div class="as">case creation</div></div>
               </div>
@@ -1110,7 +1110,7 @@
             <div class="anode src"><div class="at">Apex services</div><div class="as">data &amp; knowledge</div></div>
           </div>
         </div>
-        <div class="big-quote" style="font-size:14px;">The Incentive Compensation skill is the only net-new piece — it routes via the Sales Agent MCP Server into the Comp Sub-Agent already live in beta, grounded on Org62, Snowflake, EOS &amp; Data Cloud.</div>
+        <div class="big-quote" style="font-size:14px;">The Incentive Compensation Skill is the only net-new piece — it routes via MCP into the Comp Sub-Agent, grounded on Org62, Snowflake, EOS &amp; Data Cloud.</div>
       </div>
 
       <!-- 13 Why it matters -->

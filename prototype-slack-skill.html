@@ -121,7 +121,10 @@
   .mtext ul{margin:6px 0;padding-left:22px;}
   .mtext li{margin:4px 0;}
   .mtext b{font-weight:800;}
-  .disclaimer{border-left:3px solid #dcdcdc;padding:8px 12px;margin:12px 0 4px;font-size:12.5px;color:#616061;font-style:italic;}
+  .disclaimer{border-left:3px solid #dcdcdc;padding:8px 12px;margin:12px 0 4px;font-size:12px;color:#616061;}
+  .disclaimer p{margin:0 0 5px;font-style:italic;}
+  .survey-link{display:inline-block;margin-top:5px;font-size:12px;font-style:normal;color:#1264a3;font-weight:700;text-decoration:none;}
+  .survey-link:hover{text-decoration:underline;}
   .react{display:flex;gap:10px;margin-top:8px;color:#8a8a8a;font-size:15px;}
   .react span{cursor:pointer;} .react span:hover{color:#1d1c1d;}
   .canvas-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#616061;background:#f8f8f8;border:1px solid #e8e8e8;border-radius:5px;padding:3px 8px;margin-top:6px;cursor:pointer;}
@@ -726,7 +729,7 @@
     if (/(nnaov|net new|annual order value)/.test(t))
       return '<p>Net New Annual Order Value (NNAOV) is a company metric that measures net growth by combining expansion and loss. It\'s calculated as ACV minus Attrition, or Ending Total AOV minus Beginning Total AOV for a given period. NNAOV is applied across all eligible Customer 360 products and targeted at the Country Company or territory level.</p>' +
         '<p><b>Sources:</b></p><ul><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening NNAOV Policy Guide…\')">Global NNAOV Policy Guide</a></li><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening FAQs…\')">FY27 Net New AOV (NNAOV) FAQs OFFICIAL</a></li><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening policies…\')">FY27 Incentive Compensation Policies</a></li><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening enablement…\')">[SHARED] FY27 GIC G4G NNAOV Enablement</a></li></ul>' +
-        '<div class="disclaimer"><b>Disclaimer:</b> Sales Agent is provided solely for sales enablement and does not replace, amend, or override the Plan Package.</div>';
+        '<div class="disclaimer"><p>The Incentive Compensation Skill surfaces information from the compensation system of record and does not calculate or modify any figures. This AI-generated response is informational and does not replace, amend, or override your official Compensation Plan, statement, or payout records which remain the source of truth.</p><a class="survey-link" href="https://sfdc.co/CompSlackbotSkillSurvey" target="_blank" rel="noopener">💬 Share your experience to help us improve — take our 2-min survey →</a></div>';
     if (/(loa|leave of absence|came back|returned from leave|maternity|paternity)/.test(t))
       return '<p>Your <b>LOA Return Comp Plan</b> has been created and is being finalized — it passes through internal audits before it\'s issued. Your adjusted LOA return plan generates mid-month after your return and finalizes within <b>1–2 months</b>. Track it on <a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening Compensation Station…\')">Compensation Station</a>. No action needed on your end.</p>';
     if (/(comp plan|my plan|which plan|plan status|pending quota|quota|territory|when.*plan|plan issued|where.*comp plan)/.test(t))

@@ -857,16 +857,57 @@
       chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case' };
   }
 
+  // Order recalculation (CEO adjustment / term change): commissionable ACV reduced after the month closed
+  const RECALC = /(recalculat|re-calculat|claw(ed)? ?back|already (been )?paid (on|for)|was paid (on|for) (it|this|that)|term (was |got )?(shortened|reduced|changed|cut)|shorter term|contract (ended|was shortened|changed)|rebook|negative (ppa|adjustment|line)|acv change line|acv.*(changed|change|reduc|went down|go down|dropped|lower)|commissionable acv|negative on a paid|paid deal)/;
+  const RECALC_ORDERS = {
+    '36221905': { acct: 'Globex', period: '2026-07-01', month: 'July', from: 'USD 120000', to: 'USD 90000', term: '12 months → 9 months', on: '2026-09-12', amt: '−$610', stmt: 'September' },
+    '36214477': { acct: 'Initech', period: '2026-06-01', month: 'June', from: 'USD 210000', to: 'USD 140000', term: '12 months → 8 months', on: '2026-08-06', amt: '−$2,450', stmt: 'August' }
+  };
+  const recalcList = () => table(['What changed', 'Month recalculated', 'Statement', 'Amount'], [
+    ['Plan change backdated to Jun 1', 'Jun–Jul orders', 'August', N('−$7,400')],
+    ['Commissionable ACV reduced, Order 36214477', 'June', 'August', N('−$2,450')],
+    ['Commissionable ACV reduced, Order 36221905', 'July', 'September', N('−$610')]
+  ]);
+  function recalcAnswer(ord) {
+    const r = RECALC_ORDERS[ord];
+    if (r) {
+      lastTopic = 'Order ' + ord + ' recalculated: commissionable ACV ' + r.from + ' → ' + r.to + ' on ' + r.on + ', ' + r.month + ' ' + r.amt + ' PPA on ' + r.stmt + ' statement';
+      return { html: '<p>Thank you for your inquiry <b>Sai Sowmya Sanagala</b>. Order <b>' + ord + '</b> was originally paid on a <b>12-month</b> term. On <b>' + r.on + '</b> the contract term was shortened, so commissionable ACV went from <b>' + r.from + '</b> to <b>' + r.to + '</b>.</p>' +
+        '<p>' + r.month + ' was recalculated on the new ACV, and the difference was recovered as a <b>prior period adjustment of ' + r.amt + '</b> on your ' + r.stmt + ' statement.</p>' +
+        '<p>Here are the details:</p>' +
+        skTable([
+          [['Order Number', ord], ['Account', r.acct], ['Commission Period', r.period], ['Commissionable ACV (before)', r.from], ['Commissionable ACV (after)', r.to], ['Changed On', r.on]],
+          [['Term', r.term], ['Payout Rule', 'ACV Change'], ['Recalculated Month', r.month], ['Adjustment', N(r.amt)], ['Shown On', r.stmt + ' statement, Prior Period Adjustments'], ['Commission Audit Comment', 'Contract amended, term reduced.']]
+        ]) +
+        '<p>If the term change doesn\'t look right, do you want me to raise a case with the Commission\'s team?</p>' +
+        sources('FY27 Incentive Compensation Policies', 'Prior Period Adjustments – Seller Guide'),
+        chips: ['Yes, raise a case', 'Why did my pay go down?'], suggest: 'Why did my pay go down?' };
+    }
+    if (ord) {
+      lastTopic = 'Order ' + ord + ': no recalculation found in Spiff';
+      return { html: '<p>Thank you for your inquiry <b>Sai Sowmya Sanagala</b>. I checked Spiff for Order <b>' + ord + '</b>: there\'s <b>no prior period adjustment</b> on it on your August, September or October statements, so it hasn\'t been recalculated after its month closed.</p>' +
+        '<p>These are the recalculations on your statements:</p>' + recalcList() +
+        '<p>Would you like me to explain one of these, or check how the credit on Order ' + ord + ' was calculated?</p>',
+        chips: ['Why was Order 36221905 recalculated?', 'What\'s my credit on Order ' + ord + '?'], noSources: true };
+    }
+    lastTopic = 'Recalculations on statements: plan change −$7,400 (Aug), Order 36214477 −$2,450 (Aug), Order 36221905 −$610 (Sep)';
+    return { html: '<p>Three changes recalculated earlier months on your statements. Each one shows as a prior period adjustment on the statement where it was processed:</p>' + recalcList() +
+      '<p>The plan change is also what started your negative balance. Which would you like me to explain? You can also give me an order number.</p>' +
+      sources('Prior Period Adjustments – Seller Guide', 'Spiff Statement FAQ'),
+      chips: ['Why was Order 36221905 recalculated?', 'Why was Order 36214477 recalculated?', 'I changed plans. Why is my pay lower?'] };
+  }
+
   // Pay timing on an order (Nov): where the order sits in Spiff decides the answer
   function spiffTiming(ord) {
     const s = SPIFF_ORDERS[ord];
     const hi = '<p>Thank you for your inquiry <b>Sai Sowmya Sanagala</b>. I checked Spiff for Order <b>' + ord + '</b>. ';
-    const ppaLine = { ppa: ['Core ACV', P('+$840'), '2026-08-01'], attr: ['Attrition Relief', P('+$1,050'), '2026-08-01'], team: ['Order Team Change (2 lines)', N('−$1,320'), '2026-07-01'], acv: ['ACV Change', N('−$610'), '2026-07-01'] }[s];
+    const ppaLine = { ppa: ['Core ACV', P('+$840'), '2026-08-01'], attr: ['Attrition Relief', P('+$1,050'), '2026-08-01'], team: ['Order Team Change (2 lines)', N('−$1,320'), '2026-07-01'], acv: ['ACV Change', N('−$610'), '2026-07-01'], acv2: ['ACV Change', N('−$2,450'), '2026-06-01', 'August', 'Sep 25', '2026-09-25'] }[s];
+    if (ppaLine && !ppaLine[3]) ppaLine.push('September', 'Oct 25', '2026-10-25');
     if (ppaLine) {
-      lastTopic = 'Order ' + ord + ', paid on September statement as PPA, Oct 25 payroll';
-      return { html: hi + 'It\'s <b>already been ' + (/neg/.test(ppaLine[1]) ? 'processed' : 'paid') + '</b>: it\'s on your <b>September</b> statement as a prior period adjustment of <b>' + ppaLine[1] + '</b>, which went out on the <b>Oct 25</b> payroll.</p>' +
+      lastTopic = 'Order ' + ord + ', paid on ' + ppaLine[3] + ' statement as PPA, ' + ppaLine[4] + ' payroll';
+      return { html: hi + 'It\'s <b>already been ' + (/neg/.test(ppaLine[1]) ? 'processed' : 'paid') + '</b>: it\'s on your <b>' + ppaLine[3] + '</b> statement as a prior period adjustment of <b>' + ppaLine[1] + '</b>, which went out on the <b>' + ppaLine[4] + '</b> payroll.</p>' +
         '<p>Here are the details:</p>' +
-        skTable([[['Order Number', ord], ['Found In', 'September statement, Prior Period Adjustments'], ['Payout Rule', ppaLine[0]], ['Commission Period', ppaLine[2]], ['Amount', ppaLine[1]], ['Paid On', '2026-10-25 payroll']]]) +
+        skTable([[['Order Number', ord], ['Found In', ppaLine[3] + ' statement, Prior Period Adjustments'], ['Payout Rule', ppaLine[0]], ['Commission Period', ppaLine[2]], ['Amount', ppaLine[1]], ['Paid On', ppaLine[5] + ' payroll']]]) +
         '<p>It shows as an adjustment because it was processed after its commission period closed. Would you like me to explain the line?</p>' + sources('GIC Consolidated Close Calendar', 'Prior Period Adjustments – Seller Guide'),
         chips: ['Why did my pay go down?', 'No, thanks'], suggest: 'Why did my pay go down?' };
     }
@@ -918,7 +959,7 @@
     '36230011': 'ppa',   // paid later as PPA
     '36240077': 'month', // on the open October statement
     '36250099': 'noteam', // not on the order team
-    '36198812': 'attr', '36203228': 'team', '36221905': 'acv'
+    '36198812': 'attr', '36203228': 'team', '36221905': 'acv', '36214477': 'acv2'
   };
 
   // ── Answer engine ──────────────────────────────────────────────────
@@ -933,10 +974,10 @@
       return { html: '<p>I can\'t estimate earnings on open deals. I can help with credit, eligibility and payout timing on orders that have closed. Give me the <b>order number</b>.</p>' };
     if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten)|check my commission)/.test(t) && ord)
       return orderCheck(ord);
-    const ppaWords = /(credit (was |got )?(modified|changed|reassigned|removed|moved|reduced)|order team|my split|split (changed|%|percent)|reassign|removed from|acv (change|reduc|went down|dropped|lower)|negative on a paid|paid deal|commissionable acv|\bnrr\b|net revenue rule)/;
-    if (ord && !/(ppa|prior period|attrition|eligib)/.test(t) && (ppaWords.test(t) || ['36198812', '36203228', '36221905'].includes(ord)))
+    const ppaWords = /(recalculat|claw(ed)? ?back|term (was |got )?(shortened|reduced|changed|cut)|shorter term|contract (ended|was shortened)|negative (ppa|adjustment|line)|already (been )?paid (on|for)|credit (was |got )?(modified|changed|reassigned|removed|moved|reduced)|order team|my split|split (changed|%|percent)|reassign|removed from|acv (change|reduc|went down|dropped|lower)|negative on a paid|paid deal|commissionable acv|\bnrr\b|net revenue rule)/;
+    if (ord && !/(ppa|prior period|attrition|eligib)/.test(t) && (ppaWords.test(t) || RECALC.test(t) || ['36198812', '36203228', '36221905', '36214477'].includes(ord)))
       return creditBreakdown(ord);
-    if (ppaWords.test(t) || /(why am i negative|in the red|owe|how long.*(balance|negative|recover)|by component|component breakdown|which component|per component|xactly|no (order|deal|opp)|nnaov territory|what is this .*line|attainment)/.test(t) ||
+    if (ppaWords.test(t) || RECALC.test(t) || /(why am i negative|in the red|owe|how long.*(balance|negative|recover)|by component|component breakdown|which component|per component|xactly|no (order|deal|opp)|nnaov territory|what is this .*line|attainment)/.test(t) ||
         /(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|changed plans|\bytd\b|how much did i (earn|make)|spiff|statement)/.test(t)) {
       lastTopic = 'Spiff statement question: "' + t.slice(0, 80) + '"';
       return { html: '<p>I don\'t have access to your Spiff statement, so I can\'t explain balances, adjustment lines or statement totals. I can check what <b>Org62</b> shows for a specific order and help compare it with what you\'re seeing in Spiff.</p><p>Share the <b>order number</b>, or I can open a case with Comp Ops.</p>',
@@ -948,6 +989,8 @@
   function answerFor(text) {
     const t = text.toLowerCase();
     const ord = orderFrom(text);
+    if (MODE !== 'ga' && ord && !(SPIFF_ORDERS[ord] && !RECALC_ORDERS[ord]) && (RECALC.test(t) || (RECALC_ORDERS[ord] && !/(eligib|when|credit on|my credit)/.test(t))))
+      return recalcAnswer(ord);
     if (ord && !SPIFF_ORDERS[ord] && /(lower|less|wrong|incorrect|short|underpaid|under ?credited|not right|doesn'?t (match|look right)|mismatch|reduced|smaller|than expected|discrepan|only getting|why.*(credit|commission|acv) (is|was))/.test(t))
       return creditBreakdown(ord);
     // Guardrail: only the seller's own data
@@ -1054,11 +1097,8 @@
     }
 
     // ── PPA B3: commissionable ACV change ──
-    if (/(acv (change|reduc|went down|dropped|lower)|negative on a paid|paid deal|commissionable acv)/.test(t) || (ord === '36221905' && !/(eligib|when.*paid)/.test(t)))
-      return { html: '<p>Commissionable ACV on <b>Order 36221905</b> went from <b>$120,000</b> to <b>$96,000</b> on <b>Sep 12</b>, after the order was rebooked with a shorter term.</p>' +
-        '<p>July was recalculated on the new ACV: <b>−$610</b> on your September statement as a prior period adjustment.</p>' +
-        sources('FY27 Incentive Compensation Policies', 'Prior Period Adjustments – Seller Guide'),
-        chips: ['Why did my pay go down?', 'Which products on Order 36221905 are eligible?'] };
+    if (/(negative on a paid|paid deal|acv change line|acv change on my statement)/.test(t)) return recalcAnswer('36221905');
+    if (RECALC.test(t) && !/(plan change|changed plans)/.test(t)) return recalcAnswer(ord);
 
     // ── PPA B4: NRR ──
     if (/(\bnrr\b|net revenue rule)/.test(t))

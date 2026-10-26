@@ -202,6 +202,24 @@
   .device .bar .dacts button.pri{background:var(--royal);color:#fff;border-color:var(--royal);}
   .device iframe{width:100%;height:760px;border:none;border-radius:9px;background:#fff;display:block;}
   .device iframe:fullscreen{height:100vh;border-radius:0;}
+.cmp-toggle{display:flex;justify-content:center;gap:8px;margin:0 0 14px;}
+  .cmp-toggle button{border:1px solid var(--line);background:#fff;color:var(--navy);font:800 13px var(--font);padding:8px 16px;border-radius:9px;cursor:pointer;}
+  .cmp-toggle button.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .cmp{display:none;}
+  .cmp .askbar{display:flex;gap:8px;margin-bottom:10px;}
+  .cmp .askbar input{flex:1;border:1px solid var(--line);border-radius:9px;padding:10px 14px;font:14px var(--font);}
+  .cmp .askbar button{background:var(--royal);color:#fff;border:none;border-radius:9px;padding:10px 18px;font:800 14px var(--font);cursor:pointer;}
+  .cmp .presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+  .cmp .presets button{border:1px solid var(--sky2);background:#fff;border-radius:14px;padding:5px 12px;font:600 12.5px var(--font);color:var(--navy);cursor:pointer;}
+  .cmp .presets button:hover{background:var(--sky);}
+  .cmp .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .cmp .pane h4{margin:0 0 6px;font-size:14px;color:var(--navy);display:flex;align-items:center;gap:8px;}
+  .cmp .pane h4 .pill{font-size:11px;font-weight:800;border-radius:5px;padding:2px 8px;}
+  .cmp .pane.ga .pill{background:#eef0f3;color:#454545;} .cmp .pane.nov .pill{background:#611f69;color:#fff;}
+  .cmp .pane iframe{width:100%;height:640px;border:1px solid var(--line);border-radius:10px;background:#fff;display:block;}
+  .cmp table.diff{width:100%;border-collapse:collapse;margin-top:18px;background:#fff;font-size:13.5px;}
+  .cmp table.diff th{text-align:left;font-size:11px;text-transform:uppercase;color:var(--navy);padding:8px 10px;border-bottom:2px solid var(--line);background:#f6f7f9;}
+  .cmp table.diff td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
   .proto-cap{font-size:13px;color:var(--mute);margin-top:12px;text-align:center;}
 
   /* ===== SLIDESHOW (matches deck) ===== */
@@ -847,7 +865,39 @@
     <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
   </div>
 
-  <div class="device">
+  <div class="cmp-toggle">
+    <button id="mSingle" class="on" onclick="protoMode('single')">▶ Try it</button>
+    <button id="mCmp" onclick="protoMode('cmp')">⇆ Compare GA vs. Nov release</button>
+  </div>
+
+  <div class="cmp" id="cmpView">
+    <div class="askbar">
+      <input id="cmpQ" placeholder="Ask both versions the same question…" onkeydown="if(event.key==='Enter')askBoth()">
+      <button onclick="askBoth()">Ask both</button>
+    </div>
+    <div class="presets">
+      <button onclick="askBoth('Why do I have a negative balance?')">Why do I have a negative balance?</button>
+      <button onclick="askBoth('Why did my pay go down?')">Why did my pay go down?</button>
+      <button onclick="askBoth('I don\'t see credit for Order 36230011')">I don't see credit for Order 36230011</button>
+      <button onclick="askBoth('Where\'s my Territory ACV?')">Where's my Territory ACV?</button>
+      <button onclick="askBoth('What\'s the red number at the top?')">What's the red number at the top?</button>
+      <button onclick="askBoth('What is my comp plan status?')">What is my comp plan status? (same in both)</button>
+    </div>
+    <div class="pair">
+      <div class="pane ga"><h4>Current GA <span class="pill">Live today</span></h4><iframe id="cmpGA" title="Current GA"></iframe></div>
+      <div class="pane nov"><h4>Nov release <span class="pill">Spiff · preview</span></h4><iframe id="cmpNov" title="Nov release"></iframe></div>
+    </div>
+    <table class="diff">
+      <tr><th style="width:26%">Seller asks about</th><th>Current GA</th><th>Nov release</th></tr>
+      <tr><td>Negative balance / red number</td><td>Can't see the Spiff statement; offers a case</td><td>Start month, reason, net math, remaining balance; no payoff date</td></tr>
+      <tr><td>Prior period adjustments ("why did my pay go down?")</td><td>Can't see the Spiff statement; offers a case</td><td>Each adjustment line explained; quarterly, attrition relief, order team change, ACV change, manual adjustments</td></tr>
+      <tr><td>Missing credit on an order</td><td>Checks Org62 only (order team, incent date, eligibility)</td><td>Checks Spiff first: paid later as an adjustment, on the open statement, or not on the order team</td></tr>
+      <tr><td>Draws, tier shift, balances from Xactly</td><td>Can't see the Spiff statement; offers a case</td><td>Names the line and passes it to Comp Ops</td></tr>
+      <tr><td>Comp plan, eligibility, NNAOV, LOA, payout timing</td><td colspan="2">Same in both</td></tr>
+    </table>
+  </div>
+
+  <div class="device" id="singleView">
     <div class="bar"><span></span><span></span><span></span>
       <div class="dacts">
         <button class="pv" data-v="ga" onclick="protoVersion('ga')">Current GA</button>
@@ -857,6 +907,21 @@
       </div>
     </div>
     <script>
+      function protoMode(m){
+        const cmp = m === 'cmp';
+        document.getElementById('cmpView').style.display = cmp ? 'block' : 'none';
+        document.getElementById('singleView').style.display = cmp ? 'none' : 'block';
+        document.getElementById('mCmp').classList.toggle('on', cmp);
+        document.getElementById('mSingle').classList.toggle('on', !cmp);
+        const ga = document.getElementById('cmpGA'), nov = document.getElementById('cmpNov');
+        if (cmp && !ga.src) { ga.src = 'prototype-slack-skill.html?v=ga&compact=1'; nov.src = 'prototype-slack-skill.html?compact=1'; }
+      }
+      function askBoth(text){
+        const inp = document.getElementById('cmpQ');
+        text = text || inp.value.trim(); if (!text) return;
+        inp.value = '';
+        ['cmpGA','cmpNov'].forEach(id => { const w = document.getElementById(id).contentWindow; if (w && w.ask) w.ask(text); });
+      }
       function protoVersion(v){
         const src = v === 'ga' ? 'prototype-slack-skill.html?v=ga' : 'prototype-slack-skill.html';
         document.getElementById('protoFrame').src = src;

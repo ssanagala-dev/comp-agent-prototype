@@ -284,6 +284,15 @@
   .ver a{color:#d6c6d7;font-size:12px;font-weight:700;padding:2px 9px;border-radius:4px;cursor:pointer;text-decoration:none;white-space:nowrap;}
   .ver a.on{background:#fff;color:#3f0e40;}
   .ga-only{display:none;} body.ga .ga-only{display:block;} body.ga .nov-only{display:none !important;}
+  .newtag{display:inline-block;background:#611f69;color:#fff;font-size:10px;font-weight:900;letter-spacing:.4px;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle;}
+  .newtag.concept{background:#ecb22e;color:#3f0e40;}
+  .verbar{display:block;padding:6px 20px;line-height:1.5;font-size:12.5px;border-bottom:1px solid #e8e8e8;flex-shrink:0;}
+  .verbar.ga{background:#f4f4f4;color:#454545;}
+  .verbar.nov{background:#f4edf6;color:#3f0e40;}
+  .verbar b{font-weight:900;}
+  body.compact .side,body.compact .files-panel,body.compact .skill-detail,body.compact .topsearch{display:none !important;}
+  body.compact .main{min-width:0;}
+  body.compact .chead-icons{display:none;}
   .fs-btn{color:#e9def0;font-size:12px;cursor:pointer;border:1px solid #6b3e6c;border-radius:5px;padding:2px 8px;}
   .fs-btn:hover{background:#5a2a5b;}
 
@@ -427,6 +436,7 @@
         <span style="cursor:pointer">✕</span>
       </div>
     </div>
+    <div class="verbar" id="verbar"></div>
     <div class="ctabs">
       <div class="ct active" onclick="switchTab('messages',this)">💬 Messages</div>
       <div class="ct" onclick="switchTab('history',this)">🕘 History</div>
@@ -437,7 +447,7 @@
 
     <!-- MESSAGES TAB -->
     <div class="tab-panel active" id="tab-messages" style="padding:0;overflow:hidden;flex:1;min-height:0;">
-      <div id="stream" style="padding:0 20px 8px;flex:1;overflow-y:auto;min-height:0;">
+      <div id="stream" style="position:relative;padding:0 20px 8px;flex:1;overflow-y:auto;min-height:0;">
         <div class="welcome" id="welcomeState">
           <svg class="wlogo" viewBox="0 0 36 36"><use href="#slackbot"/></svg>
           <h3>Good afternoon, ssanagala!</h3>
@@ -629,6 +639,15 @@
   const MODE = new URLSearchParams(location.search).get('v') === 'ga' ? 'ga' : 'nov';
   if (MODE === 'ga') document.body.classList.add('ga');
   document.getElementById(MODE === 'ga' ? 'vGA' : 'vNov').classList.add('on');
+  const COMPACT = new URLSearchParams(location.search).has('compact');  // used by the hub's side-by-side compare
+  if (COMPACT) document.body.classList.add('compact');
+  (function () {
+    const vb = document.getElementById('verbar');
+    vb.className = 'verbar ' + MODE;
+    vb.innerHTML = MODE === 'ga'
+      ? '<b>Current GA</b> · what sellers have in Slack today. No Spiff statement data.'
+      : '<b>Nov release preview</b> · answers marked <span class="newtag">NEW</span> aren\'t live yet. Everything else works the same as GA today.';
+  })();
   function setVersion(v) {
     if (v === MODE) return;
     const u = new URL(location.href);
@@ -676,7 +695,7 @@
     playBtn.classList.add('pulse');
     const badge = document.getElementById('skillBadge');
     if (badge) { badge.textContent = 'Added'; badge.style.background='#e6f4ea'; badge.style.color='#1e7e34'; }
-    showToast('⚡ Incentive Compensation added to Slackbot. Press ▶ to run it.', 3200);
+    if (!COMPACT) showToast('⚡ Incentive Compensation added to Slackbot. Press ▶ to run it.', 3200);
   }
 
   function toggleSkill(on) {
@@ -788,7 +807,10 @@
       '<div class="msg" id="' + id + '"><div class="ava slk">' + SB + '</div><div class="mbody">' +
       '<div class="mhead"><span class="nm">Slackbot</span><span class="tm">' + now() + '</span></div>' +
       inner + reactBar(id) + '</div></div>');
-    scrollDown();
+    // Long answers: show the start of the reply, not the bottom
+    const el = document.getElementById(id);
+    if (el.offsetHeight > stream.clientHeight) stream.scrollTop = el.offsetTop - 8;
+    else scrollDown();
   }
 
   function setSuggest(text) {
@@ -821,9 +843,9 @@
         '<li><b>Product eligibility</b> — which products on an order qualify for commission</li>' +
         '<li><b>Attrition relief</b> — eligibility check on a specific order</li>' +
         '<li><b>Comp plans</b> — LOA plans, plan components, G4G, and related questions</li>' +
-        (MODE === 'ga' ? '' : '<li><b>Your Spiff statement</b> — negative balance (balance carry forward), the red number at the top, prior period adjustments</li>') +
+        (MODE === 'ga' ? '' : '<li><b>Your Spiff statement</b><span class="newtag">NEW</span> — negative balance (balance carry forward), the red number at the top, prior period adjustments</li>') +
         '<li><b>Commission policies</b> — NNAOV, recoverable draws, attrition relief rules</li>' +
-        (MODE === 'ga' ? '' : '<li><b>What-if on open deals</b> — see what a deal is worth to you, or what a slip costs</li>') +
+        (MODE === 'ga' ? '' : '<li><b>What-if on open deals</b><span class="newtag concept">CONCEPT</span> — see what a deal is worth to you, or what a slip costs</li>') +
         '</ul>' +
         '<p>What would you like to know?</p>' +
         '</div>' +
@@ -1130,9 +1152,15 @@
 
     typing('Incentive Compensation is looking into it');
     const a = answerFor(text);
+    let tag = '';
+    if (MODE === 'nov') {
+      const tl = text.toLowerCase(), o = (text.match(/\b(\d{8})\b/) || [])[1];
+      if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(tl)) tag = '<span class="newtag concept">CONCEPT · not in a release</span>';
+      else { const keep = lastTopic; const g = gaOnly(tl, o); lastTopic = keep; if (g) tag = '<span class="newtag">NEW · Nov release</span>'; }
+    }
     setTimeout(() => {
       botMsg(
-        '<div class="used-skill">⚡ Used <b>Incentive Compensation</b></div>' +
+        '<div class="used-skill">⚡ Used <b>Incentive Compensation</b>' + tag + '</div>' +
         '<div class="invoke" onclick="showToast(\'Seller Hub (Salesforce) · Sales Agent\')"><span class="bullet">●</span> Used <b>&nbsp;Sales Agent&nbsp;</b> from Seller Hub (Salesforce) ›</div>' +
         '<div class="mtext">' + a.html + '</div>' +
         (a.raw ? '' : DISCLAIMER) +
@@ -1176,6 +1204,8 @@
       skillPicker.style.display = 'none';
     }
   });
+
+  if (COMPACT) setTimeout(ensureAndLaunch, 200);
 
   document.querySelector('.topsearch .box').addEventListener('click', () => {
     showToast('🔍 Search coming soon in prototype');

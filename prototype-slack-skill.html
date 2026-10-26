@@ -884,6 +884,7 @@
   const SPIFF_ORDERS = {
     '36230011': 'ppa',   // paid later as PPA
     '36240077': 'month', // on the open October statement
+    '36250099': 'noteam', // not on the order team
     '36198812': 'attr', '36203228': 'team', '36221905': 'acv'
   };
 
@@ -1049,20 +1050,42 @@
     // ── Missing credit: Spiff first, then order team ──
     if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten)|check my commission)/.test(t) && ord) {
       const s = SPIFF_ORDERS[ord];
-      if (s === 'ppa')
-        return { html: '<p>I found <b>Order ' + ord + '</b> in Spiff. It belongs to <b>August</b> (commission period) but was processed after August closed, so it was paid on your <b>September</b> statement as a prior period adjustment: <b>+$840</b>.</p>' +
-          '<p>You\'ll find it under <b>Prior Period Adjustments</b>, payout rule <b>Core ACV</b>.</p>' + sources('Prior Period Adjustments – Seller Guide', 'GIC Consolidated Close Calendar'),
-          chips: ['Why did my pay go down?', 'When will I be paid for Order 36240077?'] };
-      if (s === 'month')
-        return { html: '<p><b>Order ' + ord + '</b> is on your <b>October</b> statement: Core ACV, <b>+$1,960</b>. October is still open, so the statement is a preview until the month closes.</p>' + sources('GIC Consolidated Close Calendar'),
-          chips: ['When will I be paid for Order 36240077?'] };
-      if (s) return answerFor('order ' + ord + ' ppa');
-      return orderCheck(ord, ' It isn\'t on your Spiff statements yet.');
-      lastTopic = 'Order ' + ord + ', not in Spiff, seller not on order team';
-      return { html: '<p>I couldn\'t find <b>Order ' + ord + '</b> on your Spiff statements, so I checked the order team: <b>you\'re not on it</b>, which is why there\'s no credit yet.</p>' +
-        '<p>Once you\'re added to the order team, the credit appears after the month-end adjustment run. If you think you should be on it, I can pass it to Comp Ops.</p>' +
-        sources('FY27 Incentive Compensation Policies', 'Spiff Statement FAQ'),
-        chips: ['Pass this to Comp Ops'] };
+      if (s && s !== 'ppa' && s !== 'month' && s !== 'noteam') return answerFor('order ' + ord + ' ppa');
+      const hi = '<p>Thank you for your inquiry <b>Sai Sowmya Sanagala</b>. I checked Spiff for Order <b>' + ord + '</b> by order, opportunity and account. ';
+      const ask = '<p>Do you want me to raise a case with the Commission\'s team? I\'ll include these details so you won\'t need to repeat them.</p>';
+      const caseChips = { chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
+      if (s === 'ppa') {
+        lastTopic = 'Order ' + ord + ', August credit paid on September statement as PPA, +$840';
+        return { html: hi + 'Your commission is there: it belongs to <b>August</b> but was processed after August closed, so it was paid on your <b>September</b> statement as a <b>prior period adjustment of +$840</b>. That\'s why it isn\'t in your August commission.</p>' +
+          '<p>Here are the details:</p>' +
+          skTable([[['Order Number', ord], ['Found In', 'September statement, Prior Period Adjustments'], ['Payout Rule', 'Core ACV'], ['Commission Period', '2026-08-01'], ['Processed In', '2026-09 (after August closed)'], ['Amount', P('+$840')]]]) +
+          '<p>No action is needed. Would you like me to explain the other prior period adjustments on your September statement?</p>' +
+          sources('Prior Period Adjustments – Seller Guide', 'GIC Consolidated Close Calendar'),
+          chips: ['Why did my pay go down?', 'No, thanks'], suggest: 'Why did my pay go down?' };
+      }
+      if (s === 'month') {
+        lastTopic = 'Order ' + ord + ', on open October statement, +$1,960';
+        return { html: hi + 'Your commission is on your <b>October</b> statement: <b>+$1,960</b>. October is still open, so the statement is a preview and can change until the month closes.</p>' +
+          '<p>Here are the details:</p>' +
+          skTable([[['Order Number', ord], ['Found In', 'October statement (open, preview)'], ['Payout Rule', 'Core ACV'], ['Commission Period', '2026-10-01'], ['Amount', P('+$1,960')]]]) +
+          '<p>It\'s paid once October closes, per the close calendar. Do you want the October pay date?</p>' + sources('GIC Consolidated Close Calendar'),
+          chips: ['When will I be paid for Order 36240077?', 'No, thanks'], suggest: 'When will I be paid for Order 36240077?' };
+      }
+      const spiffRows = [['Order Number', ord], ['Searched By', 'Order, opportunity, account'], ['September Statement (closed)', 'Not found'], ['October Statement (open)', 'Not found'], ['Prior Period Adjustments', 'None for this order']];
+      if (s === 'noteam') {
+        lastTopic = 'Order ' + ord + ', not in Spiff, seller not on order team';
+        return { html: hi + 'It isn\'t on your statements, so I checked the order team in Org62: <b>you\'re not on it</b>. That\'s why there\'s no credit yet.</p>' +
+          '<p>Here are the details:</p>' +
+          skTable([spiffRows, [['Account', 'Acme Corp'], ['Commission Period', '2026-09-01'], ['Order Team', 'You\'re not on it'], ['Credit Status', 'No line until you\'re added']]]) +
+          '<p>Once you\'re added to the order team, the credit appears after the month-end adjustment run, as a prior period adjustment. If you think you should be on it, do you want me to raise a case with the Commission\'s team?</p>',
+          ...caseChips };
+      }
+      lastTopic = 'Order ' + ord + ', not in Spiff; on order team, calculation run 2026-10-15 completed, credit not posted';
+      return { html: hi + 'It isn\'t on your September or October statement, and there\'s no prior period adjustment for it.</p>' +
+        '<p>I then checked Org62: you\'re on the order team at <b>100%</b> and the calculation run for this period completed on <b>2026-10-15</b>, so a line should have been created. This needs a closer look.</p>' +
+        '<p>Here are the details:</p>' +
+        skTable([spiffRows, [['Account', 'Acme Corp'], ['Commissionable ACV', 'USD 85800'], ['Commission Period', '2026-09-01'], ['Incentive Date', '2026-09-18'], ['Your Split', '100%'], ['Order Team Status', 'Active'], ['Calculation Run', '2026-10-15 (completed)']]]) +
+        ask, ...caseChips };
     }
 
     // ── GA answers ──

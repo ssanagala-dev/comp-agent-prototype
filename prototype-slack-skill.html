@@ -832,6 +832,31 @@
     btns.forEach((b, i) => b.classList.toggle('on', i === cur));
   }
 
+  // Any order reference: "order 12", "#1234", "ORD-1234", "order no. 5678", or a bare number
+  function orderFrom(text) {
+    const m = text.match(/\border\s*(?:no\.?|number|num|id)?\s*[:#]?\s*["'“]?([A-Za-z]*-?\d[\w-]*)/i)
+      || text.match(/#\s*([A-Za-z]*-?\d[\w-]*)/)
+      || text.match(/["'“]([A-Za-z]*-?\d[\w-]*)["'”]/)
+      || [...text.matchAll(/(^|[^$\w.,])([A-Za-z]{2,4}-\d[\w-]*|\d{3,})(?![\w%.,]*\d|%|\s*(%|percent|k\b|dollars|usd))/gi)]
+           .map(x => [, x[2]]).find(x => !/^(19|20)\d\d$/.test(x[1]) && !/(fy|q[1-4]|fy\s?)$/i.test(text.slice(0, text.indexOf(x[1])).trim()));
+    return m ? m[1].toUpperCase() : undefined;
+  }
+
+  // Credit on an order: why it's lower than expected / how it was calculated
+  function creditBreakdown(ord, intro) {
+    lastTopic = 'Order ' + ord + ', credit lower than expected (commissionable ACV after services exclusion, 50% split)';
+    return { html: '<p>Thank you for your inquiry <b>Sai Sowmya Sanagala</b>. I checked Order <b>' + ord + '</b>. ' +
+      (intro || 'Your credit is based on the <b>Commissionable ACV</b> at the order level, not the opportunity amount, and then your split. On this order the services lines are excluded and you\'re on a <b>50% split</b>, which is why your credit is lower than the opportunity amount.') + '</p>' +
+      (MODE === 'nov' ? '<p>I also checked Spiff: there are no prior period adjustments on this order.</p>' : '') +
+      '<p>Here are the details:</p>' +
+      skTable([
+        [['Order Number', ord], ['Account', 'Acme Corp'], ['Opportunity Amount', 'USD 250000'], ['Eligible ACV', 'USD 210000'], ['Commissionable ACV', 'USD 210000'], ['Your Split', '50%']],
+        [['Credited ACV', 'USD 105000'], ['Commission Period', '2026-09-01'], ['Excluded Lines', 'Premier Success Plan (services), USD 40000'], ['Commission Audit Comment', 'Services lines excluded from commissionable ACV.']]
+      ]) +
+      '<p>If this still doesn\'t look right, do you want me to raise a case with the Commission\'s team to review it?</p>',
+      chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case' };
+  }
+
   // Missing commission on an order: GA checks Org62 and the calculation run
   function orderCheck(ord, spiffNote) {
     lastTopic = 'Order ' + ord + ', calculation run 2026-10-15 passed, credit not posted';
@@ -880,7 +905,9 @@
 
   function answerFor(text) {
     const t = text.toLowerCase();
-    const ord = (text.match(/\b(\d{4,10})\b/) || [])[1];
+    const ord = orderFrom(text);
+    if (ord && !SPIFF_ORDERS[ord] && /(lower|less|wrong|incorrect|short|underpaid|under ?credited|not right|doesn'?t (match|look right)|mismatch|reduced|smaller|than expected|discrepan|only getting|why.*(credit|commission|acv) (is|was))/.test(t))
+      return creditBreakdown(ord);
     if (MODE === 'ga') { const g = gaOnly(t, ord); if (g) return g; }
 
     // Guardrail: only the seller's own data
@@ -1069,9 +1096,7 @@
       return { html: '<p>I can check attrition relief on a specific order. What\'s the <b>order number</b>?</p>', suggest: 'Am I eligible for attrition relief on Order 36241150?' };
     }
     if (/(credit|\bacv\b|split|only getting|opportunity amount|mismatch|not getting paid|not paid)/.test(t)) {
-      if (ord) return { html: '<p>Here\'s how your credit on <b>Order ' + ord + '</b> was calculated:</p>' +
-        table(['Step', 'Amount'], [['Opportunity amount', '$250,000'], ['Commissionable ACV (order level, excludes $40,000 services)', '$210,000'], ['Your split', '50%'], ['Product eligibility (all lines eligible)', '100%']], ['Your credit', '$105,000']) +
-        '<p>Commission Audit Comment: <i>"Services lines excluded from commissionable ACV."</i> The audit comment is the source of truth for any crediting rule applied.</p>' + sources('FY27 Incentive Compensation Policies', 'FY27 Product Eligibility Rules') };
+      if (ord) return creditBreakdown(ord, 'Here\'s how your credit was calculated: Commissionable ACV at the order level, then your split.');
       return { html: '<p>I can break that down. Share the <b>order number</b> and I\'ll pull it: credit is calculated on the Commissionable ACV at the order level, then your split % and role eligibility. I\'ll include the Commission Audit Comments, which are the source of truth for any crediting rule applied.</p>', suggest: 'What\'s my credit on Order 36240077?' };
     }
     if (/(missing|where is my (order|commission)|where.*commission|order status|not showing|not in spiff|not appearing|don'?t see|not paid|check my commission)/.test(t))
@@ -1081,7 +1106,8 @@
     if (/(spiff|statement|spif)/.test(t))
       return { html: '<p>I can read your Spiff statement and explain:</p><ul><li><b>Negative balance</b> — where it started and why</li><li><b>The red number</b> at the top (remaining carried balance)</li><li><b>Prior period adjustments</b> — what each line is</li><li><b>Missing credit</b> on an order</li></ul><p>What are you seeing?</p>',
         chips: ['Why do I have a negative balance?', 'Why did my pay go down?', 'What\'s the red number at the top?'] };
-    return { html: '<p>I can help with comp plan status, credits &amp; ACV, product eligibility, payout timing, LOA return, commission policies, and your Spiff statement (negative balance, prior period adjustments, missing credit). For order-specific questions, give me the <b>order number</b>. If it needs a human, I\'ll pass it to Comp Ops.</p>',
+    if (ord) return creditBreakdown(ord, 'Here\'s what I see for this order.');
+    return { html: '<p>I can help with comp plan status, credits &amp; ACV, product eligibility, payout timing, LOA return, commission policies' + (MODE === 'ga' ? '' : ', and your Spiff statement (negative balance, prior period adjustments, missing credit)') + '. For order-specific questions, give me the <b>order number</b>. If it needs a human, I\'ll pass it to Comp Ops.</p>',
       chips: ['Why do I have a negative balance?', 'Why did my pay go down?', 'What is NNAOV?'] };
   }
 
@@ -1104,7 +1130,7 @@
     const a = answerFor(text);
     let tag = '';
     if (MODE === 'nov') {
-      const tl = text.toLowerCase(), o = (text.match(/\b(\d{4,10})\b/) || [])[1];
+      const tl = text.toLowerCase(), o = orderFrom(text);
       if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(tl)) tag = '<span class="newtag concept">CONCEPT · not in a release</span>';
       else { const keep = lastTopic; const g = gaOnly(tl, o); lastTopic = keep; if (g) tag = '<span class="newtag">NEW · Nov release</span>'; }
     }

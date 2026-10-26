@@ -978,7 +978,7 @@
     if (ord && !/(ppa|prior period|attrition|eligib)/.test(t) && (ppaWords.test(t) || RECALC.test(t) || ['36198812', '36203228', '36221905', '36214477'].includes(ord)))
       return creditBreakdown(ord);
     if (ppaWords.test(t) || RECALC.test(t) || /(why am i negative|in the red|owe|how long.*(balance|negative|recover)|by component|component breakdown|which component|per component|xactly|no (order|deal|opp)|nnaov territory|what is this .*line|attainment)/.test(t) ||
-        /(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|changed plans|\bytd\b|how much did i (earn|make)|spiff|statement)/.test(t)) {
+        /(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|order didn'?t change|changed plans|\bytd\b|how much did i (earn|make)|spiff|statement)/.test(t)) {
       lastTopic = 'Spiff statement question: "' + t.slice(0, 80) + '"';
       return { html: '<p>I don\'t have access to your Spiff statement, so I can\'t explain balances, adjustment lines or statement totals. I can check what <b>Org62</b> shows for a specific order and help compare it with what you\'re seeing in Spiff.</p><p>Share the <b>order number</b>, or I can open a case with Comp Ops.</p>',
         chips: ['Open a case', 'Why am I not paid on Order 36230011?'] };
@@ -991,7 +991,7 @@
     const ord = orderFrom(text);
     if (MODE !== 'ga' && ord && !(SPIFF_ORDERS[ord] && !RECALC_ORDERS[ord]) && (RECALC.test(t) || (RECALC_ORDERS[ord] && !/(eligib|when|credit on|my credit)/.test(t))))
       return recalcAnswer(ord);
-    if (ord && !SPIFF_ORDERS[ord] && /(lower|less|wrong|incorrect|short|underpaid|under ?credited|not right|doesn'?t (match|look right)|mismatch|reduced|smaller|than expected|discrepan|only getting|why.*(credit|commission|acv) (is|was))/.test(t))
+    if (ord && !SPIFF_ORDERS[ord] && !/(\bnrr\b|net revenue)/.test(t) && /(lower|less|wrong|incorrect|short|underpaid|under ?credited|not right|doesn'?t (match|look right)|mismatch|reduced|smaller|than expected|discrepan|only getting|why.*(credit|commission|acv) (is|was))/.test(t))
       return creditBreakdown(ord);
     // Guardrail: only the seller's own data
     if (/(colleague|teammate|coworker|another (rep|seller)|someone else|other seller|my manager'?s|\w+'s (statement|commission|pay|credit))/.test(t))
@@ -1009,7 +1009,7 @@
     }
 
     // PPA F: tier shift (on hold) → escalate
-    if (/(didn'?t change anything|nothing changed|no (edits|changes)|attainment (change|tier)|tier (shift|change))/.test(t))
+    if (/(didn'?t change anything|nothing changed|order didn'?t change|no changes? (to|on) my order|no (edits|changes)|attainment (change|tier)|tier (shift|change))/.test(t))
       return { html: '<p>I checked and there were no edits to your orders, but your commission changed. This may be related to an attainment change, which I can\'t confirm from the data I have.</p>' + handoff('September statement, commission change with no order edits'), suggest: 'Why did my pay go down?' };
 
     // General Spiff questions: not in this release
@@ -1079,14 +1079,14 @@
         chips: ['Why did my pay go down?', 'Show my plan components'] };
 
     // ── PPA B1: attrition relief on a PPA line ──
-    if ((/attrition/.test(t) && /(ppa|positive|adjust|statement|line|paid)/.test(t)) || (ord === '36198812' && !/(eligib|when.*paid)/.test(t)))
+    if ((/(attrition|relief|inherited account)/.test(t) && /(ppa|positive|adjust|statement|line|paid)/.test(t)) || (ord === '36198812' && !/(eligib|when.*paid)/.test(t)))
       return { html: '<p>The <b>+$1,050</b> is attrition relief on <b>Order 36198812</b> (June).</p><p>You were added to the order team with attrition relief on <b>Sep 4</b>, after June had closed, so it was paid on your September statement as a prior period adjustment.</p>' +
         '<p>Audit comment on the order: <i>"Attrition relief applied: rep added to account within 30 days of order."</i></p>' +
         sources('FY27 Attrition Relief Policy', 'Prior Period Adjustments – Seller Guide'),
         chips: ['Why did my pay go down?'] };
 
     // ── PPA B2: order team change / reassignment ──
-    if (/(credit (was |got )?(modified|changed|reassigned|removed|moved|reduced)|order team|my split|split (changed|%|percent)|reassign|removed from)/.test(t) || (ord === '36203228' && !/(eligib|when.*paid)/.test(t))) {
+    if (/(credit (was |got )?(modified|changed|reassigned|removed|moved|reduced)|order team|my split|split (changed|%|percent)|reassign|removed from|added (to (a|the) (deal|order|order team) )?late|added to the order team)/.test(t) || (ord === '36203228' && !/(eligib|when.*paid)/.test(t))) {
       lastTopic = 'Order 36203228, order team change Aug 27, split 100% → 50%, −$1,320 PPA';
       return { html: '<p>On <b>Aug 27</b> the order team for <b>Order 36203228</b> was updated and your split changed from <b>100% to 50%</b>.</p>' +
         '<p>The credit belongs to <b>July</b> (the commission period), so the change shows on your September statement as a prior period adjustment of <b>−$1,320</b>, across 2 lines.</p>' +
@@ -1111,7 +1111,7 @@
         '<p>If the amount doesn\'t look right, I can pass it to Comp Ops to review.</p>' + sources('Prior Period Adjustments – Seller Guide', 'Global NNAOV Policy Guide'),
         chips: ['Pass this to Comp Ops', 'What is this ACV Adjustment line?'] };
     }
-    if (/(acv adjustment|manual|no (order|deal|opp)|blank|aggregated|what is this .*line|nnaov territory)/.test(t)) {
+    if (/(acv adjustment|manual|no (order|deal|opp)|can'?t find the (opportunity|opp|order|deal|account)|blank|aggregated|what is this .*line|nnaov territory)/.test(t)) {
       lastTopic = 'ACV Adjustment line, +$300, August, account Acme Corp';
       return { html: '<p>The <b>ACV Adjustment</b> line (+$300, August) is a <b>manual adjustment</b> made by Comp Ops for <b>Acme Corp</b>. There\'s no order or opportunity on it because it was entered at the account level.</p>' +
         '<p>Note on the line: <i>"Split correction, case 70512234."</i></p>' +
@@ -1121,7 +1121,7 @@
     }
 
     // ── PPA summary: ≤20 lines → explain them all ──
-    if (/(\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|(lower|less) (pay|commission)|adjustments?( section)? on my statement|why did my pay|why is my pay)/.test(t))
+    if (!/(\bloa\b|leave)/.test(t) && /(\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|(lower|less) (pay|commission)|adjustments?( section)? on my statement|why did my pay|why is my pay)/.test(t))
       return { html: '<p>Your <b>September</b> statement has <b>7 prior period adjustments</b>, net <b>+$1,180</b>. Prior period adjustments are corrections paid this month for an earlier month. Here\'s each one:</p>' +
         table(['Payout rule', 'Order', 'Period', 'Amount', 'What happened'], [
           ['Territory ACV – Quarterly', '—', 'Q2', P('+$2,400'), 'Quarterly component, paid 60 days after quarter end'],
@@ -1183,7 +1183,7 @@
     if (/(nnaov|net new|annual order value)/.test(t))
       return { html: '<p>Net New Annual Order Value (NNAOV) is a company metric that measures net growth by combining expansion and loss.</p><ul><li><b>Formula:</b> ACV minus Attrition, or Ending Total AOV minus Beginning Total AOV for a given period</li><li><b>Applies to:</b> all eligible Customer 360 products</li><li><b>Targeted at:</b> the Country Company or territory level</li></ul>' +
         sources('Global NNAOV Policy Guide', 'FY27 Net New AOV (NNAOV) FAQs OFFICIAL', 'FY27 Incentive Compensation Policies', '[SHARED] FY27 GIC G4G NNAOV Enablement'), suggest: 'How is NNAOV different from total AOV?' };
-    if (/(\bloa\b|leave of absence|came back|returned from leave|back from leave|maternity|paternity)/.test(t))
+    if (/(\bloa\b|leave of absence|came back|returned from leave|back from leave|maternity|paternity|return plan)/.test(t))
       return { html: '<p>Your <b>LOA Return Comp Plan</b> has been created and is being finalized. It passes through internal audits before it\'s issued.</p><ul><li><b>Plan status:</b> Pending Quota</li><li><b>Return date:</b> Oct 6</li></ul><p>Once the plan is active, orders you closed while it was pending are calculated and show on your statement. Track it on ' + L('Compensation Station') + '. No action needed on your end.</p>' + sources('FY27 LOA Compensation Guidelines') };
     if (/(plan components?|my components|show my plan)/.test(t))
       return { html: '<p>Your <b>FY27 AE – Enterprise</b> plan has these components:</p>' +

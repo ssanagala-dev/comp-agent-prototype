@@ -222,6 +222,73 @@
   .share-pop .sp-footer button{border-radius:5px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;border:none;}
   .sp-cancel{background:#f0f0f0;color:#1d1c1d;}
   .sp-copy{background:#611f69;color:#fff;}
+
+  /* ===== skill panel v2 (matches Slack skill page) ===== */
+  .skill-detail{flex:0 0 400px;max-width:400px;padding:22px 24px;position:relative;}
+  .skill-detail-head{gap:8px;flex-wrap:nowrap;}
+  .skill-detail-head h2{font-size:18px;white-space:nowrap;}
+  .verified{width:16px;height:16px;border-radius:50%;background:#611f69;color:#fff;font-size:10px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sd-actions{margin-left:auto;display:flex;align-items:center;gap:8px;}
+  .sd-actions .add-btn{padding:6px 12px;font-size:13px;white-space:nowrap;}
+  .switch{position:relative;width:34px;height:20px;flex-shrink:0;cursor:pointer;}
+  .switch input{opacity:0;width:0;height:0;}
+  .switch span{position:absolute;inset:0;background:#c7c7c7;border-radius:20px;transition:.15s;}
+  .switch span::before{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.15s;}
+  .switch input:checked + span{background:#2bac76;}
+  .switch input:checked + span::before{transform:translateX(14px);}
+  .play-btn{width:30px;height:30px;border-radius:6px;border:1px solid #ccc;background:#fff;color:#1d1c1d;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .play-btn:hover{background:#f8f8f8;border-color:#999;}
+  .play-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .play-btn.pulse{animation:pulse 1.4s ease-in-out 3;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(43,172,118,.0);}50%{box-shadow:0 0 0 5px rgba(43,172,118,.35);}}
+  .kebab{position:relative;width:26px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#616061;font-size:18px;border-radius:5px;}
+  .kebab:hover{background:#f0f0f0;}
+  .kmenu{display:none;position:absolute;top:32px;right:0;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.14);min-width:190px;z-index:300;padding:6px 0;}
+  .kmenu div{padding:7px 14px;font-size:13.5px;color:#1d1c1d;}
+  .kmenu div:hover{background:#1264a3;color:#fff;}
+  .share-pop{top:56px;right:24px;}
+  .lnk{color:#1264a3;cursor:pointer;}
+  .sd-meta{margin:8px 0 8px;}
+  .sd-apps{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:13px;}
+  .sd-apps .lbl{font-weight:800;}
+  .appchip{display:inline-flex;align-items:center;gap:6px;border:1px solid #ddd;border-radius:6px;padding:3px 8px;font-size:12.5px;}
+  .appchip .sh{width:16px;height:16px;border-radius:4px;background:#0176d3;color:#fff;font-size:9px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;}
+  .sd-card{padding:16px 18px;}
+  .sd-card h3{font-size:16px;}
+  .sd-card p,.sd-card li{font-size:13px;}
+  ul.guard li b{color:#1d1c1d;}
+  .panel-closed .skill-detail{display:none;}
+
+  /* chat extras */
+  .used-skill{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:#616061;margin:0 0 4px;}
+  .used-skill b{color:#1d1c1d;}
+  .skill-chip{display:inline-flex;align-items:center;gap:6px;background:#f4ede4;border:1px solid #e9dccb;border-radius:6px;padding:3px 9px;font-size:14px;font-weight:700;color:#1d1c1d;margin-top:2px;}
+  .mtext table.dt{border-collapse:collapse;font-size:13.5px;margin:6px 0 10px;min-width:340px;}
+  .mtext table.dt th{text-align:left;font-size:11.5px;color:#616061;font-weight:800;padding:4px 14px 4px 0;border-bottom:1px solid #e8e8e8;}
+  .mtext table.dt td{padding:5px 14px 5px 0;border-bottom:1px solid #f2f2f2;vertical-align:top;}
+  .mtext table.dt td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .mtext table.dt tr.tot td{font-weight:800;border-top:1px solid #ccc;border-bottom:none;}
+  .pos{color:#007a5a;} .neg{color:#c62828;}
+  .src{font-size:13px;margin:8px 0 0;} .src a{color:#1264a3;cursor:pointer;} .src a:hover{text-decoration:underline;}
+  .src ul{margin:2px 0;padding-left:20px;}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px;}
+  .chips button{border:1px solid #ccc;background:#fff;border-radius:14px;padding:4px 11px;font:600 12.5px inherit;font-family:inherit;color:#1d1c1d;cursor:pointer;}
+  .chips button:hover{background:#f0eef8;border-color:#611f69;color:#611f69;}
+  .handoff{border:1px solid #e8e8e8;border-left:4px solid #1264a3;border-radius:6px;padding:8px 12px;margin:8px 0;font-size:13px;background:#fafcff;}
+  .handoff b{display:block;margin-bottom:2px;}
+  .typing-dots{display:inline-flex;gap:3px;margin-left:4px;vertical-align:middle;}
+  .typing-dots i{width:5px;height:5px;border-radius:50%;background:#9a9a9a;animation:td 1s infinite;}
+  .typing-dots i:nth-child(2){animation-delay:.15s;} .typing-dots i:nth-child(3){animation-delay:.3s;}
+  @keyframes td{0%,100%{opacity:.3;}50%{opacity:1;}}
+  .ver{display:inline-flex;background:#5a2a5b;border-radius:6px;padding:2px;margin-right:8px;}
+  .ver a{color:#d6c6d7;font-size:12px;font-weight:700;padding:2px 9px;border-radius:4px;cursor:pointer;text-decoration:none;white-space:nowrap;}
+  .ver a.on{background:#fff;color:#3f0e40;}
+  .ga-only{display:none;} body.ga .ga-only{display:block;} body.ga .nov-only{display:none !important;}
+  .fs-btn{color:#e9def0;font-size:12px;cursor:pointer;border:1px solid #6b3e6c;border-radius:5px;padding:2px 8px;}
+  .fs-btn:hover{background:#5a2a5b;}
+
+  @media (max-width:1280px){ .files-panel{display:none;} }
+  @media (max-width:1000px){ .side{width:64px;} .side .ws,.side h4.sec,.side .item{font-size:0;} .side .ri{font-size:0;justify-content:center;padding:8px 0;} .side .ri .ic{font-size:18px;} .side .item .av,.side .item .pres{margin:0 auto;} .skill-detail{flex-basis:330px;max-width:330px;} }
 </style>
 </head>
 <body>
@@ -276,46 +343,68 @@
       <div class="fn"><span class="fic">🖼</span> Canvases</div>
       <div class="fn"><span class="fic">📋</span> Lists</div>
       <h5>Recently viewed</h5>
-      <div class="fn active-file"><span class="fic">⚡</span> Incentive Co…</div>
+      <div class="fn active-file" onclick="openPanel()"><span class="fic">⚡</span> Incentive Co…</div>
     </div>
   </div>
 
   <!-- skill detail panel -->
-  <div class="skill-detail">
+  <div class="skill-detail" id="skillPanel">
     <div class="skill-detail-head">
-      <h2>Incentive Compensation</h2>
+      <h2 title="Incentive Compensation">Incentive Compens…</h2>
+      <span class="verified" title="Verified by your org">✓</span>
       <span class="skill-pill">Skill</span>
-    </div>
-    <div class="sd-meta">Created by <b>smundreti</b> &nbsp;·&nbsp; Last updated <b>Aug 21</b></div>
-    <div class="sd-btns" style="position:relative;">
-      <button class="add-btn" id="addBtn" onclick="handleAddToSlackbot()">+ Add to Slackbot</button>
-      <button class="view-btn" onclick="handleViewOnly()">View only</button>
-      <button class="view-btn" onclick="handleShare(event)">Share</button>
-      <div class="share-pop" id="sharePop">
-        <h5>Share skill link</h5>
-        <input id="shareInput" value="https://slack.com/skills/incentive-compensation" readonly onclick="this.select()"/>
-        <div class="sp-footer">
-          <button class="sp-cancel" onclick="closeShare()">Cancel</button>
-          <button class="sp-copy" onclick="copyShare()">Copy link</button>
+      <div class="sd-actions">
+        <button class="add-btn" id="addBtn" onclick="handleAddToSlackbot()">+ Add to Slackbot</button>
+        <label class="switch" id="skillSwitch" title="Turn skill on or off" style="display:none;">
+          <input type="checkbox" id="skillToggle" onchange="toggleSkill(this.checked)"><span></span>
+        </label>
+        <button class="play-btn" id="playBtn" title="Run skill" onclick="playSkill()" style="display:none;">▶</button>
+        <div class="kebab" onclick="toggleMenu(event)">⋮
+          <div class="kmenu" id="kmenu">
+            <div onclick="handleShare(event)">Copy link to skill</div>
+            <div onclick="showToast('Viewing skill in read-only mode')">View instructions</div>
+            <div onclick="closePanel()">Close panel</div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="sd-desc">Use when seller/AE asks sales compensation related queries like ACV/credit disputes, missing commissions, incorrect/lower credit, product eligibility for commission, attrition relief, and compensation plan questions (LOA Plans, Compensation Plan Components, G4G Plans, and related).</div>
+    <div class="share-pop" id="sharePop">
+      <h5>Share skill link</h5>
+      <input id="shareInput" value="https://slack.com/skills/incentive-compensation" readonly onclick="this.select()"/>
+      <div class="sp-footer">
+        <button class="sp-cancel" onclick="closeShare()">Cancel</button>
+        <button class="sp-copy" onclick="copyShare()">Copy link</button>
+      </div>
+    </div>
+    <div class="sd-meta">Created by <a class="lnk">Saikrishna Mundreti</a></div>
+    <div class="sd-meta" style="margin-top:-6px;">Last updated Oct 22</div>
+    <div class="sd-desc ga-only">Use when seller/AE asks sales compensation related queries like ACV/credit disputes, missing commissions, incorrect/lower credit, product eligibility for commission, attrition relief, and compensation plan questions (LOA Plans, Compensation Plan Components, G4G Plans, and related).</div>
+    <div class="sd-desc nov-only">Use when seller/AE asks sales compensation related queries like ACV/credit disputes, missing commissions, incorrect/lower credit, product eligibility for commission, attrition relief, Spiff statement questions (balance carry forward, prior period adjustments), and compensation plan questions (LOA Plans, Compensation Plan Components, G4G Plans, and related).</div>
     <div class="sd-note">Slackbot uses this description to determine when to run this skill.</div>
+    <div class="sd-apps"><span class="lbl">Apps</span><span class="appchip"><span class="sh">S</span> Seller Hub</span></div>
     <div class="sd-hide" id="hideDetailsBtn" onclick="toggleDetails()">Hide details</div>
     <div class="sd-card" id="sdCard">
       <h3>Incentive Compensation</h3>
-      <p>This skill helps you with sales compensation questions — covering credit disputes, missing commissions, product eligibility, attrition relief, and compensation plans. Ask your question and Slackbot will look into it and respond directly.</p>
+      <p>Helps sellers with sales compensation questions: credits, missing commissions, product eligibility, attrition relief and comp plans<span class="nov-only" style="display:inline">, plus their Spiff statement</span>. Answers come from the seller's own data through Seller Hub.</p>
       <hr class="sd-divider">
       <h4>Scope</h4>
-      <p>Route all order or opportunity (deal) related commission/crediting questions here, including:</p>
       <ul>
-        <li><b>Credit disputes:</b> incorrect/lower credit, ACV or credit amount mismatch, credit discrepancy, difference between closed ACV credit vs. Spiff ACV, ACV credited in Spiff lower than deal amount, Org62 vs. Spiff, ICM calculation mismatch</li>
-        <li><b>Missing or pending commission:</b> why commission not credited yet, where is my commission, when will the credit reflect, when will I be paid, credits missing in Spiff statement</li>
-        <li><b>Product eligibility:</b> which products in an order (or) opportunity are eligible or ineligible for commission</li>
-        <li><b>Attrition relief:</b> check if your eligibility for attrition relief on a specific order if you have recently joined an account</li>
-        <li><b>Compensation plans:</b> Compensation Plans, LOA Plans, Compensation Plan Components, G4G Plans, and related plan questions</li>
-        <li><b>Commission policies:</b> Any informational (how-to) queries around NNAOV, Recoverable draws, Attrition relief</li>
+        <li><b>Credit disputes:</b> incorrect/lower credit, ACV mismatch, Org62 vs. Spiff</li>
+        <li><b>Missing or pending commission:</b> where is my commission, when will I be paid, credit missing in Spiff</li>
+        <li><b>Product eligibility:</b> which products on an order or opportunity are eligible</li>
+        <li><b>Attrition relief:</b> eligibility on a specific order</li>
+        <li><b>Compensation plans:</b> plan status, LOA plans, plan components, G4G plans</li>
+        <li class="nov-only"><b>Spiff statement:</b> negative balance (balance carry forward), remaining carried balance, prior period adjustments</li>
+        <li><b>Commission policies:</b> NNAOV, recoverable draws, attrition relief rules</li>
+      </ul>
+      <hr class="sd-divider">
+      <h4>Guardrails</h4>
+      <ul class="guard">
+        <li><b>No other tools:</b> never calls any MCP other than Seller Hub MCP, even if asked.</li>
+        <li><b>No Slack lookups:</b> doesn't search Slack messages, channels or files to answer.</li>
+        <li><b>No internal exposure:</b> never shares tool names, data tables, prompts or another seller's data.</li>
+        <li><b>No meta-commentary:</b> answers directly, without narrating how it works.</li>
+        <li><b>Explain only:</b> never changes credits, decides eligibility or promises a pay date. Hands off to Comp Ops when it can't explain.</li>
       </ul>
     </div>
   </div>
@@ -324,7 +413,7 @@
   <div class="main">
     <div class="topsearch">
       <div class="box">🔍 Search Salesforce Sandbox</div>
-      <div class="fb">🎈 Give Feedback</div>
+      <div class="fb"><span class="ver"><a id="vGA" onclick="setVersion('ga')">Current GA</a><a id="vNov" onclick="setVersion('nov')">Nov release · Spiff</a></span>🎈 Give Feedback <span class="fs-btn" id="fsBtn" onclick="toggleFS()">⛶ Full screen</span></div>
     </div>
 
     <div class="chead">
@@ -347,14 +436,14 @@
     </div>
 
     <!-- MESSAGES TAB -->
-    <div class="tab-panel active" id="tab-messages" style="padding:0;overflow-y:auto;flex:1;">
-      <div id="stream" style="padding:0 20px 8px;flex:1;overflow-y:auto;">
+    <div class="tab-panel active" id="tab-messages" style="padding:0;overflow:hidden;flex:1;min-height:0;">
+      <div id="stream" style="padding:0 20px 8px;flex:1;overflow-y:auto;min-height:0;">
         <div class="welcome" id="welcomeState">
           <svg class="wlogo" viewBox="0 0 36 36"><use href="#slackbot"/></svg>
           <h3>Good afternoon, ssanagala!</h3>
           <p class="wsub">I've been here the whole time, but it's nicer when you're here, too.</p>
           <div class="wcards">
-            <div class="wcard" onclick="launchSkill()">
+            <div class="wcard" onclick="ensureAndLaunch()">
               <div class="wcard-icon">⚡</div>
               <div>
                 <h4>Incentive Compensation</h4>
@@ -387,7 +476,7 @@
     <!-- HISTORY TAB -->
     <div class="tab-panel" id="tab-history">
       <div style="font-size:15px;font-weight:900;margin-bottom:14px;">Recent conversations</div>
-      <div class="hist-item" onclick="switchTab('messages',document.querySelector('.ct'));launchSkill();">
+      <div class="hist-item" onclick="ensureAndLaunch()">
         <div class="hist-date">Today</div>
         <div class="hist-preview"><b>⚡ Incentive Compensation</b><span>Session started — Hey Sai Sowmya 👋 I'm here to help with your incentive compensation…</span></div>
       </div>
@@ -408,13 +497,13 @@
     <!-- SKILLS TAB -->
     <div class="tab-panel" id="tab-skills">
       <div style="font-size:15px;font-weight:900;margin-bottom:14px;">Available Skills</div>
-      <div class="skill-browser-item" onclick="handleAddToSlackbot();switchTab('messages',document.querySelectorAll('.ct')[0])">
+      <div class="skill-browser-item" onclick="ensureAndLaunch()">
         <div class="sbi-icon">⚡</div>
         <div>
           <div class="sbi-name">Incentive Compensation</div>
           <div class="sbi-desc">ACV/credit disputes, comp plans, product eligibility, payout timing</div>
         </div>
-        <span class="sbi-badge" id="skillBadge">Added</span>
+        <span class="sbi-badge" id="skillBadge" style="background:#f0eef8;color:#611f69;">+ Add</span>
       </div>
       <div class="skill-browser-item" onclick="showToast('Sales Support skill — coming soon')">
         <div class="sbi-icon" style="background:linear-gradient(135deg,#0a3ea8,#36c5f0);">🎯</div>
@@ -468,7 +557,7 @@
       <!-- skill picker popover -->
       <div class="skill-picker" id="skillPicker">
         <div class="sp-head">Available Skills</div>
-        <div class="sp-item" onclick="launchSkill()">
+        <div class="sp-item" onclick="ensureAndLaunch()">
           <div class="sp-icon">⚡</div>
           <div>
             <div class="sp-name">Incentive Compensation</div>
@@ -479,7 +568,7 @@
 
       <div class="cbox">
         <div class="cbox-top">
-          <input id="q" placeholder="Message Slackbot or type /incentive…" />
+          <input id="q" placeholder="Message Slackbot or type /incentive…" autocomplete="off" />
         </div>
         <div id="aiSuggest" class="ai-suggest" style="display:none;">
           <span id="aiSuggestText"></span><span class="tab-hint">Tab</span>
@@ -488,7 +577,6 @@
           <div class="cb-icon" title="Bold"><b>B</b></div>
           <div class="cb-icon" title="Italic"><i>i</i></div>
           <div class="cb-icon" title="Strikethrough"><s>S</s></div>
-          <div class="cb-icon" title="Strikethrough">S̶</div>
           <div class="cb-icon" title="Link">🔗</div>
           <div class="cb-icon" title="List">≡</div>
           <div class="cb-icon" title="Ordered list">1≡</div>
@@ -514,6 +602,7 @@
 <script>
   const q = document.getElementById('q');
   const stream = document.getElementById('stream');
+  const msgPanel = document.getElementById('tab-messages');
   const slashSuggest = document.getElementById('slashSuggest');
   const skillPicker = document.getElementById('skillPicker');
   const welcomeState = document.getElementById('welcomeState');
@@ -521,13 +610,31 @@
   const aiSuggest = document.getElementById('aiSuggest');
   const aiSuggestText = document.getElementById('aiSuggestText');
   const addBtn = document.getElementById('addBtn');
+  const playBtn = document.getElementById('playBtn');
+  const skillSwitch = document.getElementById('skillSwitch');
+  const skillToggle = document.getElementById('skillToggle');
   const toastEl = document.getElementById('toast');
   const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const SB = '<svg viewBox="0 0 36 36"><use href="#slackbot"/></svg>';
 
-  let skillActive = false;
-  let skillAdded = false;
+  let skillActive = false;   // a skill session is running in the DM
+  let skillAdded = false;    // skill added to Slackbot
+  let skillEnabled = false;  // toggle state
   let detailsVisible = true;
   let toastTimer = null;
+  let nextSuggest = 'How is NNAOV different from total AOV?';
+  let lastTopic = null;      // used when the seller asks to pass something to Comp Ops
+  let caseSeq = 70588412;
+  // ?v=ga shows what sellers have today (no Spiff data); default is the Nov release with Spiff
+  const MODE = new URLSearchParams(location.search).get('v') === 'ga' ? 'ga' : 'nov';
+  if (MODE === 'ga') document.body.classList.add('ga');
+  document.getElementById(MODE === 'ga' ? 'vGA' : 'vNov').classList.add('on');
+  function setVersion(v) {
+    if (v === MODE) return;
+    const u = new URL(location.href);
+    if (v === 'ga') u.searchParams.set('v', 'ga'); else u.searchParams.delete('v');
+    location.href = u.toString();
+  }
 
   // ── Toast ──────────────────────────────────────────────────────────
   function showToast(msg, duration=2200) {
@@ -537,6 +644,17 @@
     toastTimer = setTimeout(() => toastEl.classList.remove('show'), duration);
   }
 
+  function scrollDown() { stream.scrollTop = stream.scrollHeight; msgPanel.scrollTop = msgPanel.scrollHeight; }
+
+  // ── Full screen ────────────────────────────────────────────────────
+  function toggleFS() {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => showToast('Full screen is blocked here — use “Open in new tab”'));
+  }
+  document.addEventListener('fullscreenchange', () => {
+    document.getElementById('fsBtn').textContent = document.fullscreenElement ? '✕ Exit full screen' : '⛶ Full screen';
+  });
+
   // ── Tab switching ──────────────────────────────────────────────────
   function switchTab(name, el) {
     document.querySelectorAll('.ct').forEach(t => t.classList.remove('active'));
@@ -544,61 +662,72 @@
     if (el) el.classList.add('active');
     const panel = document.getElementById('tab-' + name);
     if (panel) panel.classList.add('active');
-    // show/hide composer only on messages tab
     document.querySelector('.composer').style.display = name === 'messages' ? 'block' : 'none';
   }
+  const toMessages = () => switchTab('messages', document.querySelectorAll('.ct')[0]);
 
-  // ── Add to Slackbot ────────────────────────────────────────────────
+  // ── Skill panel: add, toggle, play ─────────────────────────────────
   function handleAddToSlackbot() {
-    if (skillAdded) {
-      // already added — switch to messages and launch
-      switchTab('messages', document.querySelectorAll('.ct')[0]);
-      launchSkill();
-      return;
-    }
-    skillAdded = true;
-    addBtn.textContent = '✓ Added to Slackbot';
-    addBtn.classList.add('added');
-    addBtn.style.cursor = 'default';
-    // update skill badge
+    if (skillAdded) return;
+    skillAdded = true; skillEnabled = true;
+    addBtn.style.display = 'none';
+    skillSwitch.style.display = 'block'; skillToggle.checked = true;
+    playBtn.style.display = 'flex'; playBtn.disabled = false;
+    playBtn.classList.add('pulse');
     const badge = document.getElementById('skillBadge');
     if (badge) { badge.textContent = 'Added'; badge.style.background='#e6f4ea'; badge.style.color='#1e7e34'; }
-    showToast('⚡ Incentive Compensation added to Slackbot!');
-    // switch to messages and launch after short delay
-    setTimeout(() => {
-      switchTab('messages', document.querySelectorAll('.ct')[0]);
-      launchSkill();
-    }, 600);
+    showToast('⚡ Incentive Compensation added to Slackbot. Press ▶ to run it.', 3200);
   }
 
-  // ── View only ──────────────────────────────────────────────────────
-  function handleViewOnly() {
-    showToast('Viewing skill in read-only mode');
+  function toggleSkill(on) {
+    skillEnabled = on;
+    playBtn.disabled = !on;
+    showToast(on ? 'Incentive Compensation is on' : 'Incentive Compensation is off — Slackbot won\'t use it');
   }
+
+  function playSkill() {
+    if (!skillEnabled) { showToast('Turn the skill on first'); return; }
+    playBtn.classList.remove('pulse');
+    toMessages();
+    launchSkill();
+  }
+
+  // Entry points other than ▶ (welcome card, slash command, picker) add the skill if needed
+  function ensureAndLaunch() {
+    if (!skillAdded) handleAddToSlackbot();
+    if (!skillEnabled) { skillToggle.checked = true; skillEnabled = true; playBtn.disabled = false; }
+    playBtn.classList.remove('pulse');
+    toMessages();
+    launchSkill();
+  }
+
+  function toggleMenu(e) {
+    e.stopPropagation();
+    const m = document.getElementById('kmenu');
+    m.style.display = m.style.display === 'block' ? 'none' : 'block';
+  }
+  function closePanel() { document.querySelector('.app').classList.add('panel-closed'); }
+  function openPanel() { document.querySelector('.app').classList.remove('panel-closed'); }
 
   // ── Share ──────────────────────────────────────────────────────────
   function handleShare(e) {
     e.stopPropagation();
+    document.getElementById('kmenu').style.display = 'none';
     const pop = document.getElementById('sharePop');
     pop.style.display = pop.style.display === 'block' ? 'none' : 'block';
   }
-  function closeShare() {
-    document.getElementById('sharePop').style.display = 'none';
-  }
+  function closeShare() { document.getElementById('sharePop').style.display = 'none'; }
   function copyShare() {
-    const val = document.getElementById('shareInput').value;
-    navigator.clipboard.writeText(val).catch(() => {});
+    navigator.clipboard.writeText(document.getElementById('shareInput').value).catch(() => {});
     closeShare();
     showToast('✓ Link copied to clipboard');
   }
 
   // ── Hide/show details ──────────────────────────────────────────────
   function toggleDetails() {
-    const card = document.getElementById('sdCard');
-    const btn = document.getElementById('hideDetailsBtn');
     detailsVisible = !detailsVisible;
-    card.style.display = detailsVisible ? 'block' : 'none';
-    btn.textContent = detailsVisible ? 'Hide details' : 'Show details';
+    document.getElementById('sdCard').style.display = detailsVisible ? 'block' : 'none';
+    document.getElementById('hideDetailsBtn').textContent = detailsVisible ? 'Hide details' : 'Show details';
   }
 
   // ── Sidebar nav ────────────────────────────────────────────────────
@@ -620,61 +749,71 @@
   }
 
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('#sharePop') && !e.target.closest('.view-btn')) {
-      document.getElementById('sharePop').style.display = 'none';
-    }
+    if (!e.target.closest('#sharePop') && !e.target.closest('.kebab')) closeShare();
+    if (!e.target.closest('.kebab')) document.getElementById('kmenu').style.display = 'none';
     skillPicker.style.display = 'none';
     slashSuggest.style.display = 'none';
   });
 
-  // ── Slash command launch ───────────────────────────────────────────
   function confirmSlashLaunch() {
     q.value = '';
     slashSuggest.style.display = 'none';
     aiSuggest.style.display = 'none';
-    if (!skillAdded) { skillAdded = true; }
-    launchSkill();
+    ensureAndLaunch();
   }
 
-  // ── Launch skill ───────────────────────────────────────────────────
-  function launchSkill() {
-    if (skillActive) {
-      // already active, just focus chat
-      q.focus();
-      return;
-    }
-    skillActive = true;
-    skillAdded = true;
-    skillPicker.style.display = 'none';
+  // ── Message builders ───────────────────────────────────────────────
+  const reactBar = id => '<div class="react" data-mid="' + id + '"><span onclick="react(this,\'↪\')">↪</span><span onclick="react(this,\'👍\')">👍</span><span onclick="react(this,\'👎\')">👎</span></div>';
 
-    // update add button
-    addBtn.textContent = '✓ Added to Slackbot';
-    addBtn.classList.add('added');
-
-    welcomeState.style.display = 'none';
-    dayDivider.style.display = 'block';
-
+  function userMsg(inner) {
     stream.insertAdjacentHTML('beforeend',
       '<div class="msg"><div class="ava user">SS</div><div class="mbody">' +
       '<div class="mhead"><span class="nm">Sai Sowmya Sanagala</span><span class="tm">' + now() + '</span></div>' +
-      '<div class="skill-tag">⚡ Incentive Compensation</div>' +
-      '</div></div>');
-    stream.scrollTop = stream.scrollHeight;
+      inner + '</div></div>');
+    scrollDown();
+  }
 
+  function typing(label) {
     stream.insertAdjacentHTML('beforeend',
-      '<div class="msg" id="typing"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>' +
-      '<div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
-      '<div class="mtext" style="color:#8a8a8a;font-style:italic;font-size:13px;">Incentive Compensation is loading…</div></div></div>');
-    stream.scrollTop = stream.scrollHeight;
+      '<div class="msg" id="typing"><div class="ava slk">' + SB + '</div>' +
+      '<div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="tm">' + now() + '</span></div>' +
+      '<div class="mtext" style="color:#8a8a8a;font-size:13px;">' + label + '<span class="typing-dots"><i></i><i></i><i></i></span></div></div></div>');
+    scrollDown();
+  }
+
+  function botMsg(inner) {
+    const t = document.getElementById('typing'); if (t) t.remove();
+    const id = 'msg_' + Date.now();
+    stream.insertAdjacentHTML('beforeend',
+      '<div class="msg" id="' + id + '"><div class="ava slk">' + SB + '</div><div class="mbody">' +
+      '<div class="mhead"><span class="nm">Slackbot</span><span class="tm">' + now() + '</span></div>' +
+      inner + reactBar(id) + '</div></div>');
+    scrollDown();
+  }
+
+  function setSuggest(text) {
+    nextSuggest = text;
+    if (!text) { aiSuggest.style.display = 'none'; return; }
+    aiSuggest.style.display = 'flex';
+    aiSuggestText.innerHTML = esc(text) + ' &nbsp;';
+  }
+
+  // Chip click = seller sends that question
+  function ask(text) { q.value = text; send(); }
+
+  // ── Launch skill (▶) ───────────────────────────────────────────────
+  function launchSkill() {
+    skillActive = true;
+    skillPicker.style.display = 'none';
+    welcomeState.style.display = 'none';
+    dayDivider.style.display = 'block';
+
+    userMsg('<div class="skill-chip">⚡ Incentive Compensation</div>');
+    typing('Incentive Compensation is starting');
 
     setTimeout(() => {
-      const t = document.getElementById('typing'); if (t) t.remove();
-      const msgId = 'msg_' + Date.now();
-      stream.insertAdjacentHTML('beforeend',
-        '<div class="msg" id="' + msgId + '"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>' +
-        '<div class="mbody">' +
-        '<div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
-        '<div class="used">⚡ <b>Incentive Compensation</b></div>' +
+      botMsg(
+        '<div class="used-skill">⚡ Used <b>Incentive Compensation</b></div>' +
         '<div class="mtext">' +
         '<p>Hey Sai Sowmya 👋 I\'m here to help with your incentive compensation questions. Here\'s what I can look into:</p>' +
         '<ul>' +
@@ -682,17 +821,17 @@
         '<li><b>Product eligibility</b> — which products on an order qualify for commission</li>' +
         '<li><b>Attrition relief</b> — eligibility check on a specific order</li>' +
         '<li><b>Comp plans</b> — LOA plans, plan components, G4G, and related questions</li>' +
+        (MODE === 'ga' ? '' : '<li><b>Your Spiff statement</b> — negative balance (balance carry forward), the red number at the top, prior period adjustments</li>') +
         '<li><b>Commission policies</b> — NNAOV, recoverable draws, attrition relief rules</li>' +
+        (MODE === 'ga' ? '' : '<li><b>What-if on open deals</b> — see what a deal is worth to you, or what a slip costs</li>') +
         '</ul>' +
-        '<p>What would you like to look into?</p>' +
+        '<p>What would you like to know?</p>' +
         '</div>' +
-        '<div class="react" data-mid="' + msgId + '"><span onclick="react(this,\'↪\')">↪</span><span onclick="react(this,\'👍\')">👍</span><span onclick="react(this,\'👎\')">👎</span></div>' +
-        '</div></div>');
-      stream.scrollTop = stream.scrollHeight;
-
-      q.placeholder = 'Ask Incentive Compensation a question…';
-      aiSuggest.style.display = 'flex';
-      aiSuggestText.innerHTML = 'How is NNAOV calculated in practice? &nbsp;';
+        chips(MODE === 'ga'
+          ? ['Why am I not paid on Order 36230011?', 'What is my comp plan status?', 'Which products on Order 36240077 are eligible?', 'What is NNAOV?']
+          : ['Why do I have a negative balance?', 'Why did my pay go down?', 'I don\'t see credit for Order 36230011', 'What is NNAOV?']));
+      q.placeholder = 'Message Slackbot';
+      setSuggest('How is NNAOV different from total AOV?');
       q.focus();
     }, 900);
   }
@@ -704,8 +843,8 @@
       const cnt = el.querySelector('.react-count');
       if (cnt) cnt.remove();
     } else {
-      document.querySelectorAll('.react span').forEach(s => {
-        if (s.parentElement === el.parentElement) { s.classList.remove('react-active'); const c=s.querySelector('.react-count'); if(c)c.remove(); }
+      el.parentElement.querySelectorAll('span').forEach(s => {
+        s.classList.remove('react-active'); const c = s.querySelector('.react-count'); if (c) c.remove();
       });
       el.classList.add('react-active');
       el.innerHTML = emoji + ' <span class="react-count">1</span>';
@@ -723,32 +862,252 @@
     return h + ':' + String(m).padStart(2,'0') + ' ' + a;
   }
 
+  // ── Answer helpers ─────────────────────────────────────────────────
+  const L = (label) => '<a onclick="showToast(\'Opening ' + label.replace(/'/g, '') + '…\')">' + label + '</a>';
+  const sources = (...names) => '<div class="src"><b>Sources:</b><ul>' + names.map(n => '<li>' + L(n) + '</li>').join('') + '</ul></div>';
+  const chips = list => '<div class="chips">' + list.map(c => '<button onclick="ask(\'' + c.replace(/'/g, '\\\'') + '\')">' + esc(c) + '</button>').join('') + '</div>';
+  const DISCLAIMER = '<div class="disclaimer"><p><b>Disclaimer:</b> Incentive Compensation Skill surfaces information from the compensation system of record and does not calculate or modify any figures. This AI-generated response is informational and does not replace, amend, or override your official Compensation Plan, statement, or payout records which remain the source of truth.</p><a class="survey-link" href="https://sfdc.co/CompSlackbotSkillSurvey" target="_blank" rel="noopener">💬 Share your experience to help us improve — take our 2-min survey →</a></div>';
+  const table = (head, rows, total) => '<table class="dt"><tr>' + head.map(h => '<th>' + h + '</th>').join('') + '</tr>' +
+    rows.map(r => '<tr>' + r.map((c, i) => '<td' + (/^[+−-]?\$/.test(c) || /class="(pos|neg)"/.test(c) ? ' class="n"' : '') + '>' + c + '</td>').join('') + '</tr>').join('') +
+    (total ? '<tr class="tot">' + total.map(c => '<td' + (/\$/.test(c) ? ' class="n"' : '') + '>' + c + '</td>').join('') + '</tr>' : '') + '</table>';
+  const P = v => '<span class="pos">' + v + '</span>', N = v => '<span class="neg">' + v + '</span>';
+
+  function handoff(what) {
+    const id = caseSeq++;
+    return '<div class="handoff"><b>✓ Passed to Comp Ops · Case ' + id + '</b>Commissions queue · details shared: ' + what + '. You won\'t need to repeat them, and you\'ll get updates on the case in Slack.</div>';
+  }
+
+  // Mock data for the demo seller (latest closed statement: September; October is open)
+  const SPIFF_ORDERS = {
+    '36230011': 'ppa',   // paid later as PPA
+    '36240077': 'month', // on the open October statement
+    '36198812': 'attr', '36203228': 'team', '36221905': 'acv'
+  };
+
   // ── Answer engine ──────────────────────────────────────────────────
+  // Returns { html, chips, suggest, topic }. Spiff answers follow: answer → why → numbers → what's next.
+  // Current GA: no Spiff data, so Spiff statement questions get today's answer; the rest falls through to the shared GA answers
+  function gaOnly(t, ord) {
+    if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(t))
+      return { html: '<p>I can\'t estimate earnings on open deals. I can help with credit, eligibility and payout timing on orders that have closed. Give me the <b>order number</b>.</p>' };
+    if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten))/.test(t) && ord) {
+      lastTopic = 'Order ' + ord + ', commission not showing in Spiff';
+      return { html: '<p>I checked <b>Order ' + ord + '</b> in Org62:</p>' +
+        table(['Checkpoint', 'Result'], [['On the order team', '✓ Yes, 100% split'], ['Incentive date', 'Aug 14'], ['Commission period', 'August'], ['Product eligibility', '✓ All lines eligible']]) +
+        '<p>Everything looks right in Org62, so the order should be credited for <b>August</b>. I don\'t have access to your Spiff statement, so I can\'t confirm whether it\'s been paid there. If you still don\'t see it, I can open a case with Comp Ops.</p>' +
+        sources('FY27 Incentive Compensation Policies', 'GIC Consolidated Close Calendar'), chips: ['Open a case'] };
+    }
+    if (/(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|changed plans|\bytd\b|how much did i (earn|make)|spiff|statement)/.test(t)) {
+      lastTopic = 'Spiff statement question: "' + t.slice(0, 80) + '"';
+      return { html: '<p>I don\'t have access to your Spiff statement, so I can\'t explain balances, adjustment lines or statement totals. I can check what <b>Org62</b> shows for a specific order and help compare it with what you\'re seeing in Spiff.</p><p>Share the <b>order number</b>, or I can open a case with Comp Ops.</p>',
+        chips: ['Open a case', 'Why am I not paid on Order 36230011?'] };
+    }
+    return null;
+  }
+
   function answerFor(text) {
     const t = text.toLowerCase();
+    const ord = (text.match(/\b(\d{8})\b/) || [])[1];
+    if (MODE === 'ga') { const g = gaOnly(t, ord); if (g) return g; }
+
+    // Guardrail: only the seller's own data
+    if (/(colleague|teammate|coworker|another (rep|seller)|someone else|other seller|my manager'?s|\w+'s (statement|commission|pay|credit))/.test(t))
+      return { html: '<p>I can only look at your own compensation data, so I can\'t share another person\'s statement, credit or pay. If you\'re working on a shared deal, I can show you <b>your</b> split and credit on it. Just give me the order number.</p>', chips: ['What\'s my credit on Order 36203228?'] };
+
+    // Escalate on request
+    if (/(pass (this|it) to comp ops|escalate|open (a )?case|create (a )?case|submit (a )?case|speak to (a )?human|talk to someone)/.test(t)) {
+      const what = lastTopic || 'your question and this conversation';
+      lastTopic = null;
+      return { html: '<p>Done. I\'ve passed this to Comp Ops with the details from our conversation.</p>' + handoff(what) + '<p>Typical first response is <b>1–2 business days</b>.</p>', suggest: '' };
+    }
+
+    // PPA F: tier shift (on hold) → escalate
+    if (/(didn'?t change anything|nothing changed|no (edits|changes)|attainment (change|tier)|tier (shift|change))/.test(t))
+      return { html: '<p>I checked and there were no edits to your orders, but your commission changed. This may be related to an attainment change, which I can\'t confirm from the data I have.</p>' + handoff('September statement, commission change with no order edits'), suggest: 'Why did my pay go down?' };
+
+    // General Spiff questions: not in this release
+    if (/(how much did i (earn|make)|\bytd\b|year to date|total (pay|incentive|earnings)|this month'?s (pay|total)|my attainment|quota attainment)/.test(t))
+      return { html: '<p>I can\'t pull statement totals or attainment yet. You\'ll find <b>Total Incentives</b> and <b>YTD</b> at the top of your ' + L('Spiff statement') + '.</p><p>What I can explain today: your negative balance, the red number at the top, prior period adjustments, and missing credit on an order.</p>', chips: ['Why do I have a negative balance?', 'Why did my pay go down?'] };
+
+    // Pre-close what-if: illustrative numbers only (prototype of the Slack-first vision)
+    if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(t))
+      return { html: '<p>Here\'s an <b>estimate</b> for <b>Acme Corp – Data Cloud Expansion</b> (Commit, $400K ACV, close date Oct 30):</p>' +
+        '<table style="border-collapse:collapse;font-size:13px;margin:6px 0 10px;">' +
+        '<tr><td style="padding:3px 16px 3px 0;color:#616061;">If it closes in Q3</td><td style="padding:3px 0;"><b>~$18,400</b> &nbsp;<span style="color:#2e7d32;">(crosses the 100% quota accelerator)</span></td></tr>' +
+        '<tr><td style="padding:3px 16px 3px 0;color:#616061;">If it slips to Q4</td><td style="padding:3px 0;"><b>~$13,200</b> &nbsp;<span style="color:#c62828;">(−$5,200 vs. Q3)</span></td></tr>' +
+        '</table>' +
+        '<p><b>Why:</b> $400K ACV × 100% product eligibility × your 100% split, then the accelerator tier applies above quota. You\'re <b>$62K</b> from that tier today.</p>' +
+        '<p>💡 Two other Commit deals could get you past it. Want me to show them?</p>' +
+        '<div style="display:flex;gap:8px;margin:6px 0;">' +
+        '<button style="border:1px solid #ccc;background:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;" onclick="showToast(\'Showing the math line by line…\')">Explain this number</button>' +
+        '<button style="border:1px solid #ccc;background:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;" onclick="showToast(\'Opening the other deals…\')">Show similar deals</button>' +
+        '</div>' +
+        '<div class="disclaimer"><p>Illustrative estimate based on your current plan and open pipeline. It is not a commitment of payout; your Compensation Plan and official statement remain the source of truth.</p></div>', raw: true };
+
+    // ── Spiff: Remaining Carried Balance ──
+    if (/(red number|remaining carried|carried balance|top right|number at the top|number on top)/.test(t))
+      return { html: '<p>The red number, <b>−$1,550</b>, is your <b>remaining carried balance</b>: the total still to be recovered from your future commissions.</p>' +
+        '<p>The <b>Balance Carry Forward</b> line is different. It\'s what was applied in a given month to bring that statement to $0.</p>' +
+        table(['Statement', 'Remaining carried balance'], [['August', N('−$3,650')], ['September', N('−$1,550')], ['October <span style="color:#9a9a9a;">(open, preview)</span>', N('−$1,550')]]) +
+        '<p>October is still open, so that figure is a preview and can change until the month closes. The balance started in <b>August</b> because of your plan change.</p>' +
+        sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
+        chips: ['Why do I have a negative balance?', 'When will it be gone?'], suggest: 'Why do I have a negative balance?' };
+
+    if (/(when.*(gone|clear|paid off|go away|recovered|be positive)|how long.*(balance|negative|recover))/.test(t))
+      return { html: '<p>I can\'t give you a date. A carried balance is recovered from your future commissions as you earn them, so how quickly it clears depends on what you earn in the coming months.</p><p>Where it stands: <b>−$3,650</b> in August, <b>−$1,550</b> today. September\'s commission recovered $2,100.</p>' + sources('Balance Carry Forward – Seller Guide'),
+        chips: ['What\'s the red number at the top?'] };
+
+    if (/(by component|component breakdown|break.*down.*component|which component|per component)/.test(t)) {
+      lastTopic = 'carried balance −$1,550, start month August, component breakdown requested';
+      return { html: '<p>I can\'t break the carried balance down by component yet. What I can show is the start month, the main reason and the net math behind it.</p><p>If you need the component view, I can pass this to Comp Ops.</p>', chips: ['Pass this to Comp Ops', 'Why do I have a negative balance?'] };
+    }
+
+    if (/(xactly|last (fiscal )?year|prior (fy|year)|fy26)/.test(t))
+      return { html: '<p>I can see the balance goes back before this fiscal year, and balances that started in Xactly are outside what I can explain from the data I have.</p>' + handoff('carried balance that started before FY27 (Xactly)') };
+
+    // ── Spiff: Balance Carry Forward ──
+    if (/(negative balance|balance carry|carry ?forward|\bbcf\b|why am i negative|(statement|balance) is negative|in the red|why do i owe)/.test(t))
+      return { html: '<p>Your negative balance started in <b>August</b>, mainly because of <b>your plan change</b>. Your new plan (AE Commercial → AE Enterprise) was issued in August and backdated to Jun 1, so June and July orders were recalculated.</p>' +
+        table(['August statement', 'Amount'], [['Earned commission', P('+$6,200')], ['Plan change recalculation (Jun–Jul orders)', N('−$7,400')], ['ACV change on Order 36214477', N('−$2,450')]], ['Net', '−$3,650']) +
+        '<p>A statement can\'t go below $0, so a <b>+$3,650 balance carry forward</b> brought August to $0. That isn\'t a payment: the −$3,650 is recovered from your future commissions. September recovered $2,100, so your remaining balance today is <b>−$1,550</b>.</p>' +
+        sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
+        chips: ['What\'s the red number at the top?', 'When will it be gone?', 'Can you break it down by component?', 'Why did my pay go down?'], suggest: 'What\'s the red number at the top?' };
+
+    // ── PPA D: plan transfer ──
+    if (/(changed plans|plan (change|transfer)|new plan|moved (to a new|plans)|switched (plans|roles))/.test(t))
+      return { html: '<p>You moved from <b>AE Commercial</b> to <b>AE Enterprise</b>. The new plan was issued in August with an effective date of <b>Jun 1</b>, and your target incentive changed from <b>$140,000</b> to <b>$128,000</b>.</p>' +
+        '<p>Because it was backdated, your June and July orders were recalculated under the new plan: net <b>−$7,400</b> on your August statement. That recalculation is also what started your negative balance.</p>' +
+        sources('FY27 Incentive Compensation Policies', 'Compensation Station'),
+        chips: ['Why do I have a negative balance?', 'Show my plan components'] };
+
+    // ── PPA: draw line → escalate (draws are out for now) ──
+    if (/(draw recovery|draw line|draw.*(ppa|statement|deduct|took|taken)|recoverable draw recovery)/.test(t))
+      return { html: '<p>The <b>Recoverable Draw Recovery</b> line (−$640, August) on your September statement is a draw recovery. I can\'t explain draw lines yet, so I\'ve passed it to Comp Ops.</p>' + handoff('September statement, Recoverable Draw Recovery, −$640, August') };
+
+    // ── PPA A: quarterly components ──
+    if (/(territory acv|quarterly|\bq[1-4]\b.*(payout|paid|commission)|60 days)/.test(t))
+      return { html: '<p><b>Territory ACV</b> is paid quarterly, 60 days after quarter end, so it shows under <b>Prior Period Adjustments</b> instead of the month you closed the deals.</p>' +
+        table(['Quarter', 'Status', 'Amount'], [['Q2 (May–Jul)', 'Paid on your September statement', P('+$2,400')], ['Q3 (Aug–Oct)', 'Appears once Q3 is calculated, after the quarter closes Oct 31', '—']]) +
+        sources('Prior Period Adjustments – Seller Guide', 'Compensation Station: plan components'),
+        chips: ['Why did my pay go down?', 'Show my plan components'] };
+
+    // ── PPA B1: attrition relief on a PPA line ──
+    if ((/attrition/.test(t) && /(ppa|positive|adjust|statement|line|paid)/.test(t)) || (ord === '36198812' && !/(eligib|when.*paid)/.test(t)))
+      return { html: '<p>The <b>+$1,050</b> is attrition relief on <b>Order 36198812</b> (June).</p><p>You were added to the order team with attrition relief on <b>Sep 4</b>, after June had closed, so it was paid on your September statement as a prior period adjustment.</p>' +
+        '<p>Audit comment on the order: <i>"Attrition relief applied: rep added to account within 30 days of order."</i></p>' +
+        sources('FY27 Attrition Relief Policy', 'Prior Period Adjustments – Seller Guide'),
+        chips: ['Why did my pay go down?'] };
+
+    // ── PPA B2: order team change / reassignment ──
+    if (/(credit (was |got )?(modified|changed|reassigned|removed|moved|reduced)|order team|my split|split (changed|%|percent)|reassign|removed from)/.test(t) || (ord === '36203228' && !/(eligib|when.*paid)/.test(t))) {
+      lastTopic = 'Order 36203228, order team change Aug 27, split 100% → 50%, −$1,320 PPA';
+      return { html: '<p>On <b>Aug 27</b> the order team for <b>Order 36203228</b> was updated and your split changed from <b>100% to 50%</b>.</p>' +
+        '<p>The credit belongs to <b>July</b> (the commission period), so the change shows on your September statement as a prior period adjustment of <b>−$1,320</b>, across 2 lines.</p>' +
+        table(['Line', 'Period', 'Amount'], [['Core ACV – reversal at 100%', 'Jul', N('−$2,640')], ['Core ACV – recredit at 50%', 'Jul', P('+$1,320')]], ['Net', '', '−$1,320']) +
+        '<p>If you think the split is wrong, I can pass it to Comp Ops to review.</p>' +
+        sources('FY27 Incentive Compensation Policies', 'Prior Period Adjustments – Seller Guide'),
+        chips: ['Pass this to Comp Ops', 'Why did my pay go down?'] };
+    }
+
+    // ── PPA B3: commissionable ACV change ──
+    if (/(acv (change|reduc|went down|dropped|lower)|negative on a paid|paid deal|commissionable acv)/.test(t) || (ord === '36221905' && !/(eligib|when.*paid)/.test(t)))
+      return { html: '<p>Commissionable ACV on <b>Order 36221905</b> went from <b>$120,000</b> to <b>$96,000</b> on <b>Sep 12</b>, after the order was rebooked with a shorter term.</p>' +
+        '<p>July was recalculated on the new ACV: <b>−$610</b> on your September statement as a prior period adjustment.</p>' +
+        sources('FY27 Incentive Compensation Policies', 'Prior Period Adjustments – Seller Guide'),
+        chips: ['Why did my pay go down?', 'Which products on Order 36221905 are eligible?'] };
+
+    // ── PPA B4: NRR ──
+    if (/(\bnrr\b|net revenue rule)/.test(t))
+      return { html: '<p>None of the adjustments on your September statement had the <b>Net Revenue Rule</b> applied.</p><p>For reference: under NRR, credit on an order is reduced when there\'s a loss on a related order within 90 days before or after that order\'s incent date.</p>' + sources('FY27 Incentive Compensation Policies') };
+
+    // ── PPA C: manual / aggregated, no deal info ──
+    if (/(acv adjustment|manual|no (order|deal|opp)|blank|aggregated|what is this .*line|nnaov territory)/.test(t)) {
+      lastTopic = 'ACV Adjustment line, +$300, August, account Acme Corp';
+      return { html: '<p>The <b>ACV Adjustment</b> line (+$300, August) is a <b>manual adjustment</b> made by Comp Ops for <b>Acme Corp</b>. There\'s no order or opportunity on it because it was entered at the account level.</p>' +
+        '<p>Note on the line: <i>"Split correction, case 70512234."</i></p>' +
+        '<p>Some other lines, like <b>NNAOV Territory</b>, are calculated across your whole territory and loaded as one line, so they never show a single deal.</p>' +
+        sources('Prior Period Adjustments – Seller Guide', 'Spiff Statement FAQ'),
+        chips: ['Pass this to Comp Ops', 'Why did my pay go down?'] };
+    }
+
+    // ── PPA summary: ≤20 lines → explain them all ──
+    if (/(\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|(lower|less) (pay|commission)|adjustments?( section)? on my statement|why did my pay|why is my pay)/.test(t))
+      return { html: '<p>Your <b>September</b> statement has <b>7 prior period adjustments</b>, net <b>+$1,180</b>. Prior period adjustments are corrections paid this month for an earlier month. Here\'s each one:</p>' +
+        table(['Payout rule', 'Order', 'Period', 'Amount', 'What happened'], [
+          ['Territory ACV – Quarterly', '—', 'Q2', P('+$2,400'), 'Quarterly component, paid 60 days after quarter end'],
+          ['Attrition Relief', '36198812', 'Jun', P('+$1,050'), 'Relief applied Sep 4, after June closed'],
+          ['Order Team Change (2 lines)', '36203228', 'Jul', N('−$1,320'), 'Order team updated Aug 27; your split changed'],
+          ['ACV Change', '36221905', 'Jul', N('−$610'), 'Commissionable ACV reduced Sep 12'],
+          ['ACV Adjustment', 'Acme Corp', 'Aug', P('+$300'), 'Manual adjustment by Comp Ops'],
+          ['Recoverable Draw Recovery', '—', 'Aug', N('−$640'), 'Draw line — I\'ll pass this to Comp Ops']
+        ], ['Net', '', '', '+$1,180', '']) +
+        '<p>The lines that reduced your pay are the <b>order team change</b>, the <b>ACV change</b> and the <b>draw recovery</b>. Which would you like me to explain? You can also give me an order number.</p>' +
+        sources('Prior Period Adjustments – Seller Guide', 'Spiff Statement FAQ'),
+        chips: ['Why was my credit modified?', 'Why is there a negative on a paid deal?', 'Why is there a draw recovery?', 'Where\'s my Territory ACV?', 'What is this ACV Adjustment line?'], suggest: 'Why was my credit modified?' };
+
+    // ── Missing credit: Spiff first, then order team ──
+    if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited)|where.*(credit|commission)|haven'?t (been paid|received|gotten))/.test(t) && ord) {
+      const s = SPIFF_ORDERS[ord];
+      if (s === 'ppa')
+        return { html: '<p>I found <b>Order ' + ord + '</b> in Spiff. It belongs to <b>August</b> (commission period) but was processed after August closed, so it was paid on your <b>September</b> statement as a prior period adjustment: <b>+$840</b>.</p>' +
+          '<p>You\'ll find it under <b>Prior Period Adjustments</b>, payout rule <b>Core ACV</b>.</p>' + sources('Prior Period Adjustments – Seller Guide', 'GIC Consolidated Close Calendar'),
+          chips: ['Why did my pay go down?', 'When will I be paid for Order 36240077?'] };
+      if (s === 'month')
+        return { html: '<p><b>Order ' + ord + '</b> is on your <b>October</b> statement: Core ACV, <b>+$1,960</b>. October is still open, so the statement is a preview until the month closes.</p>' + sources('GIC Consolidated Close Calendar'),
+          chips: ['When will I be paid for Order 36240077?'] };
+      if (s) return answerFor('order ' + ord + ' ppa');
+      lastTopic = 'Order ' + ord + ', not in Spiff, seller not on order team';
+      return { html: '<p>I couldn\'t find <b>Order ' + ord + '</b> on your Spiff statements, so I checked the order team: <b>you\'re not on it</b>, which is why there\'s no credit yet.</p>' +
+        '<p>Once you\'re added to the order team, the credit appears after the month-end adjustment run. If you think you should be on it, I can pass it to Comp Ops.</p>' +
+        sources('FY27 Incentive Compensation Policies', 'Spiff Statement FAQ'),
+        chips: ['Pass this to Comp Ops'] };
+    }
+
+    // ── GA answers ──
+    if (/(different from total aov|total aov|nnaov vs|vs\.? (total )?aov)/.test(t))
+      return { html: '<p><b>Total AOV</b> is the full annual value of your customers\' active contracts at a point in time. <b>NNAOV</b> measures the <b>change</b> in that number over a period:</p><ul><li><b>NNAOV</b> = ACV − Attrition, or Ending Total AOV − Beginning Total AOV</li><li>Total AOV can grow while NNAOV is negative, if attrition outpaces new ACV in that period</li></ul>' +
+        sources('Global NNAOV Policy Guide', 'FY27 Net New AOV (NNAOV) FAQs OFFICIAL'), suggest: 'How is attrition counted in NNAOV?' };
     if (/(nnaov|net new|annual order value)/.test(t))
-      return '<p>Net New Annual Order Value (NNAOV) is a company metric that measures net growth by combining expansion and loss. It\'s calculated as ACV minus Attrition, or Ending Total AOV minus Beginning Total AOV for a given period. NNAOV is applied across all eligible Customer 360 products and targeted at the Country Company or territory level.</p>' +
-        '<p><b>Sources:</b></p><ul><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening NNAOV Policy Guide…\')">Global NNAOV Policy Guide</a></li><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening FAQs…\')">FY27 Net New AOV (NNAOV) FAQs OFFICIAL</a></li><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening policies…\')">FY27 Incentive Compensation Policies</a></li><li><a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening enablement…\')">[SHARED] FY27 GIC G4G NNAOV Enablement</a></li></ul>' +
-        '<div class="disclaimer"><p>The Incentive Compensation Skill surfaces information from the compensation system of record and does not calculate or modify any figures. This AI-generated response is informational and does not replace, amend, or override your official Compensation Plan, statement, or payout records which remain the source of truth.</p><a class="survey-link" href="https://sfdc.co/CompSlackbotSkillSurvey" target="_blank" rel="noopener">💬 Share your experience to help us improve — take our 2-min survey →</a></div>';
-    if (/(loa|leave of absence|came back|returned from leave|maternity|paternity)/.test(t))
-      return '<p>Your <b>LOA Return Comp Plan</b> has been created and is being finalized — it passes through internal audits before it\'s issued. Your adjusted LOA return plan generates mid-month after your return and finalizes within <b>1–2 months</b>. Track it on <a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening Compensation Station…\')">Compensation Station</a>. No action needed on your end.</p>';
-    if (/(comp plan|my plan|which plan|plan status|pending quota|quota|territory|when.*plan|plan issued|where.*comp plan)/.test(t))
-      return '<p>Your <b>FY27</b> comp plan has been created and is currently <b>Pending Quota</b> — your quota is being finalized, after which it passes through internal audits before being issued. No action needed from you.</p><p>• <b>Role:</b> AE – Enterprise &nbsp;•&nbsp; <b>Plan Status:</b> Pending Quota</p><p>Track live updates on the <a style="color:#1264a3;cursor:pointer;" onclick="showToast(\'Opening Compensation Station…\')">Compensation Station Dashboard</a>.</p>';
-    if (/(when.*pay|when.*paid|payout|get paid|receive.*commission|commission.*paid)/.test(t))
-      return '<p>Happy to check that — can you share the <b>order number</b>? I\'ll look up the commission period and tell you the scheduled payout date per the GIC Consolidated Close Calendar.</p>';
-    if (/(eligib|which product|not eligible|product.*credit)/.test(t))
-      return '<p>Let me check product eligibility for that order — what\'s the <b>order number</b>? I\'ll show your eligibility % by line item and the reason, based on your role under FY27 Product Eligibility rules.</p>';
-    if (/(credit|acv|split|only getting|opportunity amount|mismatch|not getting paid|not paid)/.test(t))
-      return '<p>I can break that down. Share the <b>order number</b> and I\'ll pull it from Org62 — credit is calculated on the Commissionable ACV at the order level, then your split % and role eligibility. I\'ll show the Commission Audit Comments, which are the source of truth for any crediting rule applied.</p>';
-    if (/(missing order|where is my order|order status|not showing in spiff|not in spiff|not appearing)/.test(t))
-      return '<p>Let me run the checkpoints — what\'s the <b>order number</b>? I\'ll check whether you\'re on the order team, the incentive date, and product eligibility. If it\'s a future-dated order, credit is due on the commission date.</p>';
-    if (/(recoverable draw|draw|advance|ramp|new hire|guarantee)/.test(t))
-      return '<p>A <b>recoverable draw</b> is an advance against future commissions — if earned commission in a period is less than the draw, the difference is recovered from later payments. Want me to check which components you have a draw on?</p>';
-    if (/(open.*case|create.*case|submit.*case|case for|speak to human|talk to someone)/.test(t))
-      return '<p>I\'ll help route this to the right team. To open a compensation case, I need a few details:</p><ul><li><b>Order number</b> (if applicable)</li><li><b>Brief description</b> of the issue</li></ul><p>Once you share those, I\'ll create a Sales Support case and give you the case number. Typical response time is <b>1–2 business days</b>.</p>';
+      return { html: '<p>Net New Annual Order Value (NNAOV) is a company metric that measures net growth by combining expansion and loss.</p><ul><li><b>Formula:</b> ACV minus Attrition, or Ending Total AOV minus Beginning Total AOV for a given period</li><li><b>Applies to:</b> all eligible Customer 360 products</li><li><b>Targeted at:</b> the Country Company or territory level</li></ul>' +
+        sources('Global NNAOV Policy Guide', 'FY27 Net New AOV (NNAOV) FAQs OFFICIAL', 'FY27 Incentive Compensation Policies', '[SHARED] FY27 GIC G4G NNAOV Enablement'), suggest: 'How is NNAOV different from total AOV?' };
+    if (/(\bloa\b|leave of absence|came back|returned from leave|back from leave|maternity|paternity)/.test(t))
+      return { html: '<p>Your <b>LOA Return Comp Plan</b> has been created and is being finalized. It passes through internal audits before it\'s issued.</p><ul><li><b>Plan status:</b> Pending Quota</li><li><b>Return date:</b> Oct 6</li></ul><p>Once the plan is active, orders you closed while it was pending are calculated and show on your statement. Track it on ' + L('Compensation Station') + '. No action needed on your end.</p>' + sources('FY27 LOA Compensation Guidelines') };
+    if (/(plan components?|my components|show my plan)/.test(t))
+      return { html: '<p>Your <b>FY27 AE – Enterprise</b> plan has these components:</p>' +
+        table(['Component', 'Measured on', 'Paid'], [['Core ACV', 'Your credited ACV', 'Monthly'], ['Territory ACV', 'Your territory\'s ACV', 'Quarterly, 60 days after quarter end'], ['NNAOV Territory', 'Territory NNAOV', 'Quarterly']]) +
+        '<p>See full rates and quotas on ' + L('Compensation Station') + '.</p>' + sources('Compensation Station', 'FY27 Incentive Compensation Policies') };
+    if (/(comp plan|my plan|which plan|plan status|pending quota|quota|territory|when.*plan|plan issued|g4g)/.test(t))
+      return { html: '<p>Your <b>FY27</b> comp plan is <b>Active</b>.</p><ul><li><b>Role:</b> AE – Enterprise</li><li><b>Plan effective:</b> Jun 1 (updated after your plan change)</li><li><b>Components:</b> Core ACV, Territory ACV, NNAOV Territory</li></ul><p>Track live updates on the ' + L('Compensation Station Dashboard') + '.</p>' + sources('Compensation Station', 'FY27 Incentive Compensation Policies'),
+        chips: ['Show my plan components', 'I changed plans. Why is my pay lower?'] };
+    if (/(when.*pay|when.*paid|payout date|get paid|commission.*paid)/.test(t)) {
+      if (ord) return { html: '<p><b>Order ' + ord + '</b> has commission period <b>October</b>. Per the GIC Consolidated Close Calendar, October commissions are scheduled for the <b>Nov 25</b> payroll.</p>' + sources('GIC Consolidated Close Calendar') };
+      return { html: '<p>Happy to check that. What\'s the <b>order number</b>? I\'ll look up the commission period and the scheduled payout date per the GIC Consolidated Close Calendar.</p>', suggest: 'When will I be paid for Order 36240077?' };
+    }
+    if (/(eligib|which product|not eligible|product.*credit)/.test(t) && !/attrition/.test(t)) {
+      if (ord) return { html: '<p>Product eligibility on <b>Order ' + ord + '</b> for your role (AE – Enterprise):</p>' +
+        table(['Product', 'Eligible', 'Why'], [['Sales Cloud Unlimited', '100%', 'Core product for your role'], ['Data Cloud', '100%', 'Core product for your role'], ['Slack Enterprise Grid', '0%', 'Not on your role\'s eligible list for FY27'], ['Premier Success Plan', '0%', 'Services and success plans aren\'t commissionable']]) +
+        sources('FY27 Product Eligibility Rules') };
+      return { html: '<p>Let me check product eligibility for that order. What\'s the <b>order number</b>? I\'ll show eligibility % by line item and the reason, based on your role under FY27 Product Eligibility rules.</p>', suggest: 'Which products on Order 36240077 are eligible?' };
+    }
+    if (/attrition/.test(t)) {
+      if (ord) return { html: '<p>On <b>Order ' + ord + '</b>: you joined the account team for <b>Globex</b> on <b>Oct 9</b>, and the order closed <b>Oct 20</b>, within 30 days of you joining. Under the attrition relief rules, this order looks eligible.</p><p>Relief is applied by Comp Ops after review. If it\'s applied after the month closes, it shows as a prior period adjustment.</p>' + sources('FY27 Attrition Relief Policy') };
+      return { html: '<p>I can check attrition relief on a specific order. What\'s the <b>order number</b>?</p>', suggest: 'Am I eligible for attrition relief on Order 36241150?' };
+    }
+    if (/(credit|\bacv\b|split|only getting|opportunity amount|mismatch|not getting paid|not paid)/.test(t)) {
+      if (ord) return { html: '<p>Here\'s how your credit on <b>Order ' + ord + '</b> was calculated:</p>' +
+        table(['Step', 'Amount'], [['Opportunity amount', '$250,000'], ['Commissionable ACV (order level, excludes $40,000 services)', '$210,000'], ['Your split', '50%'], ['Product eligibility (all lines eligible)', '100%']], ['Your credit', '$105,000']) +
+        '<p>Commission Audit Comment: <i>"Services lines excluded from commissionable ACV."</i> The audit comment is the source of truth for any crediting rule applied.</p>' + sources('FY27 Incentive Compensation Policies', 'FY27 Product Eligibility Rules') };
+      return { html: '<p>I can break that down. Share the <b>order number</b> and I\'ll pull it: credit is calculated on the Commissionable ACV at the order level, then your split % and role eligibility. I\'ll include the Commission Audit Comments, which are the source of truth for any crediting rule applied.</p>', suggest: 'What\'s my credit on Order 36240077?' };
+    }
+    if (/(missing|where is my order|order status|not showing|not in spiff|not appearing|don'?t see)/.test(t))
+      return { html: '<p>Let me check. What\'s the <b>order number</b>? I\'ll look for it in Spiff first, then check the order team, the incent date and product eligibility.</p>', suggest: 'I don\'t see credit for Order 36230011' };
+    if (/(recoverable draw|\bdraw\b|advance|ramp|new hire|guarantee)/.test(t))
+      return { html: '<p>A <b>recoverable draw</b> is an advance against future commissions. If the commission you earn in a period is less than the draw, the difference is recovered from later payments.</p><p>A <b>new hire guarantee</b> is different: it isn\'t recovered.</p>' + sources('FY27 Recoverable Draw Policy', 'FY27 Incentive Compensation Policies') };
     if (/(spiff|statement|spif)/.test(t))
-      return '<p>I can check Org62 data for your order — note that I don\'t have direct access to your Spiff statement. For Spiff-specific discrepancies, I can help compare what Org62 shows vs. what you\'re seeing, and open a case if there\'s a mismatch. What\'s the <b>order number</b>?</p>';
-    return '<p>I can help with comp plan status, credits &amp; ACV, product eligibility, payout timing, order status, LOA return, and commission policies — all grounded in your live Org62 data. For order-specific questions, just give me the <b>order number</b>. If it needs a human, I\'ll route a case to the right team.</p>';
+      return { html: '<p>I can read your Spiff statement and explain:</p><ul><li><b>Negative balance</b> — where it started and why</li><li><b>The red number</b> at the top (remaining carried balance)</li><li><b>Prior period adjustments</b> — what each line is</li><li><b>Missing credit</b> on an order</li></ul><p>What are you seeing?</p>',
+        chips: ['Why do I have a negative balance?', 'Why did my pay go down?', 'What\'s the red number at the top?'] };
+    return { html: '<p>I can help with comp plan status, credits &amp; ACV, product eligibility, payout timing, LOA return, commission policies, and your Spiff statement (negative balance, prior period adjustments, missing credit). For order-specific questions, give me the <b>order number</b>. If it needs a human, I\'ll pass it to Comp Ops.</p>',
+      chips: ['Why do I have a negative balance?', 'Why did my pay go down?', 'What is NNAOV?'] };
   }
 
   // ── Send message ───────────────────────────────────────────────────
@@ -756,54 +1115,35 @@
     const text = q.value.trim(); if (!text) return;
     q.value = '';
     aiSuggest.style.display = 'none';
+    welcomeState.style.display = 'none';
+    dayDivider.style.display = 'block';
+    userMsg('<div class="mtext"><p>' + esc(text) + '</p></div>');
 
-    if (!skillActive) {
-      welcomeState.style.display = 'none';
-      dayDivider.style.display = 'block';
-      stream.insertAdjacentHTML('beforeend',
-        '<div class="msg"><div class="ava user">SS</div><div class="mbody">' +
-        '<div class="mhead"><span class="nm">Sai Sowmya Sanagala</span><span class="tm">' + now() + '</span></div>' +
-        '<div class="mtext"><p>' + esc(text) + '</p></div></div></div>');
-      stream.insertAdjacentHTML('beforeend',
-        '<div class="msg"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody">' +
-        '<div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
-        '<div class="mtext"><p>To get comp answers, launch the <b>Incentive Compensation</b> skill first — click <b>⚡</b> in the toolbar below or type <b>/incentive compensation</b>.</p></div></div></div>');
-      stream.scrollTop = stream.scrollHeight;
+    if (!skillActive || !skillEnabled) {
+      typing('Slackbot is thinking');
+      setTimeout(() => botMsg('<div class="mtext"><p>' + (!skillAdded
+        ? 'For comp questions, add the <b>Incentive Compensation</b> skill: click <b>+ Add to Slackbot</b> on the skill page, then <b>▶</b> to run it.'
+        : !skillEnabled ? '<b>Incentive Compensation</b> is turned off. Turn it back on from the skill page to get comp answers.'
+        : 'Press <b>▶</b> on the skill page, or type <b>/incentive compensation</b>, to start the skill.') + '</p></div>'), 700);
       return;
     }
 
-    stream.insertAdjacentHTML('beforeend',
-      '<div class="msg"><div class="ava user">SS</div><div class="mbody">' +
-      '<div class="mhead"><span class="nm">Sai Sowmya Sanagala</span><span class="tm">' + now() + '</span></div>' +
-      '<div class="mtext"><p>' + esc(text) + '</p></div></div></div>');
-    stream.scrollTop = stream.scrollHeight;
-
-    stream.insertAdjacentHTML('beforeend',
-      '<div class="msg" id="typing"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div>' +
-      '<div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
-      '<div class="mtext" style="color:#8a8a8a;font-style:italic;font-size:13px;">Incentive Compensation is thinking…</div></div></div>');
-    stream.scrollTop = stream.scrollHeight;
-
+    typing('Incentive Compensation is looking into it');
+    const a = answerFor(text);
     setTimeout(() => {
-      const t = document.getElementById('typing'); if (t) t.remove();
-      const msgId = 'msg_' + Date.now();
-      stream.insertAdjacentHTML('beforeend',
-        '<div class="msg" id="' + msgId + '"><div class="ava slk"><svg viewBox="0 0 36 36"><use href="#slackbot"/></svg></div><div class="mbody">' +
-        '<div class="mhead"><span class="nm">Slackbot</span><span class="app-pill">APP</span><span class="tm">' + now() + '</span></div>' +
-        '<div class="used">⚡ <b>Incentive Compensation</b></div>' +
-        '<div class="invoke"><span class="bullet">●</span> Used Sales Agent from Seller Hub (Salesforce) MCP ›</div>' +
-        '<div class="mtext">' + answerFor(text) + '</div>' +
-        '<div class="canvas-tag" onclick="showToast(\'Opening canvas…\')">📄 Sandra McCarrell · Canvas ▼</div>' +
-        '<div class="react" data-mid="' + msgId + '"><span onclick="react(this,\'↪\')">↪</span><span onclick="react(this,\'👍\')">👍</span><span onclick="react(this,\'👎\')">👎</span></div>' +
-        '</div></div>');
-      stream.scrollTop = stream.scrollHeight;
-    }, 900);
+      botMsg(
+        '<div class="used-skill">⚡ Used <b>Incentive Compensation</b></div>' +
+        '<div class="invoke" onclick="showToast(\'Seller Hub (Salesforce) · Sales Agent\')"><span class="bullet">●</span> Used <b>&nbsp;Sales Agent&nbsp;</b> from Seller Hub (Salesforce) ›</div>' +
+        '<div class="mtext">' + a.html + '</div>' +
+        (a.raw ? '' : DISCLAIMER) +
+        (a.chips ? chips(a.chips) : ''));
+      setSuggest(a.suggest !== undefined ? a.suggest : (a.chips && a.chips[0]) || '');
+    }, 1300);
   }
 
   // ── Input handlers ─────────────────────────────────────────────────
   q.addEventListener('input', () => {
-    const val = q.value;
-    if (/^\/incentive/i.test(val) && !skillActive) {
+    if (/^\/incentive/i.test(q.value)) {
       slashSuggest.style.display = 'block';
       skillPicker.style.display = 'none';
     } else {
@@ -814,10 +1154,10 @@
   q.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (/^\/incentive/i.test(q.value.trim()) && !skillActive) {
+      if (/^\/incentive/i.test(q.value.trim())) {
         q.value = '';
         slashSuggest.style.display = 'none';
-        launchSkill();
+        ensureAndLaunch();
       } else {
         send();
       }
@@ -826,9 +1166,9 @@
       if (slashSuggest.style.display === 'block') {
         e.preventDefault();
         q.value = '/incentive compensation';
-      } else if (skillActive && aiSuggest.style.display === 'flex') {
+      } else if (aiSuggest.style.display === 'flex' && nextSuggest) {
         e.preventDefault();
-        q.value = 'How is NNAOV calculated in practice?';
+        q.value = nextSuggest;
       }
     }
     if (e.key === 'Escape') {
@@ -837,7 +1177,6 @@
     }
   });
 
-  // ── Search bar click ───────────────────────────────────────────────
   document.querySelector('.topsearch .box').addEventListener('click', () => {
     showToast('🔍 Search coming soon in prototype');
   });

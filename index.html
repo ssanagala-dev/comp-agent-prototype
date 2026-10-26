@@ -195,7 +195,13 @@
   .device .bar{display:flex;gap:7px;padding:2px 4px 10px;}
   .device .bar span{width:12px;height:12px;border-radius:50%;}
   .device .bar span:nth-child(1){background:#ff5f57;} .device .bar span:nth-child(2){background:#febc2e;} .device .bar span:nth-child(3){background:#28c840;}
-  .device iframe{width:100%;height:680px;border:none;border-radius:9px;background:#fff;display:block;}
+  .device .bar{align-items:center;}
+  .device .bar .dacts{margin-left:auto;display:flex;gap:8px;}
+  .device .bar .dacts a,.device .bar .dacts button{width:auto;height:auto;border-radius:7px;background:#fff;border:1px solid var(--line);
+    color:var(--navy);font:800 12px var(--font);padding:5px 11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
+  .device .bar .dacts button.pri{background:var(--royal);color:#fff;border-color:var(--royal);}
+  .device iframe{width:100%;height:760px;border:none;border-radius:9px;background:#fff;display:block;}
+  .device iframe:fullscreen{height:100vh;border-radius:0;}
   .proto-cap{font-size:13px;color:var(--mute);margin-top:12px;text-align:center;}
 
   /* ===== SLIDESHOW (matches deck) ===== */
@@ -273,6 +279,11 @@
   .track .badge .bn{font-size:16px;font-weight:800;line-height:1;} .track .badge .bl{font-size:9px;}
 
   .footer{text-align:center;padding:24px;color:var(--mute);font-size:12px;}
+
+  /* ===== DOCS ===== */
+  .docbody{background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px 36px;box-shadow:var(--shadow);}
+  .docbody h1{font-size:32px;font-weight:800;margin-bottom:8px;}
+  .docbody>p{font-size:15.5px;max-width:720px;margin:0;}
 </style>
 </head>
 <body>
@@ -320,6 +331,7 @@
   <div class="tab" data-tab="deps"><span>⬡</span> Dependencies</div>
   <div class="tab" data-tab="team"><span>◇</span> Team Structure</div>
   <div class="tab" data-tab="metrics"><span>📊</span> Metrics <span class="tabpill">DRAFT</span></div>
+  <div class="tab" data-tab="docs"><span>❐</span> Docs <span class="tabpill">DRAFT</span></div>
 </div>
 
 <div class="wrap">
@@ -836,10 +848,25 @@
   </div>
 
   <div class="device">
-    <div class="bar"><span></span><span></span><span></span></div>
-    <iframe src="prototype-slack-skill.html" title="Comp Agent — Slackbot skill in Slack"></iframe>
+    <div class="bar"><span></span><span></span><span></span>
+      <div class="dacts">
+        <button class="pv" data-v="ga" onclick="protoVersion('ga')">Current GA</button>
+        <button class="pv pri" data-v="nov" onclick="protoVersion('nov')">Nov release · Spiff</button>
+        <a id="protoNewTab" href="prototype-slack-skill.html" target="_blank" rel="noopener">↗ Open in new tab</a>
+        <button onclick="document.getElementById('protoFrame').requestFullscreen()">⛶ Full screen</button>
+      </div>
+    </div>
+    <script>
+      function protoVersion(v){
+        const src = v === 'ga' ? 'prototype-slack-skill.html?v=ga' : 'prototype-slack-skill.html';
+        document.getElementById('protoFrame').src = src;
+        document.getElementById('protoNewTab').href = src;
+        document.querySelectorAll('.device .pv').forEach(b => b.classList.toggle('pri', b.dataset.v === v));
+      }
+    </script>
+    <iframe id="protoFrame" src="prototype-slack-skill.html" title="Comp Agent — Slackbot skill in Slack" allow="fullscreen" allowfullscreen></iframe>
   </div>
-  <div class="proto-cap">Live prototype — the Slackbot DM experience once the skill is added. Type a question in the composer to try it.</div>
+  <div class="proto-cap">Live prototype. Click <b>+ Add to Slackbot</b>, then <b>▶</b> to launch the skill. Try: "Why do I have a negative balance?", "Why did my pay go down?", "I don't see credit for Order 36230011". Switch to <b>Current GA</b> to see what sellers have today, without Spiff data. Press Esc to leave full screen.</div>
 
   <div class="sec" style="margin-top:32px;">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> How the Skill Fires</div>
@@ -1165,6 +1192,14 @@
   </div>
 </div>
 
+<!-- ============ TAB — DOCS ============ -->
+<div class="panel" id="docs">
+  <div class="docbody">
+    <h1>Docs</h1>
+    <p>All the Comp Agent docs will live here. Coming soon.</p>
+  </div>
+</div>
+
 </div><!-- /wrap -->
 
 <div class="footer">The Comp Agent · DET Sales Comp — consolidated program hub: vision, pilot, pivot, prototype &amp; walking deck.</div>
@@ -1178,6 +1213,7 @@
   }));
   if(location.hash){const t=document.querySelector('.tab[data-tab="'+location.hash.slice(1)+'"]');if(t)t.click();}
   window.addEventListener('hashchange',()=>{const t=document.querySelector('.tab[data-tab="'+location.hash.slice(1)+'"]');if(t&&!t.classList.contains('active'))t.click();});
+
 
   const slides=document.querySelectorAll('#deckEl .slide'), dots=document.getElementById('dots');
   let cur=0;

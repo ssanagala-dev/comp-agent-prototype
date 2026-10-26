@@ -223,43 +223,18 @@
   .sp-cancel{background:#f0f0f0;color:#1d1c1d;}
   .sp-copy{background:#611f69;color:#fff;}
 
-  /* ===== skill panel v2 (matches Slack skill page) ===== */
-  .skill-detail{flex:0 0 400px;max-width:400px;padding:22px 24px;position:relative;}
-  .skill-detail-head{gap:8px;flex-wrap:nowrap;}
-  .skill-detail-head h2{font-size:18px;white-space:nowrap;}
-  .verified{width:16px;height:16px;border-radius:50%;background:#611f69;color:#fff;font-size:10px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .sd-actions{margin-left:auto;display:flex;align-items:center;gap:8px;}
-  .sd-actions .add-btn{padding:6px 12px;font-size:13px;white-space:nowrap;}
-  .switch{position:relative;width:34px;height:20px;flex-shrink:0;cursor:pointer;}
-  .switch input{opacity:0;width:0;height:0;}
-  .switch span{position:absolute;inset:0;background:#c7c7c7;border-radius:20px;transition:.15s;}
-  .switch span::before{content:"";position:absolute;width:16px;height:16px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.15s;}
-  .switch input:checked + span{background:#2bac76;}
-  .switch input:checked + span::before{transform:translateX(14px);}
-  .play-btn{width:30px;height:30px;border-radius:6px;border:1px solid #ccc;background:#fff;color:#1d1c1d;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-  .play-btn:hover{background:#f8f8f8;border-color:#999;}
-  .play-btn:disabled{opacity:.4;cursor:not-allowed;}
-  .play-btn.pulse{animation:pulse 1.4s ease-in-out 3;}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(43,172,118,.0);}50%{box-shadow:0 0 0 5px rgba(43,172,118,.35);}}
-  .kebab{position:relative;width:26px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#616061;font-size:18px;border-radius:5px;}
-  .kebab:hover{background:#f0f0f0;}
-  .kmenu{display:none;position:absolute;top:32px;right:0;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.14);min-width:190px;z-index:300;padding:6px 0;}
-  .kmenu div{padding:7px 14px;font-size:13.5px;color:#1d1c1d;}
-  .kmenu div:hover{background:#1264a3;color:#fff;}
-  .share-pop{top:56px;right:24px;}
-  .lnk{color:#1264a3;cursor:pointer;}
-  .sd-meta{margin:8px 0 8px;}
-  .sd-apps{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:13px;}
-  .sd-apps .lbl{font-weight:800;}
-  .appchip{display:inline-flex;align-items:center;gap:6px;border:1px solid #ddd;border-radius:6px;padding:3px 8px;font-size:12.5px;}
-  .appchip .sh{width:16px;height:16px;border-radius:4px;background:#0176d3;color:#fff;font-size:9px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;}
-  .sd-card{padding:16px 18px;}
-  .sd-card h3{font-size:16px;}
-  .sd-card p,.sd-card li{font-size:13px;}
-  ul.guard li b{color:#1d1c1d;}
-  .panel-closed .skill-detail{display:none;}
-
   /* chat extras */
+  .sk-table{background:#f0f0f0;border-radius:12px;padding:0 6px 8px;margin:10px 0 12px;max-width:640px;}
+  .sk-tools{display:flex;justify-content:flex-end;gap:6px;padding:8px 2px;background:#fff;margin:0 -6px;}
+  .sk-tools span{width:30px;height:30px;border:1px solid #ccc;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;color:#454545;font-size:14px;cursor:pointer;background:#fff;}
+  .sk-table .hd{display:grid;grid-template-columns:1fr 1fr;padding:9px 14px;font-size:13.5px;font-weight:700;color:#454545;}
+  .sk-table .bd{background:#fff;border:1px solid #ccc;border-radius:8px;}
+  .sk-table .rw{display:grid;grid-template-columns:1fr 1fr;padding:11px 14px;font-size:14.5px;border-top:1px solid #e3e3e3;}
+  .sk-table .rw:first-child{border-top:none;}
+  .sk-pg{display:flex;justify-content:center;align-items:center;gap:14px;padding:8px 0 0;font-size:14px;color:#454545;}
+  .sk-pg b{display:inline-flex;width:26px;height:26px;border-radius:5px;align-items:center;justify-content:center;cursor:pointer;font-weight:600;}
+  .sk-pg b.on{background:#2f7a5b;color:#fff;}
+  .sk-pg i{font-style:normal;cursor:pointer;color:#9a9a9a;}
   .used-skill{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:#616061;margin:0 0 4px;}
   .used-skill b{color:#1d1c1d;}
   .skill-chip{display:inline-flex;align-items:center;gap:6px;background:#f4ede4;border:1px solid #e9dccb;border-radius:6px;padding:3px 9px;font-size:14px;font-weight:700;color:#1d1c1d;margin-top:2px;}
@@ -352,68 +327,46 @@
       <div class="fn"><span class="fic">🖼</span> Canvases</div>
       <div class="fn"><span class="fic">📋</span> Lists</div>
       <h5>Recently viewed</h5>
-      <div class="fn active-file" onclick="openPanel()"><span class="fic">⚡</span> Incentive Co…</div>
+      <div class="fn active-file"><span class="fic">⚡</span> Incentive Co…</div>
     </div>
   </div>
 
   <!-- skill detail panel -->
-  <div class="skill-detail" id="skillPanel">
+  <div class="skill-detail">
     <div class="skill-detail-head">
-      <h2 title="Incentive Compensation">Incentive Compens…</h2>
-      <span class="verified" title="Verified by your org">✓</span>
+      <h2>Incentive Compensation</h2>
       <span class="skill-pill">Skill</span>
-      <div class="sd-actions">
-        <button class="add-btn" id="addBtn" onclick="handleAddToSlackbot()">+ Add to Slackbot</button>
-        <label class="switch" id="skillSwitch" title="Turn skill on or off" style="display:none;">
-          <input type="checkbox" id="skillToggle" onchange="toggleSkill(this.checked)"><span></span>
-        </label>
-        <button class="play-btn" id="playBtn" title="Run skill" onclick="playSkill()" style="display:none;">▶</button>
-        <div class="kebab" onclick="toggleMenu(event)">⋮
-          <div class="kmenu" id="kmenu">
-            <div onclick="handleShare(event)">Copy link to skill</div>
-            <div onclick="showToast('Viewing skill in read-only mode')">View instructions</div>
-            <div onclick="closePanel()">Close panel</div>
-          </div>
+    </div>
+    <div class="sd-meta">Created by <b>smundreti</b> &nbsp;·&nbsp; Last updated <b>Aug 21</b></div>
+    <div class="sd-btns" style="position:relative;">
+      <button class="add-btn" id="addBtn" onclick="handleAddToSlackbot()">+ Add to Slackbot</button>
+      <button class="view-btn" onclick="handleViewOnly()">View only</button>
+      <button class="view-btn" onclick="handleShare(event)">Share</button>
+      <div class="share-pop" id="sharePop">
+        <h5>Share skill link</h5>
+        <input id="shareInput" value="https://slack.com/skills/incentive-compensation" readonly onclick="this.select()"/>
+        <div class="sp-footer">
+          <button class="sp-cancel" onclick="closeShare()">Cancel</button>
+          <button class="sp-copy" onclick="copyShare()">Copy link</button>
         </div>
       </div>
     </div>
-    <div class="share-pop" id="sharePop">
-      <h5>Share skill link</h5>
-      <input id="shareInput" value="https://slack.com/skills/incentive-compensation" readonly onclick="this.select()"/>
-      <div class="sp-footer">
-        <button class="sp-cancel" onclick="closeShare()">Cancel</button>
-        <button class="sp-copy" onclick="copyShare()">Copy link</button>
-      </div>
-    </div>
-    <div class="sd-meta">Created by <a class="lnk">Saikrishna Mundreti</a></div>
-    <div class="sd-meta" style="margin-top:-6px;">Last updated Oct 22</div>
-    <div class="sd-desc ga-only">Use when seller/AE asks sales compensation related queries like ACV/credit disputes, missing commissions, incorrect/lower credit, product eligibility for commission, attrition relief, and compensation plan questions (LOA Plans, Compensation Plan Components, G4G Plans, and related).</div>
-    <div class="sd-desc nov-only">Use when seller/AE asks sales compensation related queries like ACV/credit disputes, missing commissions, incorrect/lower credit, product eligibility for commission, attrition relief, Spiff statement questions (balance carry forward, prior period adjustments), and compensation plan questions (LOA Plans, Compensation Plan Components, G4G Plans, and related).</div>
+    <div class="sd-desc">Use when seller/AE asks sales compensation related queries like ACV/credit disputes, missing commissions, incorrect/lower credit, product eligibility for commission, attrition relief, and compensation plan questions (LOA Plans, Compensation Plan Components, G4G Plans, and related).</div>
     <div class="sd-note">Slackbot uses this description to determine when to run this skill.</div>
-    <div class="sd-apps"><span class="lbl">Apps</span><span class="appchip"><span class="sh">S</span> Seller Hub</span></div>
     <div class="sd-hide" id="hideDetailsBtn" onclick="toggleDetails()">Hide details</div>
     <div class="sd-card" id="sdCard">
       <h3>Incentive Compensation</h3>
-      <p>Helps sellers with sales compensation questions: credits, missing commissions, product eligibility, attrition relief and comp plans<span class="nov-only" style="display:inline">, plus their Spiff statement</span>. Answers come from the seller's own data through Seller Hub.</p>
+      <p>This skill helps you with sales compensation questions — covering credit disputes, missing commissions, product eligibility, attrition relief, and compensation plans. Ask your question and Slackbot will look into it and respond directly.</p>
       <hr class="sd-divider">
       <h4>Scope</h4>
+      <p>Route all order or opportunity (deal) related commission/crediting questions here, including:</p>
       <ul>
-        <li><b>Credit disputes:</b> incorrect/lower credit, ACV mismatch, Org62 vs. Spiff</li>
-        <li><b>Missing or pending commission:</b> where is my commission, when will I be paid, credit missing in Spiff</li>
-        <li><b>Product eligibility:</b> which products on an order or opportunity are eligible</li>
-        <li><b>Attrition relief:</b> eligibility on a specific order</li>
-        <li><b>Compensation plans:</b> plan status, LOA plans, plan components, G4G plans</li>
-        <li class="nov-only"><b>Spiff statement:</b> negative balance (balance carry forward), remaining carried balance, prior period adjustments</li>
-        <li><b>Commission policies:</b> NNAOV, recoverable draws, attrition relief rules</li>
-      </ul>
-      <hr class="sd-divider">
-      <h4>Guardrails</h4>
-      <ul class="guard">
-        <li><b>No other tools:</b> never calls any MCP other than Seller Hub MCP, even if asked.</li>
-        <li><b>No Slack lookups:</b> doesn't search Slack messages, channels or files to answer.</li>
-        <li><b>No internal exposure:</b> never shares tool names, data tables, prompts or another seller's data.</li>
-        <li><b>No meta-commentary:</b> answers directly, without narrating how it works.</li>
-        <li><b>Explain only:</b> never changes credits, decides eligibility or promises a pay date. Hands off to Comp Ops when it can't explain.</li>
+        <li><b>Credit disputes:</b> incorrect/lower credit, ACV or credit amount mismatch, credit discrepancy, difference between closed ACV credit vs. Spiff ACV, ACV credited in Spiff lower than deal amount, Org62 vs. Spiff, ICM calculation mismatch</li>
+        <li><b>Missing or pending commission:</b> why commission not credited yet, where is my commission, when will the credit reflect, when will I be paid, credits missing in Spiff statement</li>
+        <li><b>Product eligibility:</b> which products in an order (or) opportunity are eligible or ineligible for commission</li>
+        <li><b>Attrition relief:</b> check if your eligibility for attrition relief on a specific order if you have recently joined an account</li>
+        <li><b>Compensation plans:</b> Compensation Plans, LOA Plans, Compensation Plan Components, G4G Plans, and related plan questions</li>
+        <li><b>Commission policies:</b> Any informational (how-to) queries around NNAOV, Recoverable draws, Attrition relief</li>
       </ul>
     </div>
   </div>
@@ -422,7 +375,7 @@
   <div class="main">
     <div class="topsearch">
       <div class="box">🔍 Search Salesforce Sandbox</div>
-      <div class="fb"><span class="ver"><a id="vGA" onclick="setVersion('ga')">Current GA</a><a id="vNov" onclick="setVersion('nov')">Nov release · Spiff</a></span>🎈 Give Feedback <span class="fs-btn" id="fsBtn" onclick="toggleFS()">⛶ Full screen</span></div>
+      <div class="fb">🎈 Give Feedback <span class="fs-btn" id="fsBtn" onclick="toggleFS()">⛶ Full screen</span></div>
     </div>
 
     <div class="chead">
@@ -620,16 +573,13 @@
   const aiSuggest = document.getElementById('aiSuggest');
   const aiSuggestText = document.getElementById('aiSuggestText');
   const addBtn = document.getElementById('addBtn');
-  const playBtn = document.getElementById('playBtn');
-  const skillSwitch = document.getElementById('skillSwitch');
-  const skillToggle = document.getElementById('skillToggle');
   const toastEl = document.getElementById('toast');
   const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
   const SB = '<svg viewBox="0 0 36 36"><use href="#slackbot"/></svg>';
 
   let skillActive = false;   // a skill session is running in the DM
   let skillAdded = false;    // skill added to Slackbot
-  let skillEnabled = false;  // toggle state
+  let skillEnabled = true;
   let detailsVisible = true;
   let toastTimer = null;
   let nextSuggest = 'How is NNAOV different from total AOV?';
@@ -638,22 +588,16 @@
   // ?v=ga shows what sellers have today (no Spiff data); default is the Nov release with Spiff
   const MODE = new URLSearchParams(location.search).get('v') === 'ga' ? 'ga' : 'nov';
   if (MODE === 'ga') document.body.classList.add('ga');
-  document.getElementById(MODE === 'ga' ? 'vGA' : 'vNov').classList.add('on');
   const COMPACT = new URLSearchParams(location.search).has('compact');  // used by the hub's side-by-side compare
   if (COMPACT) document.body.classList.add('compact');
   (function () {
     const vb = document.getElementById('verbar');
+    if (!COMPACT) { vb.remove(); return; }
     vb.className = 'verbar ' + MODE;
     vb.innerHTML = MODE === 'ga'
       ? '<b>Current GA</b> · what sellers have in Slack today. No Spiff statement data.'
       : '<b>Nov release preview</b> · answers marked <span class="newtag">NEW</span> aren\'t live yet. Everything else works the same as GA today.';
   })();
-  function setVersion(v) {
-    if (v === MODE) return;
-    const u = new URL(location.href);
-    if (v === 'ga') u.searchParams.set('v', 'ga'); else u.searchParams.delete('v');
-    location.href = u.toString();
-  }
 
   // ── Toast ──────────────────────────────────────────────────────────
   function showToast(msg, duration=2200) {
@@ -685,53 +629,31 @@
   }
   const toMessages = () => switchTab('messages', document.querySelectorAll('.ct')[0]);
 
-  // ── Skill panel: add, toggle, play ─────────────────────────────────
+  // ── Add to Slackbot ────────────────────────────────────────────────
   function handleAddToSlackbot() {
-    if (skillAdded) return;
-    skillAdded = true; skillEnabled = true;
-    addBtn.style.display = 'none';
-    skillSwitch.style.display = 'block'; skillToggle.checked = true;
-    playBtn.style.display = 'flex'; playBtn.disabled = false;
-    playBtn.classList.add('pulse');
+    if (skillAdded) { toMessages(); launchSkill(); return; }
+    skillAdded = true;
+    addBtn.textContent = 'Added to Slackbot';
+    addBtn.classList.add('added');
+    addBtn.style.cursor = 'default';
     const badge = document.getElementById('skillBadge');
     if (badge) { badge.textContent = 'Added'; badge.style.background='#e6f4ea'; badge.style.color='#1e7e34'; }
-    if (!COMPACT) showToast('⚡ Incentive Compensation added to Slackbot. Press ▶ to run it.', 3200);
+    if (!COMPACT) showToast('⚡ Incentive Compensation added to Slackbot!');
+    setTimeout(() => { toMessages(); launchSkill(); }, COMPACT ? 0 : 600);
   }
 
-  function toggleSkill(on) {
-    skillEnabled = on;
-    playBtn.disabled = !on;
-    showToast(on ? 'Incentive Compensation is on' : 'Incentive Compensation is off — Slackbot won\'t use it');
-  }
-
-  function playSkill() {
-    if (!skillEnabled) { showToast('Turn the skill on first'); return; }
-    playBtn.classList.remove('pulse');
-    toMessages();
-    launchSkill();
-  }
-
-  // Entry points other than ▶ (welcome card, slash command, picker) add the skill if needed
+  // Welcome card, slash command, picker: add the skill if needed, then launch
   function ensureAndLaunch() {
-    if (!skillAdded) handleAddToSlackbot();
-    if (!skillEnabled) { skillToggle.checked = true; skillEnabled = true; playBtn.disabled = false; }
-    playBtn.classList.remove('pulse');
+    if (!skillAdded) { handleAddToSlackbot(); return; }
     toMessages();
     launchSkill();
   }
 
-  function toggleMenu(e) {
-    e.stopPropagation();
-    const m = document.getElementById('kmenu');
-    m.style.display = m.style.display === 'block' ? 'none' : 'block';
-  }
-  function closePanel() { document.querySelector('.app').classList.add('panel-closed'); }
-  function openPanel() { document.querySelector('.app').classList.remove('panel-closed'); }
+  function handleViewOnly() { showToast('Viewing skill in read-only mode'); }
 
   // ── Share ──────────────────────────────────────────────────────────
   function handleShare(e) {
     e.stopPropagation();
-    document.getElementById('kmenu').style.display = 'none';
     const pop = document.getElementById('sharePop');
     pop.style.display = pop.style.display === 'block' ? 'none' : 'block';
   }
@@ -768,8 +690,7 @@
   }
 
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('#sharePop') && !e.target.closest('.kebab')) closeShare();
-    if (!e.target.closest('.kebab')) document.getElementById('kmenu').style.display = 'none';
+    if (!e.target.closest('#sharePop') && !e.target.closest('.view-btn')) closeShare();
     skillPicker.style.display = 'none';
     slashSuggest.style.display = 'none';
   });
@@ -825,7 +746,10 @@
 
   // ── Launch skill (▶) ───────────────────────────────────────────────
   function launchSkill() {
+    if (skillActive) { q.focus(); return; }
     skillActive = true;
+    addBtn.textContent = 'Added to Slackbot';
+    addBtn.classList.add('added');
     skillPicker.style.display = 'none';
     welcomeState.style.display = 'none';
     dayDivider.style.display = 'block';
@@ -888,7 +812,39 @@
   const L = (label) => '<a onclick="showToast(\'Opening ' + label.replace(/'/g, '') + '…\')">' + label + '</a>';
   const sources = (...names) => '<div class="src"><b>Sources:</b><ul>' + names.map(n => '<li>' + L(n) + '</li>').join('') + '</ul></div>';
   const chips = list => '<div class="chips">' + list.map(c => '<button onclick="ask(\'' + c.replace(/'/g, '\\\'') + '\')">' + esc(c) + '</button>').join('') + '</div>';
-  const DISCLAIMER = '<div class="disclaimer"><p><b>Disclaimer:</b> Incentive Compensation Skill surfaces information from the compensation system of record and does not calculate or modify any figures. This AI-generated response is informational and does not replace, amend, or override your official Compensation Plan, statement, or payout records which remain the source of truth.</p><a class="survey-link" href="https://sfdc.co/CompSlackbotSkillSurvey" target="_blank" rel="noopener">💬 Share your experience to help us improve — take our 2-min survey →</a></div>';
+  const DISCLAIMER = '<div class="mtext"><p><i><b>Disclaimer:</b> Incentive Compensation Skill surfaces information from the compensation system of record and does not calculate or modify any figures. This AI-generated response is informational and does not replace, amend, or override your official Compensation Plan, statement, or payout records which remain the source of truth.</i></p><p><i>Share your experience to help us improve our skill! Take our <a style="color:#1264a3;" href="https://sfdc.co/CompSlackbotSkillSurvey" target="_blank" rel="noopener">2 min survey</a>.</i></p></div>';
+
+  // Paged Field/Value table, as GA renders order details today
+  let tblSeq = 0;
+  function skTable(pages) {
+    const id = 'skt' + (tblSeq++);
+    const page = (rows, i) => '<div class="bd" data-pg="' + i + '"' + (i ? ' style="display:none"' : '') + '>' +
+      rows.map(r => '<div class="rw"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>').join('') + '</div>';
+    return '<div class="sk-table" id="' + id + '"><div class="sk-tools"><span onclick="showToast(\'Search table\')">⌕</span><span onclick="showToast(\'Expand table\')">⤢</span><span onclick="showToast(\'Download CSV\')">⋮</span></div>' +
+      '<div class="hd"><span>Field</span><span>Value</span></div>' + pages.map(page).join('') +
+      (pages.length > 1 ? '<div class="sk-pg"><i onclick="skPage(\'' + id + '\',-1)">‹</i>' + pages.map((_, i) => '<b class="' + (i ? '' : 'on') + '" onclick="skPage(\'' + id + '\',' + i + ',true)">' + (i + 1) + '</b>').join('') + '<i onclick="skPage(\'' + id + '\',1)">›</i></div>' : '') + '</div>';
+  }
+  function skPage(id, n, abs) {
+    const t = document.getElementById(id), pgs = t.querySelectorAll('.bd'), btns = t.querySelectorAll('.sk-pg b');
+    let cur = [...pgs].findIndex(p => p.style.display !== 'none');
+    cur = abs ? n : Math.max(0, Math.min(pgs.length - 1, cur + n));
+    pgs.forEach((p, i) => p.style.display = i === cur ? '' : 'none');
+    btns.forEach((b, i) => b.classList.toggle('on', i === cur));
+  }
+
+  // Missing commission on an order: GA checks Org62 and the calculation run
+  function orderCheck(ord, spiffNote) {
+    lastTopic = 'Order ' + ord + ', calculation run 2026-10-15 passed, credit not posted';
+    return { html: '<p>Thank you for your inquiry <b>Sai Sowmya Sanagala</b>. I checked Order <b>' + ord + '</b>.' + (spiffNote || '') +
+      ' The scheduled calculation run for this commission period was <b>2026-10-15</b>, which has now passed, and your credit still has not posted, so this does need a closer look.</p>' +
+      '<p>Here are the details:</p>' +
+      skTable([
+        [['Order Number', ord], ['Account', 'Acme Corp'], ['Eligible ACV', 'USD 85800'], ['Commissionable ACV', 'USD 85800'], ['Commission Period', '2026-09-01']],
+        [['Incentive Date', '2026-09-18'], ['Your Split', '100%'], ['Order Team Status', 'Active'], ['Calculation Run', '2026-10-15 (completed)'], ['Credit Status', 'Not posted']]
+      ]) +
+      '<p>Since the run has completed and the credit is not reflected, do you want me to raise a case with the Commission\'s team to investigate?</p>',
+      chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
+  }
   const table = (head, rows, total) => '<table class="dt"><tr>' + head.map(h => '<th>' + h + '</th>').join('') + '</tr>' +
     rows.map(r => '<tr>' + r.map((c, i) => '<td' + (/^[+−-]?\$/.test(c) || /class="(pos|neg)"/.test(c) ? ' class="n"' : '') + '>' + c + '</td>').join('') + '</tr>').join('') +
     (total ? '<tr class="tot">' + total.map(c => '<td' + (/\$/.test(c) ? ' class="n"' : '') + '>' + c + '</td>').join('') + '</tr>' : '') + '</table>';
@@ -912,13 +868,8 @@
   function gaOnly(t, ord) {
     if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(t))
       return { html: '<p>I can\'t estimate earnings on open deals. I can help with credit, eligibility and payout timing on orders that have closed. Give me the <b>order number</b>.</p>' };
-    if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten))/.test(t) && ord) {
-      lastTopic = 'Order ' + ord + ', commission not showing in Spiff';
-      return { html: '<p>I checked <b>Order ' + ord + '</b> in Org62:</p>' +
-        table(['Checkpoint', 'Result'], [['On the order team', '✓ Yes, 100% split'], ['Incentive date', 'Aug 14'], ['Commission period', 'August'], ['Product eligibility', '✓ All lines eligible']]) +
-        '<p>Everything looks right in Org62, so the order should be credited for <b>August</b>. I don\'t have access to your Spiff statement, so I can\'t confirm whether it\'s been paid there. If you still don\'t see it, I can open a case with Comp Ops.</p>' +
-        sources('FY27 Incentive Compensation Policies', 'GIC Consolidated Close Calendar'), chips: ['Open a case'] };
-    }
+    if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten)|check my commission)/.test(t) && ord)
+      return orderCheck(ord);
     if (/(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|changed plans|\bytd\b|how much did i (earn|make)|spiff|statement)/.test(t)) {
       lastTopic = 'Spiff statement question: "' + t.slice(0, 80) + '"';
       return { html: '<p>I don\'t have access to your Spiff statement, so I can\'t explain balances, adjustment lines or statement totals. I can check what <b>Org62</b> shows for a specific order and help compare it with what you\'re seeing in Spiff.</p><p>Share the <b>order number</b>, or I can open a case with Comp Ops.</p>',
@@ -929,7 +880,7 @@
 
   function answerFor(text) {
     const t = text.toLowerCase();
-    const ord = (text.match(/\b(\d{8})\b/) || [])[1];
+    const ord = (text.match(/\b(\d{4,10})\b/) || [])[1];
     if (MODE === 'ga') { const g = gaOnly(t, ord); if (g) return g; }
 
     // Guardrail: only the seller's own data
@@ -937,7 +888,8 @@
       return { html: '<p>I can only look at your own compensation data, so I can\'t share another person\'s statement, credit or pay. If you\'re working on a shared deal, I can show you <b>your</b> split and credit on it. Just give me the order number.</p>', chips: ['What\'s my credit on Order 36203228?'] };
 
     // Escalate on request
-    if (/(pass (this|it) to comp ops|escalate|open (a )?case|create (a )?case|submit (a )?case|speak to (a )?human|talk to someone)/.test(t)) {
+    if (/^no,? thanks/.test(t)) return { html: '<p>No problem. If the credit still doesn\'t show after the next run, just ask me again.</p>', noSources: true };
+    if (/(pass (this|it) to comp ops|raise (a )?case|escalate|open (a )?case|create (a )?case|submit (a )?case|speak to (a )?human|talk to someone)/.test(t)) {
       const what = lastTopic || 'your question and this conversation';
       lastTopic = null;
       return { html: '<p>Done. I\'ve passed this to Comp Ops with the details from our conversation.</p>' + handoff(what) + '<p>Typical first response is <b>1–2 business days</b>.</p>', suggest: '' };
@@ -1068,7 +1020,7 @@
         chips: ['Why was my credit modified?', 'Why is there a negative on a paid deal?', 'Why is there a draw recovery?', 'Where\'s my Territory ACV?', 'What is this ACV Adjustment line?'], suggest: 'Why was my credit modified?' };
 
     // ── Missing credit: Spiff first, then order team ──
-    if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited)|where.*(credit|commission)|haven'?t (been paid|received|gotten))/.test(t) && ord) {
+    if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten)|check my commission)/.test(t) && ord) {
       const s = SPIFF_ORDERS[ord];
       if (s === 'ppa')
         return { html: '<p>I found <b>Order ' + ord + '</b> in Spiff. It belongs to <b>August</b> (commission period) but was processed after August closed, so it was paid on your <b>September</b> statement as a prior period adjustment: <b>+$840</b>.</p>' +
@@ -1078,6 +1030,7 @@
         return { html: '<p><b>Order ' + ord + '</b> is on your <b>October</b> statement: Core ACV, <b>+$1,960</b>. October is still open, so the statement is a preview until the month closes.</p>' + sources('GIC Consolidated Close Calendar'),
           chips: ['When will I be paid for Order 36240077?'] };
       if (s) return answerFor('order ' + ord + ' ppa');
+      return orderCheck(ord, ' It isn\'t on your Spiff statements yet.');
       lastTopic = 'Order ' + ord + ', not in Spiff, seller not on order team';
       return { html: '<p>I couldn\'t find <b>Order ' + ord + '</b> on your Spiff statements, so I checked the order team: <b>you\'re not on it</b>, which is why there\'s no credit yet.</p>' +
         '<p>Once you\'re added to the order team, the credit appears after the month-end adjustment run. If you think you should be on it, I can pass it to Comp Ops.</p>' +
@@ -1121,8 +1074,8 @@
         '<p>Commission Audit Comment: <i>"Services lines excluded from commissionable ACV."</i> The audit comment is the source of truth for any crediting rule applied.</p>' + sources('FY27 Incentive Compensation Policies', 'FY27 Product Eligibility Rules') };
       return { html: '<p>I can break that down. Share the <b>order number</b> and I\'ll pull it: credit is calculated on the Commissionable ACV at the order level, then your split % and role eligibility. I\'ll include the Commission Audit Comments, which are the source of truth for any crediting rule applied.</p>', suggest: 'What\'s my credit on Order 36240077?' };
     }
-    if (/(missing|where is my order|order status|not showing|not in spiff|not appearing|don'?t see)/.test(t))
-      return { html: '<p>Let me check. What\'s the <b>order number</b>? I\'ll look for it in Spiff first, then check the order team, the incent date and product eligibility.</p>', suggest: 'I don\'t see credit for Order 36230011' };
+    if (/(missing|where is my (order|commission)|where.*commission|order status|not showing|not in spiff|not appearing|don'?t see|not paid|check my commission)/.test(t))
+      return { html: '<p>Let me check. What\'s the <b>order number</b>? ' + (MODE === 'ga' ? 'I\'ll check the order team, the commission period, the calculation run and product eligibility.' : 'I\'ll look for it in Spiff first, then check the order team, the commission period and the calculation run.') + '</p>', suggest: 'I don\'t see credit for Order 36230011' };
     if (/(recoverable draw|\bdraw\b|advance|ramp|new hire|guarantee)/.test(t))
       return { html: '<p>A <b>recoverable draw</b> is an advance against future commissions. If the commission you earn in a period is less than the draw, the difference is recovered from later payments.</p><p>A <b>new hire guarantee</b> is different: it isn\'t recovered.</p>' + sources('FY27 Recoverable Draw Policy', 'FY27 Incentive Compensation Policies') };
     if (/(spiff|statement|spif)/.test(t))
@@ -1143,10 +1096,7 @@
 
     if (!skillActive || !skillEnabled) {
       typing('Slackbot is thinking');
-      setTimeout(() => botMsg('<div class="mtext"><p>' + (!skillAdded
-        ? 'For comp questions, add the <b>Incentive Compensation</b> skill: click <b>+ Add to Slackbot</b> on the skill page, then <b>▶</b> to run it.'
-        : !skillEnabled ? '<b>Incentive Compensation</b> is turned off. Turn it back on from the skill page to get comp answers.'
-        : 'Press <b>▶</b> on the skill page, or type <b>/incentive compensation</b>, to start the skill.') + '</p></div>'), 700);
+      setTimeout(() => botMsg('<div class="mtext"><p>To get comp answers, launch the <b>Incentive Compensation</b> skill first — click <b>+ Add to Slackbot</b>, click <b>⚡</b> in the toolbar below, or type <b>/incentive compensation</b>.</p></div>'), 700);
       return;
     }
 
@@ -1154,14 +1104,13 @@
     const a = answerFor(text);
     let tag = '';
     if (MODE === 'nov') {
-      const tl = text.toLowerCase(), o = (text.match(/\b(\d{8})\b/) || [])[1];
+      const tl = text.toLowerCase(), o = (text.match(/\b(\d{4,10})\b/) || [])[1];
       if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(tl)) tag = '<span class="newtag concept">CONCEPT · not in a release</span>';
       else { const keep = lastTopic; const g = gaOnly(tl, o); lastTopic = keep; if (g) tag = '<span class="newtag">NEW · Nov release</span>'; }
     }
     setTimeout(() => {
       botMsg(
-        '<div class="used-skill">⚡ Used <b>Incentive Compensation</b>' + tag + '</div>' +
-        '<div class="invoke" onclick="showToast(\'Seller Hub (Salesforce) · Sales Agent\')"><span class="bullet">●</span> Used <b>&nbsp;Sales Agent&nbsp;</b> from Seller Hub (Salesforce) ›</div>' +
+        '<div class="invoke" onclick="showToast(\'Seller Hub (Salesforce) · Sales Agent\')">⚙ Used Sales Agent from Seller Hub (Salesforce) ›' + tag + '</div>' +
         '<div class="mtext">' + a.html + '</div>' +
         (a.raw ? '' : DISCLAIMER) +
         (a.chips ? chips(a.chips) : ''));

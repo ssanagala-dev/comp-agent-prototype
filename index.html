@@ -876,6 +876,7 @@
       <button onclick="askBoth()">Ask both</button>
     </div>
     <div class="presets">
+      <button onclick="askBoth('Can you help me check my commission on my missing order 1234?')">Where is my commission on order 1234?</button>
       <button onclick="askBoth('Why do I have a negative balance?')">Why do I have a negative balance?</button>
       <button onclick="askBoth('Why did my pay go down?')">Why did my pay go down?</button>
       <button onclick="askBoth('I don\'t see credit for Order 36230011')">I don't see credit for Order 36230011</button>
@@ -900,8 +901,6 @@
   <div class="device" id="singleView">
     <div class="bar"><span></span><span></span><span></span>
       <div class="dacts">
-        <button class="pv" data-v="ga" onclick="protoVersion('ga')">Current GA</button>
-        <button class="pv pri" data-v="nov" onclick="protoVersion('nov')">Nov release · Spiff</button>
         <a id="protoNewTab" href="prototype-slack-skill.html" target="_blank" rel="noopener">↗ Open in new tab</a>
         <button onclick="document.getElementById('protoFrame').requestFullscreen()">⛶ Full screen</button>
       </div>
@@ -931,7 +930,7 @@
     </script>
     <iframe id="protoFrame" src="prototype-slack-skill.html" title="Comp Agent — Slackbot skill in Slack" allow="fullscreen" allowfullscreen></iframe>
   </div>
-  <div class="proto-cap">Live prototype. Click <b>+ Add to Slackbot</b>, then <b>▶</b> to launch the skill. Try: "Why do I have a negative balance?", "Why did my pay go down?", "I don't see credit for Order 36230011". Switch to <b>Current GA</b> to see what sellers have today, without Spiff data. Press Esc to leave full screen.</div>
+  <div class="proto-cap">Live prototype. Click <b>+ Add to Slackbot</b>, then <b>▶</b> to launch the skill. Try: "Why do I have a negative balance?", "Why did my pay go down?", "I don't see credit for Order 36230011". To see what changes from today, use <b>⇆ Compare GA vs. Nov release</b> above. Press Esc to leave full screen.</div>
 
   <div class="sec" style="margin-top:32px;">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> How the Skill Fires</div>

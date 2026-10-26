@@ -298,6 +298,8 @@
 
   .footer{text-align:center;padding:24px;color:var(--mute);font-size:12px;}
 
+  /* use case group rows */
+  table.uct td:nth-child(2){color:var(--mute);font-style:italic;}
   /* ===== DOCS ===== */
   .docbody{background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px 36px;box-shadow:var(--shadow);}
   .docbody h1{font-size:32px;font-weight:800;margin-bottom:8px;}
@@ -384,7 +386,7 @@
     <p class="lead">The Incentive Compensation Skill lives inside Slackbot — where sellers already work. Ask in plain language and get an instant, grounded answer from the compensation system of record. When something genuinely needs a human, it routes to the right team.</p>
     <div class="grid c3">
       <div class="box sky"><h4>Real-time interaction</h4>Ask in plain language in Slack — no case, no queue, no context switch.</div>
-      <div class="box sky"><h4>Instant resolutions</h4>Grounded answers from Org62 &amp; Spiff, with the reasoning shown — never a guessed number.</div>
+      <div class="box sky"><h4>Instant resolutions</h4>Grounded answers from Org62 today, and Spiff from Nov 24, with the reasoning shown — never a guessed number.</div>
       <div class="box sky"><h4>Case deflection</h4>Every answer handled is a case avoided; humans focus on what truly needs them.</div>
     </div>
   </div>
@@ -400,6 +402,7 @@
       <div class="box"><h4>Orders Status</h4>"Where is my order — I'm missing credit or it looks wrong."<div style="margin-top:8px;font-weight:800;color:var(--royal)">876 cases</div></div>
       <div class="box green"><h4>Smart Routing</h4>Routes to Plan Ops, GIC or Territory Ops only when a human is truly needed.</div>
     </div>
+    <div class="box amber" style="margin-top:14px"><h4>Coming Nov 24 · Spiff</h4>Negative and carried balances, missing credit, and prior period adjustments. See the full list in <a href="#goal" class="archlink">Goal &amp; Roadmap</a>.</div>
   </div>
 
   <div class="sec">
@@ -572,78 +575,92 @@
 <!-- ============ TAB 2 — GOAL & ROADMAP ============ -->
 <div class="panel" id="goal">
   <div class="hero">
-    <div class="kick">The Goal</div>
-    <h1>Start focused. Bend the case curve.</h1>
-    <p>Honest projections over inflated claims — the pilot tells us the truth. Here's the target, the waves, and the path to GA.</p>
+    <div class="kick">Goal &amp; Roadmap</div>
+    <h1>Every comp question answered in Slack, in seconds.</h1>
+    <p>We started with the questions sellers file cases about most. Each wave takes on the next set.</p>
     <svg class="spk" style="top:30px;right:200px;width:18px;color:#f5b800;"><use href="#spark"/></svg>
     <img class="robot" src="assets/robot.png" alt="Comp Agent robot" />
   </div>
 
   <div class="sec">
-    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> The Impact — Metrics</div>
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> The Goal</div>
     <h2>What success looks like</h2>
-    <div class="grid c4">
-      <div class="stat"><div class="big">9.8d → 12s</div><div class="lbl">Time to resolution</div><div class="sub">case + wait → grounded answer</div></div>
-      <div class="stat"><div class="big">12,000</div><div class="lbl">In scope today · ~18%</div><div class="sub">MVP topics, of ~70k/yr</div></div>
-    </div>
-  </div>
-
-  <div class="sec">
-    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> The Projection</div>
-    <h2>Three waves</h2>
     <div class="grid c3">
-      <div class="box green"><h4 style="color:var(--green)">WAVE 1 · Live now — pilot</h4>
-        <div style="font-weight:800;font-size:13px;margin:6px 0;">~12,000 cases/yr · ~18% of all</div>
-        <ul class="plain" style="margin-top:8px;font-size:13px;"><li>Comp plan status &amp; timing</li><li>Commission / payout questions</li><li>Incentive &amp; TI, order checks</li></ul>
-      </div>
-      <div class="box sky"><h4 style="color:var(--royal)">WAVE 2 · Spiff integration</h4>
-        <div style="font-weight:800;font-size:13px;margin:6px 0;">~18,000 cases/yr · ~26% of all</div>
-        <ul class="plain" style="margin-top:8px;font-size:13px;"><li>Commission-engine reasoning</li><li>Discrepancy deep-dives</li><li>Attrition &amp; quota context</li><li>Grounded on Spiff data</li></ul>
-      </div>
-      <div class="box" style="border-top:3px solid var(--navy);"><h4 style="color:var(--navy)">WAVE 3 · Ops + Managers</h4>
-        <div style="font-weight:800;font-size:13px;margin:6px 0;">~25,000 cases/yr · ~36% of all</div>
-        <ul class="plain" style="margin-top:8px;font-size:13px;"><li>Manager team views</li><li>GIC operator NL-to-insight</li><li>Cross-dataset reasoning</li><li>Org-wide self-serve</li></ul>
-      </div>
+      <div class="stat"><div class="big">9.8d → 12s</div><div class="lbl">Time to an answer</div><div class="sub">from filing a case to asking in Slack</div></div>
+      <div class="stat"><div class="big">~70k</div><div class="lbl">Comp cases a year</div><div class="sub">the volume we're working down</div></div>
+      <div class="stat g"><div class="big">~26%</div><div class="lbl">In scope after Wave 2</div><div class="sub">up from ~18% in Wave 1</div></div>
     </div>
   </div>
 
   <div class="sec">
-    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> High-Level Timeline</div>
-    <h2>September: GA for Sellers</h2>
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> The Roadmap</div>
+    <h2>Three waves</h2>
     <div class="path">
       <div class="step done"><div class="dot"></div><div class="ph">Sales Agent Beta</div><div class="tm">Jul 14</div></div>
-      <div class="step done"><div class="dot"></div><div class="ph">Slackbot Pivot</div><div class="tm">Aug 26</div></div>
-      <div class="step now"><div class="dot"></div><div class="ph">GA for Sellers</div><div class="tm"><span class="chip ga">Sep 10</span></div></div>
-      <div class="step"><div class="dot"></div><div class="ph">Spiff Integration</div><div class="tm">Q3</div></div>
-      <div class="step"><div class="dot"></div><div class="ph">Ops Persona</div><div class="tm">Q3</div></div>
-      <div class="step"><div class="dot"></div><div class="ph">GA for Ops</div><div class="tm">Q4</div></div>
+      <div class="step done"><div class="dot"></div><div class="ph">GA for Sellers</div><div class="tm"><span class="chip ga">Sep 10</span></div></div>
+      <div class="step done"><div class="dot"></div><div class="ph">Comp Agent F&amp;Es</div><div class="tm">Oct 15</div></div>
+      <div class="step now"><div class="dot"></div><div class="ph">Wave 2 · Spiff</div><div class="tm">Nov 24</div></div>
+      <div class="step"><div class="dot"></div><div class="ph">Wave 3 · Ops &amp; Managers</div><div class="tm">Next</div></div>
+    </div>
+    <div class="grid c3" style="margin-top:14px;">
+      <div class="box green"><h4 style="color:var(--green)">WAVE 1 · Live</h4>
+        <div style="font-weight:800;font-size:13px;margin:6px 0;">~12,000 cases/yr · ~18% of all</div>
+        <ul class="plain" style="font-size:13.5px;"><li>Comp plan status</li><li>Credit and eligibility on an order</li><li>Find a deal by order, opportunity or quote</li><li>Create a case</li></ul>
+      </div>
+      <div class="box sky"><h4 style="color:var(--royal)">WAVE 2 · Spiff · Nov 24</h4>
+        <div style="font-weight:800;font-size:13px;margin:6px 0;">~18,000 cases/yr · ~26% of all</div>
+        <ul class="plain" style="font-size:13.5px;"><li>Negative and carried balances</li><li>Missing credit</li><li>Prior period adjustments</li></ul>
+      </div>
+      <div class="box" style="border-top:3px solid var(--navy);"><h4 style="color:var(--navy)">WAVE 3 · Ops &amp; Managers</h4>
+        <div style="font-weight:800;font-size:13px;margin:6px 0;">~25,000 cases/yr · ~36% of all</div>
+        <ul class="plain" style="font-size:13.5px;"><li>Team views for managers</li><li>Population-wide questions for Comp Ops</li></ul>
+      </div>
     </div>
   </div>
 
   <div class="sec">
-    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Three Sellers · One Agent</div>
-    <h2>MVP is the seller IC; managers &amp; ops scale post-MVP</h2>
-    <table class="t">
-      <tr><th>Persona</th><th>Asks</th><th>Data scope</th><th>In MVP?</th></tr>
-      <tr><td><b>Alex Rivera</b> — Seller (IC)</td><td>"Why am I only getting 50% credit on OPP-88512?"</td><td>My data · my plan</td><td><span class="chkmark">✓ Yes</span></td></tr>
-      <tr><td><b>Lisa Kim</b> — Seller Manager</td><td>"Which reps on my team are at risk of missing quota?"</td><td>My team data · team plans</td><td>Post-MVP</td></tr>
-      <tr><td><b>Maya Patel</b> — GIC Operator</td><td>"How many sellers in WW Ent are blocked by missing TOPS?"</td><td>Population-wide</td><td>Post-MVP</td></tr>
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Wave 2 · Coming Nov 24</div>
+    <h2>What sellers can ask about Spiff</h2>
+    <p class="lead">Answers come from the seller's own Spiff statement data. UAT starts Nov 18.</p>
+    <table class="t uct">
+      <colgroup><col style="width:35%"><col style="width:65%"></colgroup>
+      <tr><th>Use case</th><th>Seller asks</th></tr>
+      <tr><td><b>Negative balance (BCF)</b></td><td>"Why do I have a negative balance?"</td></tr>
+      <tr><td><b>Remaining carried balance</b></td><td>"What's the red number at the top of my statement?"</td></tr>
+      <tr><td><b>Missing credit</b></td><td>"I don't see credit for Order 123"</td></tr>
+      <tr><td><b>Quarterly payouts</b></td><td>"Where's my Territory ACV?"</td></tr>
+      <tr><td><b>Credit changes</b></td><td>"Why was my credit modified?"</td></tr>
+      <tr><td><b>Lines with no deal</b></td><td>"What is this ACV Adjustment line?"</td></tr>
+      <tr><td><b>Plan transfer</b></td><td>"I changed plans. Why is my pay lower?"</td></tr>
+      <tr><td><b>Back from leave</b></td><td>"I'm back from leave. Why is my commission zero?"</td></tr>
     </table>
-    <div class="callout green"><b>Why it matters:</b> Every answer the agent handles is a case avoided. Sellers get unblocked in seconds, not days. Support teams focus on cases that truly need a human. We start bending the case curve — and this is just the beginning.</div>
+  </div>
+
+  <div class="sec">
+    <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Wave 3 · Ops &amp; Managers</div>
+    <h2>From answering sellers to helping the people who run comp</h2>
+    <p class="lead">Today the agent answers one seller about their own data. Next, it helps managers see across their team and gives Comp Ops answers across the whole population, without pulling reports by hand.</p>
+    <table class="t">
+      <colgroup><col style="width:22%"><col style="width:48%"><col style="width:30%"></colgroup>
+      <tr><th>Who</th><th>Asks</th><th>Data scope</th></tr>
+      <tr><td><b>Seller</b> · live today</td><td>"Why am I only getting 50% credit on this order?"</td><td>My data · my plan</td></tr>
+      <tr><td><b>Seller manager</b></td><td>"Which reps on my team are at risk of missing quota?"</td><td>My team · team plans</td></tr>
+      <tr><td><b>Comp Ops / GIC operator</b></td><td>"How many sellers in WW Ent are blocked by missing TOPS?"</td><td>Population-wide</td></tr>
+    </table>
+    <div class="callout"><b>Same rules for every answer:</b> people only see data they're allowed to see, the agent doesn't guess, and anything it can't explain goes to the Commissions queue. It explains comp, but never decides eligibility or makes adjustments.</div>
   </div>
 
   <div class="sec">
     <div class="kick"><svg style="width:13px;color:var(--royal)"><use href="#spark"/></svg> Longer-Term Vision</div>
     <h2>Where MCP takes us next</h2>
-    <p class="lead">The MCP pattern introduced for the Slackbot pivot opens a longer-term architectural possibility: direct MCP-to-org connectivity, bypassing the Headless Sales Agent for certain queries. Future comp skills could call Org62, Spiff, and EOS directly via purpose-built MCP servers — faster, more modular, easier to scale across personas.</p>
+    <p class="lead">The Slackbot pivot put MCP in the middle of the architecture. Longer term, comp skills could call Org62, Spiff and EOS directly through their own MCP servers, without going through the Headless Sales Agent for every question. That's faster, more modular and easier to scale to new personas.</p>
     <div class="grid c3">
-      <div class="box sky"><h4>Today · Wave 1</h4>Slackbot Skill → MCP → Headless Sales Agent → Comp Sub-Agent → Org62 + Data Cloud</div>
-      <div class="box sky"><h4>Near-term · Wave 2</h4>Direct Spiff MCP Server — comp skill calls Spiff without the Snowflake/Data Cloud hop. Faster, more current commission data.</div>
-      <div class="box" style="border-top:3px solid var(--navy);"><h4>Future scope · Wave 3+ <span style="font-size:10px;font-weight:900;letter-spacing:.4px;background:#e2ecf7;color:#6a7d97;border-radius:8px;padding:2px 8px;margin-left:6px;">TBD</span></h4>Direct MCP-to-org connectivity — skills call Org62, EOS, and Spiff independently. Fully modular, no single orchestration layer dependency.</div>
+      <div class="box sky"><h4>Today · Waves 1 &amp; 2</h4>Slackbot Skill → Sales Agent MCP → Comp Sub-Agent → Org62, plus Spiff data from Snowflake in Wave 2</div>
+      <div class="box sky"><h4>Next · Spiff MCP</h4>A direct Spiff MCP server, so the skill reads Spiff without the Snowflake hop. Fresher commission data.</div>
+      <div class="box" style="border-top:3px solid var(--navy);"><h4>Future · Wave 3+ <span style="font-size:10px;font-weight:900;letter-spacing:.4px;background:#e2ecf7;color:#6a7d97;border-radius:8px;padding:2px 8px;margin-left:6px;">TBD</span></h4>Skills call Org62, EOS and Spiff on their own. Fully modular, with no single orchestration layer to depend on.</div>
     </div>
-    <div class="callout"><b>Why this matters:</b> MCP is the connective tissue. Every new data source or persona — Ops, Managers, GIC — can be wired as a new MCP server. No new agent infrastructure needed. The architecture scales horizontally.</div>
+    <div class="callout"><b>Why this matters:</b> every new data source or persona, like Ops, managers or GIC, can be added as a new MCP server. No new agent infrastructure needed.</div>
   </div>
-
 </div>
 
 <!-- ============ TAB — DEPENDENCIES ============ -->
@@ -694,9 +711,17 @@
         <td><span class="rk" style="background:var(--green-bg);color:var(--green);">Completed</span></td>
         <td>Grant comp skill routing access via existing Sales Agent MCP Server</td>
         <td>Aug 2026</td>
-        <td>Gating the Slackbot pivot — engage owning team now</td>
+        <td>Live since GA through the SellerHub MCP</td>
       </tr>
       <tr style="background:var(--wash);">
+        <td><b>Slackbot skill config access</b></td>
+        <td>Slackbot platform team</td>
+        <td><span class="rk" style="background:var(--green-bg);color:var(--green);">Completed</span></td>
+        <td>MCP config access to register the Incentive Compensation skill</td>
+        <td>Aug 2026</td>
+        <td>Skill GA'd on Slackbot Sep 10</td>
+      </tr>
+      <tr>
         <td><b>Metrics / Analytics onboarding</b></td>
         <td>DNA team</td>
         <td><span class="rk" style="background:#fef7e6;color:#a86403;">In Discussion</span></td>
@@ -704,21 +729,29 @@
         <td>TBD</td>
         <td>Conversations underway on how to surface sub-agent performance data</td>
       </tr>
-      <tr>
-        <td><b>Slackbot skill config access</b></td>
-        <td>Slackbot platform team</td>
-        <td><span class="rk" style="background:var(--green-bg);color:var(--green);">Completed</span></td>
-        <td>MCP config access to register the Incentive Compensation skill</td>
-        <td>Aug 2026</td>
-        <td>High risk — gating the pivot</td>
-      </tr>
       <tr style="background:var(--wash);">
-        <td><b>Spiff data integration</b></td>
+        <td><b>Spiff data in Snowflake</b></td>
         <td>Spiff team / Snowflake</td>
         <td><span class="rk" style="background:#fef7e6;color:#a86403;">In Discussion</span></td>
-        <td>Direct Spiff statement data access into Comp Agent</td>
-        <td>Q3 2026</td>
-        <td>Spiff Transaction data integration from Snowflake to Data Cloud Comp Agent</td>
+        <td>Agent reads FACT_SPIFF_BCF_VW (carried balances) and FACT_SPIFF_TRANSACTION_ENRICHED (every statement line, PPA)</td>
+        <td>Nov 2026</td>
+        <td>Latest statement / snapshot only. The PPA dashboard is built on the transaction table</td>
+      </tr>
+      <tr>
+        <td><b>Lower-environment data pipeline</b></td>
+        <td>Data platform (EDH / EDW)</td>
+        <td><span class="rk" style="background:#fef7e6;color:#a86403;">In Discussion</span></td>
+        <td>Org62 UAT → EDH → EDW data flowing for testing</td>
+        <td>Nov 18 (UAT)</td>
+        <td>Devs build on C3 QA / EDW QA tables until then. Tracked in #temp-comp-agent-spiff-test-environment-setup</td>
+      </tr>
+      <tr style="background:var(--wash);">
+        <td><b>Off-cycle release</b></td>
+        <td>Sales Agent team</td>
+        <td><span class="rk" style="background:#fef7e6;color:#a86403;">In Discussion</span></td>
+        <td>Confirm an off-cycle release slot for the Nov go-live</td>
+        <td>Nov 24</td>
+        <td>Feature flag lets us switch back to the GA skill with no dependency on other teams</td>
       </tr>
     </table>
 
@@ -727,7 +760,7 @@
       <span class="rk" style="background:#fef7e6;color:#a86403;">In Discussion</span>
       <span class="rk" style="background:#dcf3e3;color:#1a6c33;">Aligned</span>
       <span class="rk" style="background:var(--red-bg);color:var(--red);">Blocked</span>
-      <span class="rk" style="background:var(--green-bg);color:var(--green);">Resolved</span>
+      <span class="rk" style="background:var(--green-bg);color:var(--green);">Completed</span>
       <span class="rk" style="background:#f3f4f6;color:#5a6b7b;">Not Started</span>
     </div>
 

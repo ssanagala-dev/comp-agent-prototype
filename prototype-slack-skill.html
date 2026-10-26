@@ -929,11 +929,15 @@
   function gaOnly(t, ord) {
     if (isTiming(t, ord))
       return { html: '<p><b>Order ' + ord + '</b> has commission period <b>October</b>. Per the GIC Consolidated Close Calendar, October commissions are scheduled for the <b>Nov 25</b> payroll.</p>' + sources('GIC Consolidated Close Calendar') };
-    if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(t))
+    if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much (will|would|could|can) i (make|earn))/.test(t))
       return { html: '<p>I can\'t estimate earnings on open deals. I can help with credit, eligibility and payout timing on orders that have closed. Give me the <b>order number</b>.</p>' };
     if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten)|check my commission)/.test(t) && ord)
       return orderCheck(ord);
-    if (/(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|changed plans|\bytd\b|how much did i (earn|make)|spiff|statement)/.test(t)) {
+    const ppaWords = /(credit (was |got )?(modified|changed|reassigned|removed|moved|reduced)|order team|my split|split (changed|%|percent)|reassign|removed from|acv (change|reduc|went down|dropped|lower)|negative on a paid|paid deal|commissionable acv|\bnrr\b|net revenue rule)/;
+    if (ord && !/(ppa|prior period|attrition|eligib)/.test(t) && (ppaWords.test(t) || ['36198812', '36203228', '36221905'].includes(ord)))
+      return creditBreakdown(ord);
+    if (ppaWords.test(t) || /(why am i negative|in the red|owe|how long.*(balance|negative|recover)|by component|component breakdown|which component|per component|xactly|no (order|deal|opp)|nnaov territory|what is this .*line|attainment)/.test(t) ||
+        /(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|changed plans|\bytd\b|how much did i (earn|make)|spiff|statement)/.test(t)) {
       lastTopic = 'Spiff statement question: "' + t.slice(0, 80) + '"';
       return { html: '<p>I don\'t have access to your Spiff statement, so I can\'t explain balances, adjustment lines or statement totals. I can check what <b>Org62</b> shows for a specific order and help compare it with what you\'re seeing in Spiff.</p><p>Share the <b>order number</b>, or I can open a case with Comp Ops.</p>',
         chips: ['Open a case', 'Why am I not paid on Order 36230011?'] };
@@ -946,12 +950,12 @@
     const ord = orderFrom(text);
     if (ord && !SPIFF_ORDERS[ord] && /(lower|less|wrong|incorrect|short|underpaid|under ?credited|not right|doesn'?t (match|look right)|mismatch|reduced|smaller|than expected|discrepan|only getting|why.*(credit|commission|acv) (is|was))/.test(t))
       return creditBreakdown(ord);
-    if (MODE === 'ga') { const g = gaOnly(t, ord); if (g) return g; }
-    if (isTiming(t, ord)) return spiffTiming(ord);
-
     // Guardrail: only the seller's own data
     if (/(colleague|teammate|coworker|another (rep|seller)|someone else|other seller|my manager'?s|\w+'s (statement|commission|pay|credit))/.test(t))
       return { html: '<p>I can only look at your own compensation data, so I can\'t share another person\'s statement, credit or pay. If you\'re working on a shared deal, I can show you <b>your</b> split and credit on it. Just give me the order number.</p>', chips: ['What\'s my credit on Order 36203228?'] };
+    if (MODE === 'ga') { const g = gaOnly(t, ord); if (g) return g; }
+    if (isTiming(t, ord)) return spiffTiming(ord);
+
 
     // Escalate on request
     if (/^no,? thanks/.test(t)) return { html: '<p>No problem. If the credit still doesn\'t show after the next run, just ask me again.</p>', noSources: true };
@@ -970,7 +974,7 @@
       return { html: '<p>I can\'t pull statement totals or attainment yet. You\'ll find <b>Total Incentives</b> and <b>YTD</b> at the top of your ' + L('Spiff statement') + '.</p><p>What I can explain today: your negative balance, the red number at the top, prior period adjustments, and missing credit on an order.</p>', chips: ['Why do I have a negative balance?', 'Why did my pay go down?'] };
 
     // Pre-close what-if: illustrative numbers only (prototype of the Slack-first vision)
-    if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(t))
+    if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much (will|would|could|can) i (make|earn))/.test(t))
       return { html: '<p>Here\'s an <b>estimate</b> for <b>Acme Corp – Data Cloud Expansion</b> (Commit, $400K ACV, close date Oct 30):</p>' +
         '<table style="border-collapse:collapse;font-size:13px;margin:6px 0 10px;">' +
         '<tr><td style="padding:3px 16px 3px 0;color:#616061;">If it closes in Q3</td><td style="padding:3px 0;"><b>~$18,400</b> &nbsp;<span style="color:#2e7d32;">(crosses the 100% quota accelerator)</span></td></tr>' +
@@ -1061,6 +1065,12 @@
       return { html: '<p>None of the adjustments on your September statement had the <b>Net Revenue Rule</b> applied.</p><p>For reference: under NRR, credit on an order is reduced when there\'s a loss on a related order within 90 days before or after that order\'s incent date.</p>' + sources('FY27 Incentive Compensation Policies') };
 
     // ── PPA C: manual / aggregated, no deal info ──
+    if (/(nnaov territory|aggregated)/.test(t)) {
+      lastTopic = 'NNAOV Territory line, aggregated across territory, no single deal';
+      return { html: '<p>The <b>NNAOV Territory</b> line is calculated across your <b>whole territory</b> and loaded as one line, so there\'s no single order or deal on it. That\'s by design, not missing data.</p>' +
+        '<p>If the amount doesn\'t look right, I can pass it to Comp Ops to review.</p>' + sources('Prior Period Adjustments – Seller Guide', 'Global NNAOV Policy Guide'),
+        chips: ['Pass this to Comp Ops', 'What is this ACV Adjustment line?'] };
+    }
     if (/(acv adjustment|manual|no (order|deal|opp)|blank|aggregated|what is this .*line|nnaov territory)/.test(t)) {
       lastTopic = 'ACV Adjustment line, +$300, August, account Acme Corp';
       return { html: '<p>The <b>ACV Adjustment</b> line (+$300, August) is a <b>manual adjustment</b> made by Comp Ops for <b>Acme Corp</b>. There\'s no order or opportunity on it because it was entered at the account level.</p>' +
@@ -1155,12 +1165,12 @@
       if (ord) return { html: '<p>On <b>Order ' + ord + '</b>: you joined the account team for <b>Globex</b> on <b>Oct 9</b>, and the order closed <b>Oct 20</b>, within 30 days of you joining. Under the attrition relief rules, this order looks eligible.</p><p>Relief is applied by Comp Ops after review. If it\'s applied after the month closes, it shows as a prior period adjustment.</p>' + sources('FY27 Attrition Relief Policy') };
       return { html: '<p>I can check attrition relief on a specific order. What\'s the <b>order number</b>?</p>', suggest: 'Am I eligible for attrition relief on Order 36241150?' };
     }
+    if (/(missing|where is my (order|commission)|where.*commission|order status|not showing|not in spiff|not appearing|don'?t see|not paid|check my commission)/.test(t))
+      return { html: '<p>Let me check. What\'s the <b>order number</b>? ' + (MODE === 'ga' ? 'I\'ll check the order team, the commission period, the calculation run and product eligibility.' : 'I\'ll look for it in Spiff first, then check the order team, the commission period and the calculation run.') + '</p>', suggest: 'I don\'t see credit for Order 36230011' };
     if (/(credit|\bacv\b|split|only getting|opportunity amount|mismatch|not getting paid|not paid)/.test(t)) {
       if (ord) return creditBreakdown(ord, 'Here\'s how your credit was calculated: Commissionable ACV at the order level, then your split.');
       return { html: '<p>I can break that down. Share the <b>order number</b> and I\'ll pull it: credit is calculated on the Commissionable ACV at the order level, then your split % and role eligibility. I\'ll include the Commission Audit Comments, which are the source of truth for any crediting rule applied.</p>', suggest: 'What\'s my credit on Order 36240077?' };
     }
-    if (/(missing|where is my (order|commission)|where.*commission|order status|not showing|not in spiff|not appearing|don'?t see|not paid|check my commission)/.test(t))
-      return { html: '<p>Let me check. What\'s the <b>order number</b>? ' + (MODE === 'ga' ? 'I\'ll check the order team, the commission period, the calculation run and product eligibility.' : 'I\'ll look for it in Spiff first, then check the order team, the commission period and the calculation run.') + '</p>', suggest: 'I don\'t see credit for Order 36230011' };
     if (/(recoverable draw|\bdraw\b|advance|ramp|new hire|guarantee)/.test(t))
       return { html: '<p>A <b>recoverable draw</b> is an advance against future commissions. If the commission you earn in a period is less than the draw, the difference is recovered from later payments.</p><p>A <b>new hire guarantee</b> is different: it isn\'t recovered.</p>' + sources('FY27 Recoverable Draw Policy', 'FY27 Incentive Compensation Policies') };
     if (/(spiff|statement|spif)/.test(t))
@@ -1191,7 +1201,7 @@
     let tag = '';
     if (MODE === 'nov') {
       const tl = text.toLowerCase(), o = orderFrom(text);
-      if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(tl)) tag = '<span class="newtag concept">CONCEPT · not in a release</span>';
+      if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much (will|would|could|can) i (make|earn))/.test(tl)) tag = '<span class="newtag concept">CONCEPT · not in a release</span>';
       else { const keep = lastTopic; const g = gaOnly(tl, o); lastTopic = keep; if (g) tag = '<span class="newtag">NEW · Nov release</span>'; }
     }
     setTimeout(() => {

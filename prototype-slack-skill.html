@@ -857,6 +857,39 @@
       chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case' };
   }
 
+  // Pay timing on an order (Nov): where the order sits in Spiff decides the answer
+  function spiffTiming(ord) {
+    const s = SPIFF_ORDERS[ord];
+    const hi = '<p>Thank you for your inquiry <b>Sai Sowmya Sanagala</b>. I checked Spiff for Order <b>' + ord + '</b>. ';
+    const ppaLine = { ppa: ['Core ACV', P('+$840'), '2026-08-01'], attr: ['Attrition Relief', P('+$1,050'), '2026-08-01'], team: ['Order Team Change (2 lines)', N('−$1,320'), '2026-07-01'], acv: ['ACV Change', N('−$610'), '2026-07-01'] }[s];
+    if (ppaLine) {
+      lastTopic = 'Order ' + ord + ', paid on September statement as PPA, Oct 25 payroll';
+      return { html: hi + 'It\'s <b>already been ' + (/neg/.test(ppaLine[1]) ? 'processed' : 'paid') + '</b>: it\'s on your <b>September</b> statement as a prior period adjustment of <b>' + ppaLine[1] + '</b>, which went out on the <b>Oct 25</b> payroll.</p>' +
+        '<p>Here are the details:</p>' +
+        skTable([[['Order Number', ord], ['Found In', 'September statement, Prior Period Adjustments'], ['Payout Rule', ppaLine[0]], ['Commission Period', ppaLine[2]], ['Amount', ppaLine[1]], ['Paid On', '2026-10-25 payroll']]]) +
+        '<p>It shows as an adjustment because it was processed after its commission period closed. Would you like me to explain the line?</p>' + sources('GIC Consolidated Close Calendar', 'Prior Period Adjustments – Seller Guide'),
+        chips: ['Why did my pay go down?', 'No, thanks'], suggest: 'Why did my pay go down?' };
+    }
+    if (s === 'month') {
+      lastTopic = 'Order ' + ord + ', on open October statement, +$1,960, Nov 25 payroll';
+      return { html: hi + 'It\'s on your <b>October</b> statement: Core ACV, <b>+$1,960</b>. October is still open, so the statement is a preview. Once October closes, it\'s scheduled for the <b>Nov 25</b> payroll.</p>' +
+        '<p>Here are the details:</p>' +
+        skTable([[['Order Number', ord], ['Found In', 'October statement (open, preview)'], ['Payout Rule', 'Core ACV'], ['Amount', P('+$1,960')], ['Statement Status', 'Open'], ['Scheduled Payroll', '2026-11-25']]]) +
+        sources('GIC Consolidated Close Calendar') };
+    }
+    if (s === 'noteam') {
+      lastTopic = 'Order ' + ord + ', not in Spiff, seller not on order team, no pay date';
+      return { html: hi + 'There\'s <b>no pay date yet</b>: it isn\'t on your statements, and in Org62 <b>you\'re not on the order team</b>.</p>' +
+        '<p>Once you\'re added, the credit appears as a prior period adjustment after the month-end adjustment run, and it\'s paid with that month\'s statement. If you think you should be on the order team, do you want me to raise a case with the Commission\'s team?</p>',
+        chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
+    }
+    lastTopic = 'Order ' + ord + ', October commission period, not on October statement yet, Nov 25 payroll';
+    return { html: hi + 'It <b>isn\'t on your October statement yet</b>. Org62 shows commission period <b>October</b>, which is still open, so it should appear on the October statement as the calculation runs. October commissions are scheduled for the <b>Nov 25</b> payroll.</p>' +
+      '<p>Here are the details:</p>' +
+      skTable([[['Order Number', ord], ['Commission Period', '2026-10-01 (open)'], ['October Statement', 'Not on it yet'], ['Prior Period Adjustments', 'None for this order'], ['Scheduled Payroll', '2026-11-25']]]) +
+      '<p>If it isn\'t on your October statement when the month closes, ask me again and I\'ll raise a case.</p>' + sources('GIC Consolidated Close Calendar') };
+  }
+
   // Missing commission on an order: GA checks Org62 and the calculation run
   function orderCheck(ord, spiffNote) {
     lastTopic = 'Order ' + ord + ', calculation run 2026-10-15 passed, credit not posted';
@@ -891,7 +924,11 @@
   // ── Answer engine ──────────────────────────────────────────────────
   // Returns { html, chips, suggest, topic }. Spiff answers follow: answer → why → numbers → what's next.
   // Current GA: no Spiff data, so Spiff statement questions get today's answer; the rest falls through to the shared GA answers
+  const TIMING = /(when (will|do|does|is|am|can|should|would)\b.*(pay|paid|payout|credit|commission|reflect|show|appear|post|land|see)|payout date|pay ?date|get paid|which (payroll|paycheck|statement)|what month.*(paid|pay|statement))/;
+  const isTiming = (t, ord) => ord && TIMING.test(t) && !/(territory acv|quarterly|balance|negative|plan)/.test(t);
   function gaOnly(t, ord) {
+    if (isTiming(t, ord))
+      return { html: '<p><b>Order ' + ord + '</b> has commission period <b>October</b>. Per the GIC Consolidated Close Calendar, October commissions are scheduled for the <b>Nov 25</b> payroll.</p>' + sources('GIC Consolidated Close Calendar') };
     if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much.*(make|earn))/.test(t))
       return { html: '<p>I can\'t estimate earnings on open deals. I can help with credit, eligibility and payout timing on orders that have closed. Give me the <b>order number</b>.</p>' };
     if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten)|check my commission)/.test(t) && ord)
@@ -910,6 +947,7 @@
     if (ord && !SPIFF_ORDERS[ord] && /(lower|less|wrong|incorrect|short|underpaid|under ?credited|not right|doesn'?t (match|look right)|mismatch|reduced|smaller|than expected|discrepan|only getting|why.*(credit|commission|acv) (is|was))/.test(t))
       return creditBreakdown(ord);
     if (MODE === 'ga') { const g = gaOnly(t, ord); if (g) return g; }
+    if (isTiming(t, ord)) return spiffTiming(ord);
 
     // Guardrail: only the seller's own data
     if (/(colleague|teammate|coworker|another (rep|seller)|someone else|other seller|my manager'?s|\w+'s (statement|commission|pay|credit))/.test(t))
@@ -1105,7 +1143,6 @@
       return { html: '<p>Your <b>FY27</b> comp plan is <b>Active</b>.</p><ul><li><b>Role:</b> AE – Enterprise</li><li><b>Plan effective:</b> Jun 1 (updated after your plan change)</li><li><b>Components:</b> Core ACV, Territory ACV, NNAOV Territory</li></ul><p>Track live updates on the ' + L('Compensation Station Dashboard') + '.</p>' + sources('Compensation Station', 'FY27 Incentive Compensation Policies'),
         chips: ['Show my plan components', 'I changed plans. Why is my pay lower?'] };
     if (/(when.*pay|when.*paid|payout date|get paid|commission.*paid)/.test(t)) {
-      if (ord) return { html: '<p><b>Order ' + ord + '</b> has commission period <b>October</b>. Per the GIC Consolidated Close Calendar, October commissions are scheduled for the <b>Nov 25</b> payroll.</p>' + sources('GIC Consolidated Close Calendar') };
       return { html: '<p>Happy to check that. What\'s the <b>order number</b>? I\'ll look up the commission period and the scheduled payout date per the GIC Consolidated Close Calendar.</p>', suggest: 'When will I be paid for Order 36240077?' };
     }
     if (/(eligib|which product|not eligible|product.*credit)/.test(t) && !/attrition/.test(t)) {

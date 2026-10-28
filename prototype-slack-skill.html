@@ -949,9 +949,15 @@
     (total ? '<tr class="tot">' + total.map(c => '<td' + (/\$/.test(c) ? ' class="n"' : '') + '>' + c + '</td>').join('') + '</tr>' : '') + '</table>';
   const P = v => '<span class="pos">' + v + '</span>', N = v => '<span class="neg">' + v + '</span>';
 
+  // Out-of-scope or unexplained: ask before raising a case (the skill never raises one on its own)
+  function offerCase(what) {
+    lastTopic = what;
+    return '<p>Do you want me to raise a case with the Commission\'s team to look into it?</p>';
+  }
+
   function handoff(what) {
     const id = caseSeq++;
-    return '<div class="handoff"><b>✓ Passed to Comp Ops · Case ' + id + '</b>Commissions queue · details shared: ' + what + '. You won\'t need to repeat them, and you\'ll get updates on the case in Slack.</div>';
+    return '<div class="handoff"><b>✓ Case raised · Case ' + id + '</b>Commissions queue · details shared: ' + what + '. You won\'t need to repeat them, and you\'ll get updates on the case in Slack.</div>';
   }
 
   // Mock data for the demo seller (latest closed statement: September; October is open)
@@ -1001,16 +1007,16 @@
 
 
     // Escalate on request
-    if (/^no,? thanks/.test(t)) return { html: '<p>No problem. If the credit still doesn\'t show after the next run, just ask me again.</p>', noSources: true };
+    if (/^no,? thanks/.test(t)) return { html: '<p>No problem. If you\'d like a case later, just ask me.</p>', noSources: true };
     if (/(pass (this|it) to comp ops|raise (a )?case|escalate|open (a )?case|create (a )?case|submit (a )?case|speak to (a )?human|talk to someone)/.test(t)) {
       const what = lastTopic || 'your question and this conversation';
       lastTopic = null;
-      return { html: '<p>Done. I\'ve passed this to Comp Ops with the details from our conversation.</p>' + handoff(what) + '<p>Typical first response is <b>1–2 business days</b>.</p>', suggest: '' };
+      return { html: '<p>Done. I\'ve raised a case with the Commission\'s team, with the details from our conversation.</p>' + handoff(what) + '<p>Typical first response is <b>1–2 business days</b>.</p>', suggest: '' };
     }
 
     // PPA F: tier shift (on hold) → escalate
     if (/(didn'?t change anything|nothing changed|order didn'?t change|no changes? (to|on) my order|no (edits|changes)|attainment (change|tier)|tier (shift|change))/.test(t))
-      return { html: '<p>I checked and there were no edits to your orders, but your commission changed. This may be related to an attainment change, which I can\'t confirm from the data I have.</p>' + handoff('September statement, commission change with no order edits'), suggest: 'Why did my pay go down?' };
+      return { html: '<p>I checked and there were no edits to your orders, but your commission changed. This may be related to an attainment change, which I can\'t confirm from the data I have.</p>' + offerCase('September statement, commission change with no order edits'), chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
 
     // General Spiff questions: not in this release
     if (/(how much did i (earn|make)|\bytd\b|year to date|total (pay|incentive|earnings)|this month'?s (pay|total)|my attainment|quota attainment)/.test(t))
@@ -1050,7 +1056,7 @@
     }
 
     if (/(xactly|last (fiscal )?year|prior (fy|year)|fy26)/.test(t))
-      return { html: '<p>I can see the balance goes back before this fiscal year, and balances that started in Xactly are outside what I can explain from the data I have.</p>' + handoff('carried balance that started before FY27 (Xactly)') };
+      return { html: '<p>I can see the balance goes back before this fiscal year, and balances that started in Xactly are outside what I can explain from the data I have.</p>' + offerCase('carried balance that started before FY27 (Xactly)'), chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
 
     // ── Spiff: Balance Carry Forward ──
     if (/(negative balance|balance carry|carry ?forward|\bbcf\b|why am i negative|(statement|balance) is negative|in the red|why do i owe)/.test(t))
@@ -1069,7 +1075,7 @@
 
     // ── PPA: draw line → escalate (draws are out for now) ──
     if (/(draw recovery|draw line|draw.*(ppa|statement|deduct|took|taken)|recoverable draw recovery)/.test(t))
-      return { html: '<p>The <b>Recoverable Draw Recovery</b> line (−$640, August) on your September statement is a draw recovery. I can\'t explain draw lines yet, so I\'ve passed it to Comp Ops.</p>' + handoff('September statement, Recoverable Draw Recovery, −$640, August') };
+      return { html: '<p>The <b>Recoverable Draw Recovery</b> line (−$640, August) on your September statement is a draw recovery. I can\'t explain draw lines yet.</p>' + offerCase('September statement, Recoverable Draw Recovery, −$640, August'), chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
 
     // ── PPA A: quarterly components ──
     if (/(territory acv|quarterly|\bq[1-4]\b.*(payout|paid|commission)|60 days)/.test(t))
@@ -1091,7 +1097,7 @@
       return { html: '<p>On <b>Aug 27</b> the order team for <b>Order 36203228</b> was updated and your split changed from <b>100% to 50%</b>.</p>' +
         '<p>The credit belongs to <b>July</b> (the commission period), so the change shows on your September statement as a prior period adjustment of <b>−$1,320</b>, across 2 lines.</p>' +
         table(['Line', 'Period', 'Amount'], [['Core ACV – reversal at 100%', 'Jul', N('−$2,640')], ['Core ACV – recredit at 50%', 'Jul', P('+$1,320')]], ['Net', '', '−$1,320']) +
-        '<p>If you think the split is wrong, I can pass it to Comp Ops to review.</p>' +
+        '<p>If you think the split is wrong, I can raise a case with the Commission\'s team to review it.</p>' +
         sources('FY27 Incentive Compensation Policies', 'Prior Period Adjustments – Seller Guide'),
         chips: ['Pass this to Comp Ops', 'Why did my pay go down?'] };
     }
@@ -1108,7 +1114,7 @@
     if (/(nnaov territory|aggregated)/.test(t)) {
       lastTopic = 'NNAOV Territory line, aggregated across territory, no single deal';
       return { html: '<p>The <b>NNAOV Territory</b> line is calculated across your <b>whole territory</b> and loaded as one line, so there\'s no single order or deal on it. That\'s by design, not missing data.</p>' +
-        '<p>If the amount doesn\'t look right, I can pass it to Comp Ops to review.</p>' + sources('Prior Period Adjustments – Seller Guide', 'Global NNAOV Policy Guide'),
+        '<p>If the amount doesn\'t look right, I can raise a case with the Commission\'s team to review it.</p>' + sources('Prior Period Adjustments – Seller Guide', 'Global NNAOV Policy Guide'),
         chips: ['Pass this to Comp Ops', 'What is this ACV Adjustment line?'] };
     }
     if (/(acv adjustment|manual|no (order|deal|opp)|can'?t find the (opportunity|opp|order|deal|account)|blank|aggregated|what is this .*line|nnaov territory)/.test(t)) {

@@ -853,8 +853,8 @@
         [['Order Number', ord], ['Account', 'Acme Corp'], ['Opportunity Amount', 'USD 250000'], ['Eligible ACV', 'USD 210000'], ['Commissionable ACV', 'USD 210000'], ['Your Split', '50%']],
         [['Credited ACV', 'USD 105000'], ['Commission Period', '2026-09-01'], ['Excluded Lines', 'Premier Success Plan (services), USD 40000'], ['Commission Audit Comment', 'Services lines excluded from commissionable ACV.']]
       ]) +
-      '<p>If this still doesn\'t look right, do you want me to raise a case with the Commission\'s team to review it?</p>',
-      chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case' };
+      '<p>If this still doesn\'t look right, should I create a case?</p>',
+      chips: ['Yes, create a case', 'No, thanks'], suggest: 'Yes, create a case' };
   }
 
   // Order recalculation (CEO adjustment / term change): commissionable ACV reduced after the month closed
@@ -879,9 +879,9 @@
           [['Order Number', ord], ['Account', r.acct], ['Commission Period', r.period], ['Commissionable ACV (before)', r.from], ['Commissionable ACV (after)', r.to], ['Changed On', r.on]],
           [['Term', r.term], ['Payout Rule', 'ACV Change'], ['Recalculated Month', r.month], ['Adjustment', N(r.amt)], ['Shown On', r.stmt + ' statement, Prior Period Adjustments'], ['Commission Audit Comment', 'Contract amended, term reduced.']]
         ]) +
-        '<p>If the term change doesn\'t look right, do you want me to raise a case with the Commission\'s team?</p>' +
+        '<p>If the term change doesn\'t look right, should I create a case?</p>' +
         sources('FY27 Incentive Compensation Policies', 'Prior Period Adjustments – Seller Guide'),
-        chips: ['Yes, raise a case', 'Why did my pay go down?'], suggest: 'Why did my pay go down?' };
+        chips: ['Yes, create a case', 'Why did my pay go down?'], suggest: 'Why did my pay go down?' };
     }
     if (ord) {
       lastTopic = 'Order ' + ord + ': no recalculation found in Spiff';
@@ -921,14 +921,14 @@
     if (s === 'noteam') {
       lastTopic = 'Order ' + ord + ', not in Spiff, seller not on order team, no pay date';
       return { html: hi + 'There\'s <b>no pay date yet</b>: it isn\'t on your statements, and in Org62 <b>you\'re not on the order team</b>.</p>' +
-        '<p>Once you\'re added, the credit appears as a prior period adjustment after the month-end adjustment run, and it\'s paid with that month\'s statement. If you think you should be on the order team, do you want me to raise a case with the Commission\'s team?</p>',
-        chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
+        '<p>Once you\'re added, the credit appears as a prior period adjustment after the month-end adjustment run, and it\'s paid with that month\'s statement. If you think you should be on the order team, should I create a case?</p>',
+        chips: ['Yes, create a case', 'No, thanks'], suggest: 'Yes, create a case', noSources: true };
     }
     lastTopic = 'Order ' + ord + ', October commission period, not on October statement yet, Nov 25 payroll';
     return { html: hi + 'It <b>isn\'t on your October statement yet</b>. Org62 shows commission period <b>October</b>, which is still open, so it should appear on the October statement as the calculation runs. October commissions are scheduled for the <b>Nov 25</b> payroll.</p>' +
       '<p>Here are the details:</p>' +
       skTable([[['Order Number', ord], ['Commission Period', '2026-10-01 (open)'], ['October Statement', 'Not on it yet'], ['Prior Period Adjustments', 'None for this order'], ['Scheduled Payroll', '2026-11-25']]]) +
-      '<p>If it isn\'t on your October statement when the month closes, ask me again and I\'ll raise a case.</p>' + sources('GIC Consolidated Close Calendar') };
+      '<p>If it isn\'t on your October statement when the month closes, ask me again and I\'ll create a case.</p>' + sources('GIC Consolidated Close Calendar') };
   }
 
   // Missing commission on an order: GA checks Org62 and the calculation run
@@ -941,8 +941,8 @@
         [['Order Number', ord], ['Account', 'Acme Corp'], ['Eligible ACV', 'USD 85800'], ['Commissionable ACV', 'USD 85800'], ['Commission Period', '2026-09-01']],
         [['Incentive Date', '2026-09-18'], ['Your Split', '100%'], ['Order Team Status', 'Active'], ['Calculation Run', '2026-10-15 (completed)'], ['Credit Status', 'Not posted']]
       ]) +
-      '<p>Since the run has completed and the credit is not reflected, do you want me to raise a case with the Commission\'s team to investigate?</p>',
-      chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
+      '<p>Since the run has completed and the credit is not reflected, should I create a case?</p>',
+      chips: ['Yes, create a case', 'No, thanks'], suggest: 'Yes, create a case', noSources: true };
   }
   const table = (head, rows, total) => '<table class="dt"><tr>' + head.map(h => '<th>' + h + '</th>').join('') + '</tr>' +
     rows.map(r => '<tr>' + r.map((c, i) => '<td' + (/^[+−-]?\$/.test(c) || /class="(pos|neg)"/.test(c) ? ' class="n"' : '') + '>' + c + '</td>').join('') + '</tr>').join('') +
@@ -952,12 +952,12 @@
   // Out-of-scope or unexplained: ask before raising a case (the skill never raises one on its own)
   function offerCase(what) {
     lastTopic = what;
-    return '<p>Do you want me to raise a case with the Commission\'s team to look into it?</p>';
+    return '<p>Should I create a case?</p>';
   }
 
   function handoff(what) {
     const id = caseSeq++;
-    return '<div class="handoff"><b>✓ Case raised · Case ' + id + '</b>Commissions queue · details shared: ' + what + '. You won\'t need to repeat them, and you\'ll get updates on the case in Slack.</div>';
+    return skTable([[['Case Number', String(71230449 + id)], ['Name', 'Sai Sowmya Sanagala'], ['Account ID', '0013000000Kx9QZ'], ['Summary', what]]]);
   }
 
   // Mock data for the demo seller (latest closed statement: September; October is open)
@@ -986,7 +986,7 @@
     if (ppaWords.test(t) || RECALC.test(t) || /(why am i negative|in the red|owe|how long.*(balance|negative|recover)|by component|component breakdown|which component|per component|xactly|no (order|deal|opp)|nnaov territory|what is this .*line|attainment)/.test(t) ||
         /(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|order didn'?t change|changed plans|\bytd\b|how much did i (earn|make)|spiff|statement)/.test(t)) {
       lastTopic = 'Spiff statement question: "' + t.slice(0, 80) + '"';
-      return { html: '<p>I don\'t have access to your Spiff statement, so I can\'t explain balances, adjustment lines or statement totals. I can check what <b>Org62</b> shows for a specific order and help compare it with what you\'re seeing in Spiff.</p><p>Share the <b>order number</b>, or I can open a case with Comp Ops.</p>',
+      return { html: '<p>I don\'t have access to your Spiff statement, so I can\'t explain balances, adjustment lines or statement totals. I can check what <b>Org62</b> shows for a specific order and help compare it with what you\'re seeing in Spiff.</p><p>Share the <b>order number</b>, or I can create a case for you.</p>',
         chips: ['Open a case', 'Why am I not paid on Order 36230011?'] };
     }
     return null;
@@ -1011,12 +1011,12 @@
     if (/(pass (this|it) to comp ops|raise (a )?case|escalate|open (a )?case|create (a )?case|submit (a )?case|speak to (a )?human|talk to someone)/.test(t)) {
       const what = lastTopic || 'your question and this conversation';
       lastTopic = null;
-      return { html: '<p>Done. I\'ve raised a case with the Commission\'s team, with the details from our conversation.</p>' + handoff(what) + '<p>Typical first response is <b>1–2 business days</b>.</p>', suggest: '' };
+      return { html: '<p>Done. I\'ve created your case.</p>' + handoff(what) + '<p>You\'ll get updates on the case in Slack.</p>', suggest: '', noSources: true };
     }
 
     // PPA F: tier shift (on hold) → escalate
     if (/(didn'?t change anything|nothing changed|order didn'?t change|no changes? (to|on) my order|no (edits|changes)|attainment (change|tier)|tier (shift|change))/.test(t))
-      return { html: '<p>I checked and there were no edits to your orders, but your commission changed. This may be related to an attainment change, which I can\'t confirm from the data I have.</p>' + offerCase('September statement, commission change with no order edits'), chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
+      return { html: '<p>I checked and there were no edits to your orders, but your commission changed. This may be related to an attainment change, which I can\'t confirm from the data I have.</p>' + offerCase('September statement, commission change with no order edits'), chips: ['Yes, create a case', 'No, thanks'], suggest: 'Yes, create a case', noSources: true };
 
     // General Spiff questions: not in this release
     if (/(how much did i (earn|make)|\bytd\b|year to date|total (pay|incentive|earnings)|this month'?s (pay|total)|my attainment|quota attainment)/.test(t))
@@ -1052,11 +1052,11 @@
 
     if (/(by component|component breakdown|break.*down.*component|which component|per component)/.test(t)) {
       lastTopic = 'carried balance −$1,550, start month August, component breakdown requested';
-      return { html: '<p>I can\'t break the carried balance down by component yet. What I can show is the start month, the main reason and the net math behind it.</p><p>If you need the component view, I can pass this to Comp Ops.</p>', chips: ['Pass this to Comp Ops', 'Why do I have a negative balance?'] };
+      return { html: '<p>I can\'t break the carried balance down by component yet. What I can show is the start month, the main reason and the net math behind it.</p><p>If you need the component view, should I create a case?</p>', chips: ['Yes, create a case', 'Why do I have a negative balance?'] };
     }
 
     if (/(xactly|last (fiscal )?year|prior (fy|year)|fy26)/.test(t))
-      return { html: '<p>I can see the balance goes back before this fiscal year, and balances that started in Xactly are outside what I can explain from the data I have.</p>' + offerCase('carried balance that started before FY27 (Xactly)'), chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
+      return { html: '<p>I can see the balance goes back before this fiscal year, and balances that started in Xactly are outside what I can explain from the data I have.</p>' + offerCase('carried balance that started before FY27 (Xactly)'), chips: ['Yes, create a case', 'No, thanks'], suggest: 'Yes, create a case', noSources: true };
 
     // ── Spiff: Balance Carry Forward ──
     if (/(negative balance|balance carry|carry ?forward|\bbcf\b|why am i negative|(statement|balance) is negative|in the red|why do i owe)/.test(t))
@@ -1075,7 +1075,7 @@
 
     // ── PPA: draw line → escalate (draws are out for now) ──
     if (/(draw recovery|draw line|draw.*(ppa|statement|deduct|took|taken)|recoverable draw recovery)/.test(t))
-      return { html: '<p>The <b>Recoverable Draw Recovery</b> line (−$640, August) on your September statement is a draw recovery. I can\'t explain draw lines yet.</p>' + offerCase('September statement, Recoverable Draw Recovery, −$640, August'), chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
+      return { html: '<p>The <b>Recoverable Draw Recovery</b> line (−$640, August) on your September statement is a draw recovery. I can\'t explain draw lines yet.</p>' + offerCase('September statement, Recoverable Draw Recovery, −$640, August'), chips: ['Yes, create a case', 'No, thanks'], suggest: 'Yes, create a case', noSources: true };
 
     // ── PPA A: quarterly components ──
     if (/(territory acv|quarterly|\bq[1-4]\b.*(payout|paid|commission)|60 days)/.test(t))
@@ -1097,9 +1097,9 @@
       return { html: '<p>On <b>Aug 27</b> the order team for <b>Order 36203228</b> was updated and your split changed from <b>100% to 50%</b>.</p>' +
         '<p>The credit belongs to <b>July</b> (the commission period), so the change shows on your September statement as a prior period adjustment of <b>−$1,320</b>, across 2 lines.</p>' +
         table(['Line', 'Period', 'Amount'], [['Core ACV – reversal at 100%', 'Jul', N('−$2,640')], ['Core ACV – recredit at 50%', 'Jul', P('+$1,320')]], ['Net', '', '−$1,320']) +
-        '<p>If you think the split is wrong, I can raise a case with the Commission\'s team to review it.</p>' +
+        '<p>If you think the split is wrong, should I create a case?</p>' +
         sources('FY27 Incentive Compensation Policies', 'Prior Period Adjustments – Seller Guide'),
-        chips: ['Pass this to Comp Ops', 'Why did my pay go down?'] };
+        chips: ['Yes, create a case', 'Why did my pay go down?'] };
     }
 
     // ── PPA B3: commissionable ACV change ──
@@ -1114,16 +1114,16 @@
     if (/(nnaov territory|aggregated)/.test(t)) {
       lastTopic = 'NNAOV Territory line, aggregated across territory, no single deal';
       return { html: '<p>The <b>NNAOV Territory</b> line is calculated across your <b>whole territory</b> and loaded as one line, so there\'s no single order or deal on it. That\'s by design, not missing data.</p>' +
-        '<p>If the amount doesn\'t look right, I can raise a case with the Commission\'s team to review it.</p>' + sources('Prior Period Adjustments – Seller Guide', 'Global NNAOV Policy Guide'),
-        chips: ['Pass this to Comp Ops', 'What is this ACV Adjustment line?'] };
+        '<p>If the amount doesn\'t look right, should I create a case?</p>' + sources('Prior Period Adjustments – Seller Guide', 'Global NNAOV Policy Guide'),
+        chips: ['Yes, create a case', 'What is this ACV Adjustment line?'] };
     }
     if (/(acv adjustment|manual|no (order|deal|opp)|can'?t find the (opportunity|opp|order|deal|account)|blank|aggregated|what is this .*line|nnaov territory)/.test(t)) {
       lastTopic = 'ACV Adjustment line, +$300, August, account Acme Corp';
       return { html: '<p>The <b>ACV Adjustment</b> line (+$300, August) is a <b>manual adjustment</b> made by Comp Ops for <b>Acme Corp</b>. There\'s no order or opportunity on it because it was entered at the account level.</p>' +
         '<p>Note on the line: <i>"Split correction, case 70512234."</i></p>' +
-        '<p>Some other lines, like <b>NNAOV Territory</b>, are calculated across your whole territory and loaded as one line, so they never show a single deal.</p>' +
+        '<p>Some other lines, like <b>NNAOV Territory</b>, are calculated across your whole territory and loaded as one line, so they never show a single deal.</p><p>If you need more detail on the adjustment, should I create a case?</p>' +
         sources('Prior Period Adjustments – Seller Guide', 'Spiff Statement FAQ'),
-        chips: ['Pass this to Comp Ops', 'Why did my pay go down?'] };
+        chips: ['Yes, create a case', 'Why did my pay go down?'] };
     }
 
     // ── PPA summary: ≤20 lines → explain them all ──
@@ -1135,7 +1135,7 @@
           ['Order Team Change (2 lines)', '36203228', 'Jul', N('−$1,320'), 'Order team updated Aug 27; your split changed'],
           ['ACV Change', '36221905', 'Jul', N('−$610'), 'Commissionable ACV reduced Sep 12'],
           ['ACV Adjustment', 'Acme Corp', 'Aug', P('+$300'), 'Manual adjustment by Comp Ops'],
-          ['Recoverable Draw Recovery', '—', 'Aug', N('−$640'), 'Draw line — I\'ll pass this to Comp Ops']
+          ['Recoverable Draw Recovery', '—', 'Aug', N('−$640'), 'Draw line — I can create a case']
         ], ['Net', '', '', '+$1,180', '']) +
         '<p>The lines that reduced your pay are the <b>order team change</b>, the <b>ACV change</b> and the <b>draw recovery</b>. Which would you like me to explain? You can also give me an order number.</p>' +
         sources('Prior Period Adjustments – Seller Guide', 'Spiff Statement FAQ'),
@@ -1146,8 +1146,8 @@
       const s = SPIFF_ORDERS[ord];
       if (s && s !== 'ppa' && s !== 'month' && s !== 'noteam') return answerFor('order ' + ord + ' ppa');
       const hi = '<p>Thank you for your inquiry <b>Sai Sowmya Sanagala</b>. I checked Spiff for Order <b>' + ord + '</b> by order, opportunity and account. ';
-      const ask = '<p>Do you want me to raise a case with the Commission\'s team? I\'ll include these details so you won\'t need to repeat them.</p>';
-      const caseChips = { chips: ['Yes, raise a case', 'No, thanks'], suggest: 'Yes, raise a case', noSources: true };
+      const ask = '<p>Should I create a case? I\'ll include these details so you won\'t need to repeat them.</p>';
+      const caseChips = { chips: ['Yes, create a case', 'No, thanks'], suggest: 'Yes, create a case', noSources: true };
       if (s === 'ppa') {
         lastTopic = 'Order ' + ord + ', August credit paid on September statement as PPA, +$840';
         return { html: hi + 'Your commission is there: it belongs to <b>August</b> but was processed after August closed, so it was paid on your <b>September</b> statement as a <b>prior period adjustment of +$840</b>. That\'s why it isn\'t in your August commission.</p>' +
@@ -1171,7 +1171,7 @@
         return { html: hi + 'It isn\'t on your statements, so I checked the order team in Org62: <b>you\'re not on it</b>. That\'s why there\'s no credit yet.</p>' +
           '<p>Here are the details:</p>' +
           skTable([spiffRows, [['Account', 'Acme Corp'], ['Commission Period', '2026-09-01'], ['Order Team', 'You\'re not on it'], ['Credit Status', 'No line until you\'re added']]]) +
-          '<p>Once you\'re added to the order team, the credit appears after the month-end adjustment run, as a prior period adjustment. If you think you should be on it, do you want me to raise a case with the Commission\'s team?</p>',
+          '<p>Once you\'re added to the order team, the credit appears after the month-end adjustment run, as a prior period adjustment. If you think you should be on it, should I create a case?</p>',
           ...caseChips };
       }
       lastTopic = 'Order ' + ord + ', not in Spiff; on order team, calculation run 2026-10-15 completed, credit not posted';
@@ -1223,7 +1223,7 @@
       return { html: '<p>I can read your Spiff statement and explain:</p><ul><li><b>Negative balance</b> — where it started and why</li><li><b>The red number</b> at the top (remaining carried balance)</li><li><b>Prior period adjustments</b> — what each line is</li><li><b>Missing credit</b> on an order</li></ul><p>What are you seeing?</p>',
         chips: ['Why do I have a negative balance?', 'Why did my pay go down?', 'What\'s the red number at the top?'] };
     if (ord) return creditBreakdown(ord, 'Here\'s what I see for this order.');
-    return { html: '<p>I can help with comp plan status, credits &amp; ACV, product eligibility, payout timing, LOA return, commission policies' + (MODE === 'ga' ? '' : ', and your Spiff statement (negative balance, prior period adjustments, missing credit)') + '. For order-specific questions, give me the <b>order number</b>. If it needs a human, I\'ll pass it to Comp Ops.</p>',
+    return { html: '<p>I can help with comp plan status, credits &amp; ACV, product eligibility, payout timing, LOA return, commission policies' + (MODE === 'ga' ? '' : ', and your Spiff statement (negative balance, prior period adjustments, missing credit)') + '. For order-specific questions, give me the <b>order number</b>. If it needs a human, I can create a case.</p>',
       chips: ['Why do I have a negative balance?', 'Why did my pay go down?', 'What is NNAOV?'] };
   }
 

@@ -810,7 +810,7 @@
 
   // ── Answer helpers ─────────────────────────────────────────────────
   const L = (label) => '<a onclick="showToast(\'Opening ' + label.replace(/'/g, '') + '…\')">' + label + '</a>';
-  const sources = (...names) => '<div class="src"><b>Sources:</b><ul>' + names.map(n => '<li>' + L(n) + '</li>').join('') + '</ul></div>';
+  const sources = () => '';   // source links hidden in responses
   const chips = list => '<div class="chips">' + list.map(c => '<button onclick="ask(\'' + c.replace(/'/g, '\\\'') + '\')">' + esc(c) + '</button>').join('') + '</div>';
   const DISCLAIMER = '<div class="mtext"><p><i><b>Disclaimer:</b> Incentive Compensation Skill surfaces information from the compensation system of record and does not calculate or modify any figures. This AI-generated response is informational and does not replace, amend, or override your official Compensation Plan, statement, or payout records which remain the source of truth.</i></p><p><i>Share your experience to help us improve our skill! Take our <a style="color:#1264a3;" href="https://sfdc.co/CompSlackbotSkillSurvey" target="_blank" rel="noopener">2 min survey</a>.</i></p></div>';
 

@@ -1126,20 +1126,30 @@
         chips: ['Yes, create a case', 'Why did my pay go down?'] };
     }
 
-    // ── PPA summary: ≤20 lines → explain them all ──
+    // ── PPA: large group → show the top lines and ask which ──
+    if (/^(explain (the )?)?core acv( lines)?\??$/.test(t))
+      return { html: '<p>The <b>Core ACV</b> group has <b>18 lines</b>, net ' + P('+$3,260') + '. These are orders from earlier months that were processed after their month closed, so they were paid on your September statement. The largest ones:</p>' +
+        table(['Order', 'Commission period', 'Amount'], [
+          ['36230011', 'Aug', P('+$840')],
+          ['36227310', 'Aug', P('+$720')],
+          ['36219954', 'Jul', P('+$610')],
+          ['15 more lines', 'Jun–Aug', P('+$1,090')]
+        ], ['Total', '', '+$3,260']) +
+        '<p>Which order would you like me to explain?</p>',
+        chips: ['Where is my commission for Order 36230011?'], suggest: 'Where is my commission for Order 36230011?' };
+
+    // ── PPA summary: more than 20 lines → group by payout rule and ask which ──
     if (!/(\bloa\b|leave)/.test(t) && /(\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|(lower|less) (pay|commission)|adjustments?( section)? on my statement|why did my pay|why is my pay)/.test(t))
-      return { html: '<p>Your <b>September</b> statement has <b>7 prior period adjustments</b>, net <b>+$1,180</b>. Prior period adjustments are corrections paid this month for an earlier month. Here\'s each one:</p>' +
-        table(['Payout rule', 'Order', 'Period', 'Amount', 'What happened'], [
-          ['Territory ACV – Quarterly', '—', 'Q2', P('+$2,400'), 'Quarterly component, paid 60 days after quarter end'],
-          ['Attrition Relief', '36198812', 'Jun', P('+$1,050'), 'Relief applied Sep 4, after June closed'],
-          ['Order Team Change (2 lines)', '36203228', 'Jul', N('−$1,320'), 'Order team updated Aug 27; your split changed'],
-          ['ACV Change', '36221905', 'Jul', N('−$610'), 'Commissionable ACV reduced Sep 12'],
-          ['ACV Adjustment', 'Acme Corp', 'Aug', P('+$300'), 'Manual adjustment by Comp Ops'],
-          ['Recoverable Draw Recovery', '—', 'Aug', N('−$640'), 'Draw line — I can create a case']
-        ], ['Net', '', '', '+$1,180', '']) +
-        '<p>The lines that reduced your pay are the <b>order team change</b>, the <b>ACV change</b> and the <b>draw recovery</b>. Which would you like me to explain? You can also give me an order number.</p>' +
-        sources('Prior Period Adjustments – Seller Guide', 'Spiff Statement FAQ'),
-        chips: ['Why was my credit modified?', 'Why is there a negative on a paid deal?', 'Why is there a draw recovery?', 'Where\'s my Territory ACV?', 'What is this ACV Adjustment line?'], suggest: 'Why was my credit modified?' };
+      return { html: '<p>Your <b>September</b> statement has <b>25 prior period adjustments</b>, net <b>+$4,440</b>:</p><ul>' +
+          '<li><b>Order Team Change</b> (2 lines): ' + N('−$1,320') + ', reduced your pay</li>' +
+          '<li><b>ACV Change</b> (1 line): ' + N('−$610') + ', reduced your pay</li>' +
+          '<li><b>Recoverable Draw Recovery</b> (1 line): ' + N('−$640') + ', reduced your pay</li>' +
+          '<li><b>Core ACV</b> (18 lines): ' + P('+$3,260') + ', added to your pay</li>' +
+          '<li><b>Territory ACV – Quarterly</b> (1 line): ' + P('+$2,400') + ', added to your pay</li>' +
+          '<li><b>Attrition Relief</b> (1 line): ' + P('+$1,050') + ', added to your pay</li>' +
+          '<li><b>ACV Adjustment</b> (1 line): ' + P('+$300') + ', added to your pay</li></ul>' +
+        '<p>Which would you like me to explain? You can also give me an order number.</p>',
+        chips: ['Order Team Change', 'ACV Change on Order 36221905', 'Recoverable Draw Recovery', 'Core ACV', 'Territory ACV – Quarterly', 'Attrition Relief', 'ACV Adjustment'], suggest: 'Order Team Change' };
 
     // ── Missing credit: Spiff first, then order team ──
     if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten)|check my commission)/.test(t) && ord) {

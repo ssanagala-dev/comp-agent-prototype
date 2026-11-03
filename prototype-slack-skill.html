@@ -984,7 +984,7 @@
     if (ord && !/(ppa|prior period|attrition|eligib)/.test(t) && (ppaWords.test(t) || RECALC.test(t) || ['36198812', '36203228', '36221905', '36214477'].includes(ord)))
       return creditBreakdown(ord);
     if (ppaWords.test(t) || RECALC.test(t) || /(why am i negative|in the red|owe|how long.*(balance|negative|recover)|by component|component breakdown|which component|per component|xactly|no (order|deal|opp)|nnaov territory|what is this .*line|attainment)/.test(t) ||
-        /(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|order didn'?t change|changed plans|\bytd\b|how much did i (earn|make)|spiff|statement)/.test(t)) {
+        /(negative balance|balance carry|carry ?forward|\bbcf\b|red number|remaining carried|carried balance|\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|why did my pay|why is my pay|territory acv|quarterly|draw recovery|acv adjustment|manual adjustment|didn'?t change anything|order didn'?t change|changed plans|\bytd\b|how much did i (earn|make)|spiff|august line|statement)/.test(t)) {
       lastTopic = 'Spiff statement question: "' + t.slice(0, 80) + '"';
       return { html: '<p>I don\'t have access to your Spiff statement, so I can\'t explain balances, adjustment lines or statement totals. I can check what <b>Org62</b> shows for a specific order and help compare it with what you\'re seeing in Spiff.</p><p>Share the <b>order number</b>, or I can create a case for you.</p>',
         chips: ['Open a case', 'Why am I not paid on Order 36230011?'] };
@@ -1058,13 +1058,23 @@
     if (/(xactly|last (fiscal )?year|prior (fy|year)|fy26)/.test(t))
       return { html: '<p>I can see the balance goes back before this fiscal year, and balances that started in Xactly are outside what I can explain from the data I have.</p>' + offerCase('carried balance that started before FY27 (Xactly)'), chips: ['Yes, create a case', 'No, thanks'], suggest: 'Yes, create a case', noSources: true };
 
-    // ── Spiff: Balance Carry Forward ──
-    if (/(negative balance|balance carry|carry ?forward|\bbcf\b|why am i negative|(statement|balance) is negative|in the red|why do i owe)/.test(t))
-      return { html: '<p>Your negative balance started in <b>August</b>, mainly because of <b>your plan change</b>. Your new plan (AE Commercial → AE Enterprise) was issued in August and backdated to Jun 1, so June and July orders were recalculated.</p>' +
+    // ── Spiff: BCF month that went down → explain its lines ──
+    if (/(explain (the )?august( line)?|august line|what happened in august)/.test(t))
+      return { html: '<p>In <b>August</b>, your plan change was issued (AE Commercial → AE Enterprise) and backdated to Jun 1, so your June and July orders were recalculated:</p>' +
         table(['August statement', 'Amount'], [['Earned commission', P('+$6,200')], ['Plan change recalculation (Jun–Jul orders)', N('−$7,400')], ['ACV change on Order 36214477', N('−$2,450')]], ['Net', '−$3,650']) +
-        '<p>A statement can\'t go below $0, so a <b>+$3,650 balance carry forward</b> brought August to $0. That isn\'t a payment: the −$3,650 is recovered from your future commissions. September recovered $2,100, so your remaining balance today is <b>−$1,550</b>.</p>' +
+        '<p>A statement can\'t go below $0, so a <b>+$3,650 balance carry forward</b> brought August to $0. That isn\'t a payment: the −$3,650 is recovered from your future commissions.</p>' +
         sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
-        chips: ['What\'s the red number at the top?', 'When will it be gone?', 'Can you break it down by component?', 'Why did my pay go down?'], suggest: 'What\'s the red number at the top?' };
+        chips: ['What\'s the red number at the top?', 'When will it be gone?'], suggest: 'When will it be gone?' };
+
+    // ── Spiff: Balance Carry Forward (month by month, a reason per month) ──
+    if (/(negative balance|balance carry|carry ?forward|\bbcf\b|why am i negative|(statement|balance) is negative|in the red|why do i owe)/.test(t))
+      return { html: '<p>Your balance went negative in <b>August (−$3,650)</b> and is <b>−$1,550</b> today.</p>' +
+        table(['Month', 'Change', 'Balance', 'Why'], [
+          ['August', N('−$3,650'), N('−$3,650'), 'Plan change recalculated your Jun–Jul orders <span style="color:#9a9a9a;">+1 more</span>'],
+          ['September', P('+$2,100'), N('−$1,550'), 'Your commissions paid it down']]) +
+        '<p>The rest is taken from your future commissions until it\'s covered. Want me to explain the August line?</p>' +
+        sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
+        chips: ['Explain the August line', 'What\'s the red number at the top?', 'When will it be gone?'], suggest: 'Explain the August line' };
 
     // ── PPA D: plan transfer ──
     if (/(changed plans|plan (change|transfer)|new plan|moved (to a new|plans)|switched (plans|roles))/.test(t))

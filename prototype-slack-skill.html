@@ -227,9 +227,9 @@
   .sk-table{background:#f0f0f0;border-radius:12px;padding:0 6px 8px;margin:10px 0 12px;max-width:640px;}
   .sk-tools{display:flex;justify-content:flex-end;gap:6px;padding:8px 2px;background:#fff;margin:0 -6px;}
   .sk-tools span{width:30px;height:30px;border:1px solid #ccc;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;color:#454545;font-size:14px;cursor:pointer;background:#fff;}
-  .sk-table .hd{display:grid;grid-template-columns:1fr 1fr;padding:9px 14px;font-size:13.5px;font-weight:700;color:#454545;}
+  .sk-table .hd{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;padding:9px 14px;font-size:13.5px;font-weight:700;color:#454545;}
   .sk-table .bd{background:#fff;border:1px solid #ccc;border-radius:8px;}
-  .sk-table .rw{display:grid;grid-template-columns:1fr 1fr;padding:11px 14px;font-size:14.5px;border-top:1px solid #e3e3e3;}
+  .sk-table .rw{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;padding:11px 14px;font-size:14.5px;border-top:1px solid #e3e3e3;}
   .sk-table .rw:first-child{border-top:none;}
   .sk-pg{display:flex;justify-content:center;align-items:center;gap:14px;padding:8px 0 0;font-size:14px;color:#454545;}
   .sk-pg b{display:inline-flex;width:26px;height:26px;border-radius:5px;align-items:center;justify-content:center;cursor:pointer;font-weight:600;}
@@ -243,7 +243,7 @@
   .mtext table.dt td{padding:5px 14px 5px 0;border-bottom:1px solid #f2f2f2;vertical-align:top;}
   .mtext table.dt td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
   .mtext table.dt tr.tot td{font-weight:800;border-top:1px solid #ccc;border-bottom:none;}
-  .pos{color:#007a5a;} .neg{color:#c62828;}
+  .amt{white-space:nowrap;}
   .src{font-size:13px;margin:8px 0 0;} .src a{color:#1264a3;cursor:pointer;} .src a:hover{text-decoration:underline;}
   .src ul{margin:2px 0;padding-left:20px;}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px;}
@@ -948,7 +948,7 @@
     rows.map(r => '<tr>' + r.map((c, i) => '<td' + (/^[+−-]?\$/.test(c) || /class="(pos|neg)"/.test(c) ? ' class="n"' : '') + '>' + c + '</td>').join('') + '</tr>').join('') +
     (total ? '<tr class="tot">' + total.map(c => '<td' + (/\$/.test(c) ? ' class="n"' : '') + '>' + c + '</td>').join('') + '</tr>' : '') + '</table>';
   // Slack has no coloured text, so amounts get 🟢/🔴 dots
-  const P = v => '🟢 ' + v, N = v => '🔴 ' + v;
+  const P = v => '<span class="amt">🟢 ' + v + '</span>', N = v => '<span class="amt">🔴 ' + v + '</span>';
   const D = v => (/^−/.test(v) ? N(v) : /^\+/.test(v) ? P(v) : v);
 
   // Out-of-scope or unexplained: ask before raising a case (the skill never raises one on its own)
@@ -1090,7 +1090,7 @@
           ['August 2026', N('USD -3300.00'), N('USD -3650.00'), 'Plan change recalculated your Jun–Jul orders, plus an ACV change on Order 36214477'],
           ['September 2026', P('USD 2100.00'), N('USD -1550.00'), 'Your commissions paid it down']], [
           ['October 2026 <span style="color:#9a9a9a;">(open, preview)</span>', 'USD 0.00', N('USD -1550.00'), 'Month still open, can change until it closes']]],
-          ['Period', 'Adjustment', 'Remaining carried balance', 'Why'], '0.9fr 0.9fr 1fr 1.5fr') +
+          ['Period', 'Adjustment', 'Remaining carried balance', 'Why'], '0.8fr 1.1fr 1.1fr 1.4fr') +
         '<p>A statement can\'t go below $0, so a <b>balance carry forward</b> brought May and August to $0. That isn\'t a payment: the negative is recovered from your future commissions. Your remaining balance today is <b>−$1,550</b>.</p>' +
         sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
         chips: ['What\'s the red number at the top?', 'When will it be gone?', 'Can you break it down by component?', 'Why did my pay go down?'], suggest: 'What\'s the red number at the top?' };

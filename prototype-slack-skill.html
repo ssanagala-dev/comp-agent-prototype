@@ -1077,12 +1077,8 @@
 
     // ── Spiff: Balance Carry Forward (spec 3.1: start month → cause → trail with a why per month) ──
     if (/(negative balance|balance carry|carry ?forward|\bbcf\b|why am i negative|(statement|balance) is negative|in the red|why do i owe)/.test(t))
-      return { html: '<p>Your remaining carried balance is <b>−$1,550</b>. It started in <b>May</b> and grew in <b>August</b>. Here\'s how it built up:</p>' +
-        '<ul><li><b>It started in May.</b> Three Core ACV orders from earlier months were recalculated after those months closed, which took ' + N('−$2,900') + ' from your May statement. You earned ' + P('+$1,500') + ' that month, so May netted ' + N('−$1,400') + '.</li>' +
-        '<li><b>June and July paid most of it down.</b> Your commissions recovered $1,050, leaving ' + N('−$350') + '.</li>' +
-        '<li><b>It grew in August because of your plan change.</b> Your move from AE Commercial to AE Enterprise was issued in August and backdated to Jun 1, so your June and July orders were recalculated under the new plan (' + N('−$7,400') + '). An ACV change on Order 36214477 took another ' + N('−$2,450') + '. Against ' + P('+$6,550') + ' earned, August netted ' + N('−$3,300') + ', taking the balance to ' + N('−$3,650') + '.</li>' +
-        '<li><b>September recovered $2,100</b>, so you\'re at ' + N('−$1,550') + ' today.</li></ul>' +
-        '<p>Statement period breakdown:</p>' +
+      return { html: '<p>Your October statement starts at <b>−$1,550</b>. That isn\'t from October: it\'s a balance carried over from earlier months, and it\'s recovered from your commissions until it reaches $0.</p>' +
+        '<p>Here\'s where it came from:</p>' +
         skTable([[
           ['May 2026', N('USD -1400.00'), N('USD -1400.00'), 'Core ACV adjustments on 3 earlier orders'],
           ['June 2026', P('USD 600.00'), N('USD -800.00'), 'Your commissions paid it down'],
@@ -1091,7 +1087,7 @@
           ['September 2026', P('USD 2100.00'), N('USD -1550.00'), 'Your commissions paid it down']], [
           ['October 2026 <span style="color:#9a9a9a;">(open, preview)</span>', 'USD 0.00', N('USD -1550.00'), 'Month still open, can change until it closes']]],
           ['Period', 'Adjustment', 'Remaining carried balance', 'Why'], '0.8fr 1.1fr 1.1fr 1.4fr') +
-        '<p>A statement can\'t go below $0, so a <b>balance carry forward</b> brought May and August to $0. That isn\'t a payment: the negative is recovered from your future commissions. Your remaining balance today is <b>−$1,550</b>.</p>' +
+        '<p>A statement can\'t go below $0, so May and August were set to $0 and the negative moved forward. That\'s a <b>balance carry forward</b>.</p>' +
         sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
         chips: ['What\'s the red number at the top?', 'When will it be gone?', 'Can you break it down by component?', 'Why did my pay go down?'], suggest: 'What\'s the red number at the top?' };
 

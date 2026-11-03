@@ -816,12 +816,12 @@
 
   // Paged Field/Value table, as GA renders order details today
   let tblSeq = 0;
-  function skTable(pages) {
-    const id = 'skt' + (tblSeq++);
+  function skTable(pages, head = ['Field', 'Value'], cols) {
+    const id = 'skt' + (tblSeq++), g = cols ? ' style="grid-template-columns:' + cols + '"' : '';
     const page = (rows, i) => '<div class="bd" data-pg="' + i + '"' + (i ? ' style="display:none"' : '') + '>' +
-      rows.map(r => '<div class="rw"><span>' + r[0] + '</span><span>' + r[1] + '</span></div>').join('') + '</div>';
+      rows.map(r => '<div class="rw"' + g + '>' + r.map(c => '<span>' + c + '</span>').join('') + '</div>').join('') + '</div>';
     return '<div class="sk-table" id="' + id + '"><div class="sk-tools"><span onclick="showToast(\'Search table\')">⌕</span><span onclick="showToast(\'Expand table\')">⤢</span><span onclick="showToast(\'Download CSV\')">⋮</span></div>' +
-      '<div class="hd"><span>Field</span><span>Value</span></div>' + pages.map(page).join('') +
+      '<div class="hd"' + g + '>' + head.map(h => '<span>' + h + '</span>').join('') + '</div>' + pages.map(page).join('') +
       (pages.length > 1 ? '<div class="sk-pg"><i onclick="skPage(\'' + id + '\',-1)">‹</i>' + pages.map((_, i) => '<b class="' + (i ? '' : 'on') + '" onclick="skPage(\'' + id + '\',' + i + ',true)">' + (i + 1) + '</b>').join('') + '<i onclick="skPage(\'' + id + '\',1)">›</i></div>' : '') + '</div>';
   }
   function skPage(id, n, abs) {
@@ -1075,17 +1075,22 @@
         sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
         chips: ['Explain the May line', 'What\'s the red number at the top?', 'When will it be gone?'], suggest: 'When will it be gone?' };
 
-    // ── Spiff: Balance Carry Forward (spec 3.1: start month → cause → net math → trail) ──
+    // ── Spiff: Balance Carry Forward (spec 3.1: start month → cause → trail with a why per month) ──
     if (/(negative balance|balance carry|carry ?forward|\bbcf\b|why am i negative|(statement|balance) is negative|in the red|why do i owe)/.test(t))
-      return { html: '<p>Your negative balance started in <b>May</b>, mainly because of <b>adjustments on Core ACV</b>, and grew in <b>August</b> because of <b>your plan change</b> (AE Commercial → AE Enterprise, backdated to Jun 1).</p>' +
-        '<ul><li><b>May:</b> Earned ' + P('+$1,500') + ' · Core ACV adjustments ' + N('−$2,900') + ' · Net ' + N('−$1,400') + '</li>' +
-        '<li><b>August:</b> Earned ' + P('+$6,550') + ' · Plan change recalculation ' + N('−$7,400') + ' · ACV change on Order 36214477 ' + N('−$2,450') + ' · Net ' + N('−$3,300') + '</li></ul>' +
-        table(['Period', 'Adjustment', 'Remaining carried balance'], [
-          ['May', D('−$1,400'), D('−$1,400')],
-          ['June', D('+$600'), D('−$800')],
-          ['July', D('+$450'), D('−$350')],
-          ['August', D('−$3,300'), D('−$3,650')],
-          ['September', D('+$2,100'), D('−$1,550')]]) +
+      return { html: '<p>Your remaining carried balance is <b>−$1,550</b>. It started in <b>May</b> and grew in <b>August</b>. Here\'s how it built up:</p>' +
+        '<ul><li><b>It started in May.</b> Three Core ACV orders from earlier months were recalculated after those months closed, which took ' + N('−$2,900') + ' from your May statement. You earned ' + P('+$1,500') + ' that month, so May netted ' + N('−$1,400') + '.</li>' +
+        '<li><b>June and July paid most of it down.</b> Your commissions recovered $1,050, leaving ' + N('−$350') + '.</li>' +
+        '<li><b>It grew in August because of your plan change.</b> Your move from AE Commercial to AE Enterprise was issued in August and backdated to Jun 1, so your June and July orders were recalculated under the new plan (' + N('−$7,400') + '). An ACV change on Order 36214477 took another ' + N('−$2,450') + '. Against ' + P('+$6,550') + ' earned, August netted ' + N('−$3,300') + ', taking the balance to ' + N('−$3,650') + '.</li>' +
+        '<li><b>September recovered $2,100</b>, so you\'re at ' + N('−$1,550') + ' today.</li></ul>' +
+        '<p>Statement period breakdown:</p>' +
+        skTable([[
+          ['May 2026', N('USD -1400.00'), N('USD -1400.00'), 'Core ACV adjustments on 3 earlier orders'],
+          ['June 2026', P('USD 600.00'), N('USD -800.00'), 'Your commissions paid it down'],
+          ['July 2026', P('USD 450.00'), N('USD -350.00'), 'Your commissions paid it down'],
+          ['August 2026', N('USD -3300.00'), N('USD -3650.00'), 'Plan change recalculated your Jun–Jul orders, plus an ACV change on Order 36214477'],
+          ['September 2026', P('USD 2100.00'), N('USD -1550.00'), 'Your commissions paid it down']], [
+          ['October 2026 <span style="color:#9a9a9a;">(open, preview)</span>', 'USD 0.00', N('USD -1550.00'), 'Month still open, can change until it closes']]],
+          ['Period', 'Adjustment', 'Remaining carried balance', 'Why'], '0.9fr 0.9fr 1fr 1.5fr') +
         '<p>A statement can\'t go below $0, so a <b>balance carry forward</b> brought May and August to $0. That isn\'t a payment: the negative is recovered from your future commissions. Your remaining balance today is <b>−$1,550</b>.</p>' +
         sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
         chips: ['What\'s the red number at the top?', 'When will it be gone?', 'Can you break it down by component?', 'Why did my pay go down?'], suggest: 'What\'s the red number at the top?' };

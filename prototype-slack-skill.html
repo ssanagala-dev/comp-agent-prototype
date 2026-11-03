@@ -1044,7 +1044,7 @@
       return { html: '<p>The red number, <b>−$1,550</b>, is your <b>remaining carried balance</b>: the total still to be recovered from your future commissions.</p>' +
         '<p>The <b>Balance Carry Forward</b> line is different. It\'s what was applied in a given month to bring that statement to $0.</p>' +
         table(['Statement', 'Remaining carried balance'], [['August', D('−$3,650')], ['September', D('−$1,550')], ['October <span style="color:#9a9a9a;">(open, preview)</span>', D('−$1,550')]]) +
-        '<p>October is still open, so that figure is a preview and can change until the month closes. The balance started in <b>May</b> (draw recovery) and grew in <b>August</b> because of your plan change.</p>' +
+        '<p>October is still open, so that figure is a preview and can change until the month closes. The balance started in <b>May</b> (Core ACV adjustments) and grew in <b>August</b> because of your plan change.</p>' +
         sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
         chips: ['Why do I have a negative balance?', 'When will it be gone?'], suggest: 'Why do I have a negative balance?' };
 
@@ -1062,8 +1062,8 @@
 
     // ── Spiff: BCF months that went down → explain their lines (Slack has no coloured text, so 🔴/🟢 dots) ──
     if (/(explain (the )?may( line)?\??$|^may line|what happened in may)/.test(t))
-      return { html: '<p>In <b>May</b>, part of your recoverable draw was taken back from your commissions:</p>' +
-        table(['May statement', 'Amount'], [['Earned commission', D('+$1,500')], ['Recoverable draw recovery', D('−$2,900')]], ['Net', D('−$1,400')]) +
+      return { html: '<p>In <b>May</b>, three earlier Core ACV orders were recalculated after their months closed, so they came through as prior period adjustments:</p>' +
+        table(['May statement', 'Amount'], [['Earned commission', D('+$1,500')], ['Core ACV adjustments (3 lines)', D('−$2,900')]], ['Net', D('−$1,400')]) +
         '<p>A statement can\'t go below $0, so a <b>+$1,400 balance carry forward</b> brought May to $0. That isn\'t a payment: the −$1,400 is recovered from your future commissions.</p>' +
         sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
         chips: ['Explain the August line', 'When will it be gone?'], suggest: 'Explain the August line' };
@@ -1075,18 +1075,20 @@
         sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
         chips: ['Explain the May line', 'What\'s the red number at the top?', 'When will it be gone?'], suggest: 'When will it be gone?' };
 
-    // ── Spiff: Balance Carry Forward (month by month, a reason per month) ──
+    // ── Spiff: Balance Carry Forward (spec 3.1: start month → cause → net math → trail) ──
     if (/(negative balance|balance carry|carry ?forward|\bbcf\b|why am i negative|(statement|balance) is negative|in the red|why do i owe)/.test(t))
-      return { html: '<p>Your balance went negative in <b>May (−$1,400)</b> and is <b>−$1,550</b> today.</p>' +
-        table(['Month', 'Change', 'Balance', 'Why'], [
-          ['May', D('−$1,400'), D('−$1,400'), 'Recoverable draw recovery'],
-          ['June', D('+$600'), D('−$800'), 'Your commissions paid it down'],
-          ['July', D('+$450'), D('−$350'), 'Your commissions paid it down'],
-          ['August', D('−$3,300'), D('−$3,650'), 'Plan change recalculated your Jun–Jul orders (+1 more)'],
-          ['September', D('+$2,100'), D('−$1,550'), 'Your commissions paid it down']]) +
-        '<p>The rest is taken from your future commissions until it\'s covered. Which month would you like me to explain, May or August?</p>' +
+      return { html: '<p>Your negative balance started in <b>May</b>, mainly because of <b>adjustments on Core ACV</b>, and grew in <b>August</b> because of <b>your plan change</b> (AE Commercial → AE Enterprise, backdated to Jun 1).</p>' +
+        '<ul><li><b>May:</b> Earned ' + P('+$1,500') + ' · Core ACV adjustments ' + N('−$2,900') + ' · Net ' + N('−$1,400') + '</li>' +
+        '<li><b>August:</b> Earned ' + P('+$6,550') + ' · Plan change recalculation ' + N('−$7,400') + ' · ACV change on Order 36214477 ' + N('−$2,450') + ' · Net ' + N('−$3,300') + '</li></ul>' +
+        table(['Period', 'Adjustment', 'Remaining carried balance'], [
+          ['May', D('−$1,400'), D('−$1,400')],
+          ['June', D('+$600'), D('−$800')],
+          ['July', D('+$450'), D('−$350')],
+          ['August', D('−$3,300'), D('−$3,650')],
+          ['September', D('+$2,100'), D('−$1,550')]]) +
+        '<p>A statement can\'t go below $0, so a <b>balance carry forward</b> brought May and August to $0. That isn\'t a payment: the negative is recovered from your future commissions. Your remaining balance today is <b>−$1,550</b>.</p>' +
         sources('Balance Carry Forward – Seller Guide', 'Spiff Statement FAQ'),
-        chips: ['Explain the May line', 'Explain the August line', 'What\'s the red number at the top?', 'When will it be gone?'], suggest: 'Explain the August line' };
+        chips: ['What\'s the red number at the top?', 'When will it be gone?', 'Can you break it down by component?', 'Why did my pay go down?'], suggest: 'What\'s the red number at the top?' };
 
     // ── PPA D: plan transfer ──
     if (/(changed plans|plan (change|transfer)|new plan|moved (to a new|plans)|switched (plans|roles))/.test(t))

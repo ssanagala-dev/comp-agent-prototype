@@ -584,6 +584,7 @@
   let toastTimer = null;
   let nextSuggest = 'How is NNAOV different from total AOV?';
   let lastTopic = null;      // used when the seller asks to pass something to Comp Ops
+  let ppaAsk = false;        // skill asked which statement period the seller wants PPA for
   let caseSeq = 70588412;
   // ?v=ga shows what sellers have today (no Spiff data); default is the Nov release with Spiff
   const MODE = new URLSearchParams(location.search).get('v') === 'ga' ? 'ga' : 'nov';
@@ -994,9 +995,44 @@
     return null;
   }
 
+  // PPA for a statement period, in the Sales Agent format: per payout rule, then payout rule and order break-downs
+  function ppaSummary(month) {
+    const m = month[0].toUpperCase() + month.slice(1), per = m.slice(0, 3) + ' 2026';
+    const hi = '<p>Thank you for your inquiry <b>Sai Sowmya Sanagala</b>. ';
+    if (m !== 'September') {
+      lastTopic = m + ' 2026 statement, prior period adjustments';
+      return { html: hi + (m === 'October'
+          ? 'Your <b>October 2026</b> statement is still open, so its prior period adjustments aren\'t final yet. Your latest closed statement is <b>September 2026</b>.</p>'
+          : 'I don\'t see any prior period adjustments on your <b>' + m + ' 2026</b> statement.</p>'),
+        chips: ['September 2026'], suggest: 'September 2026', newTag: true };
+    }
+    lastTopic = 'September 2026 statement, prior period adjustments by payout rule and order';
+    const rules = [['Order Team Change', 'Core ACV', N('USD -1320.00')], ['ACV Change', 'Core ACV', N('USD -610.00')], ['Core ACV', 'Core ACV', P('USD 3260.00')],
+      ['Territory ACV – Quarterly', 'Territory ACV', P('USD 2400.00')], ['Attrition Relief', 'Core ACV', P('USD 1050.00')], ['ACV Adjustment', 'Core ACV', P('USD 300.00')]];
+    return { html: hi + 'Here are the prior period adjustments on your Spiff statement.</p><ul>' +
+        rules.map(r => '<li>For <b>Statement Period: ' + per + '</b>, the <b>' + r[0] + '</b> payout rule has a commission amount of <b>' + r[2] + '</b>.</li>').join('') + '</ul>' +
+      '<p><b>Payout rule wise break-down:</b></p>' +
+      skTable([rules.map(r => [per, r[0], r[1], r[2]])], ['Statement Period', 'Payout Rule', 'Component', 'Commission'], '0.8fr 1.3fr 1fr 1fr') +
+      '<p><b>Order wise break-down:</b></p>' +
+      skTable([[
+        ['36203228', 'Order Team Change', N('USD -1320.00'), 'ORDER_TEAM_CHANGED: split 100% → 50% on Aug 27 (July credit)'],
+        ['36221905', 'ACV Change', N('USD -610.00'), 'COMMISSIONABLE_ACV_CHANGED: term 12 → 9 months on Sep 12 (July credit)'],
+        ['36198812', 'Attrition Relief', P('USD 1050.00'), 'USER_NOT_ON_ORDER_TEAM: added with attrition relief on Sep 4 (June credit)'],
+        ['36230011', 'Core ACV', P('USD 840.00'), 'PROCESSED_AFTER_PERIOD_CLOSE (August credit)'],
+        ['36227310', 'Core ACV', P('USD 720.00'), 'PROCESSED_AFTER_PERIOD_CLOSE (August credit)']], [
+        ['36219954', 'Core ACV', P('USD 610.00'), 'PROCESSED_AFTER_PERIOD_CLOSE (July credit)'],
+        ['15 more orders', 'Core ACV', P('USD 1090.00'), 'PROCESSED_AFTER_PERIOD_CLOSE (Jun–Aug credit)'],
+        ['Territory (no order)', 'Territory ACV – Quarterly', P('USD 2400.00'), 'QUARTERLY_PAYOUT: Q2 (May–Jul), paid 60 days after quarter end'],
+        ['Account: Acme Corp', 'ACV Adjustment', P('USD 300.00'), 'MANUAL_ADJUSTMENT (CAT): split correction, case 70512234']]],
+        ['Order', 'Payout Rule', 'Commission', 'Agent Comment'], '0.8fr 1fr 0.9fr 1.6fr') +
+      '<p>Would you like me to explain any of these orders?</p>',
+      chips: ['Why was Order 36221905 recalculated?', 'Where is my commission for Order 36230011?'], suggest: 'Why was Order 36221905 recalculated?', newTag: true };
+  }
+
   function answerFor(text) {
     const t = text.toLowerCase();
     const ord = orderFrom(text);
+    const askedPeriod = ppaAsk; ppaAsk = false;
     if (MODE !== 'ga' && ord && !(SPIFF_ORDERS[ord] && !RECALC_ORDERS[ord]) && (RECALC.test(t) || (RECALC_ORDERS[ord] && !/(eligib|when|credit on|my credit)/.test(t))))
       return recalcAnswer(ord);
     if (ord && !SPIFF_ORDERS[ord] && !/(\bnrr\b|net revenue)/.test(t) && /(lower|less|wrong|incorrect|short|underpaid|under ?credited|not right|doesn'?t (match|look right)|mismatch|reduced|smaller|than expected|discrepan|only getting|why.*(credit|commission|acv) (is|was))/.test(t))
@@ -1163,18 +1199,14 @@
         '<p>Which order would you like me to explain?</p>',
         chips: ['Where is my commission for Order 36230011?'], suggest: 'Where is my commission for Order 36230011?' };
 
-    // ── PPA summary: more than 20 lines → group by payout rule and ask which ──
-    if (!/(\bloa\b|leave)/.test(t) && /(\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|(lower|less) (pay|commission)|adjustments?( section)? on my statement|why did my pay|why is my pay)/.test(t))
-      return { html: '<p>Your <b>September</b> statement has <b>25 prior period adjustments</b>, net <b>+$4,440</b>:</p><ul>' +
-          '<li><b>Order Team Change</b> (2 lines): ' + N('−$1,320') + ', reduced your pay</li>' +
-          '<li><b>ACV Change</b> (1 line): ' + N('−$610') + ', reduced your pay</li>' +
-          '<li><b>Recoverable Draw Recovery</b> (1 line): ' + N('−$640') + ', reduced your pay</li>' +
-          '<li><b>Core ACV</b> (18 lines): ' + P('+$3,260') + ', added to your pay</li>' +
-          '<li><b>Territory ACV – Quarterly</b> (1 line): ' + P('+$2,400') + ', added to your pay</li>' +
-          '<li><b>Attrition Relief</b> (1 line): ' + P('+$1,050') + ', added to your pay</li>' +
-          '<li><b>ACV Adjustment</b> (1 line): ' + P('+$300') + ', added to your pay</li></ul>' +
-        '<p>Which would you like me to explain? You can also give me an order number.</p>',
-        chips: ['Order Team Change', 'ACV Change on Order 36221905', 'Recoverable Draw Recovery', 'Core ACV', 'Territory ACV – Quarterly', 'Attrition Relief', 'ACV Adjustment'], suggest: 'Order Team Change' };
+    // ── PPA summary: ask which statement period first, then the payout rule and order break-downs ──
+    const ppaMonth = (t.match(/\b(january|february|march|april|may|june|july|august|september|october|november|december)\b/) || [])[1];
+    if (askedPeriod && ppaMonth) return ppaSummary(ppaMonth);
+    if (!/(\bloa\b|leave)/.test(t) && /(\bppa\b|prior period|pay (go|went|has gone) down|pay (drop|dropped|lower|less)|(lower|less) (pay|commission)|adjustments?( section)? on my statement|why did my pay|why is my pay)/.test(t)) {
+      if (ppaMonth) return ppaSummary(ppaMonth);
+      ppaAsk = true;
+      return { html: '<p>Which statement period are you looking for?</p>', chips: ['September 2026', 'August 2026', 'October 2026'], suggest: 'September 2026', raw: true };
+    }
 
     // ── Missing credit: Spiff first, then order team ──
     if (/(don'?t see|do not see|missing|no credit|not (showing|in spiff|appearing|credited|paid)|where.*(credit|commission)|haven'?t (been paid|received|gotten)|check my commission)/.test(t) && ord) {
@@ -1283,7 +1315,7 @@
     if (MODE === 'nov') {
       const tl = text.toLowerCase(), o = orderFrom(text);
       if (/(what.?if|slip|worth to me|if (this|it|the deal) closes|pre-?close|how much (will|would|could|can) i (make|earn))/.test(tl)) tag = '<span class="newtag concept">CONCEPT · not in a release</span>';
-      else { const keep = lastTopic; const g = gaOnly(tl, o); lastTopic = keep; if (g) tag = '<span class="newtag">NEW · Nov release</span>'; }
+      else { const keep = lastTopic; const g = gaOnly(tl, o); lastTopic = keep; if (g || a.newTag) tag = '<span class="newtag">NEW · Nov release</span>'; }
     }
     setTimeout(() => {
       botMsg(

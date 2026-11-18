@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Comp Agent — YTD Earnings Summary (concept)</title>
+<title>Comp Agent — YTD Statement in the Incentive Comp skill (concept)</title>
 <style>
   *,*::before,*::after{box-sizing:border-box;}
   html,body{margin:0;height:100%;}
@@ -23,13 +23,12 @@
   .av{width:18px;height:18px;border-radius:4px;color:#fff;font-size:10px;font-weight:900;text-align:center;line-height:18px;flex-shrink:0;}
   .av.bot{background:transparent;display:flex;align-items:center;justify-content:center;}
   .av.bot svg{width:18px;height:18px;}
-  .pres{width:8px;height:8px;border-radius:50%;background:#2bac76;flex-shrink:0;}
   .badge{background:#e01e5a;color:#fff;border-radius:8px;font-size:10px;font-weight:800;padding:1px 5px;margin-left:auto;}
 
   /* ===== main chat ===== */
   .main{flex:1;min-width:380px;display:flex;flex-direction:column;background:#fff;height:100vh;}
   .topsearch{background:#3f0e40;padding:6px 16px;display:flex;align-items:center;gap:10px;}
-  .topsearch .box{flex:1;max-width:500px;margin:0 auto;background:#5a2a5b;border-radius:6px;height:27px;display:flex;align-items:center;padding:0 10px;color:#d6c6d7;font-size:13px;gap:6px;}
+  .topsearch .box{flex:1;max-width:500px;margin:0 auto;background:#5a2a5b;border-radius:6px;height:27px;display:flex;align-items:center;padding:0 10px;color:#d6c6d7;font-size:13px;}
   .topsearch .how{color:#3f0e40;background:#ecb22e;font-size:12px;font-weight:900;cursor:pointer;border-radius:5px;padding:3px 10px;white-space:nowrap;}
   .chead{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid #e8e8e8;flex-shrink:0;}
   .chead svg{width:26px;height:26px;}
@@ -39,18 +38,14 @@
   .verbar b{font-weight:900;}
 
   .stream{flex:1;overflow-y:auto;padding:0 20px 8px;min-height:0;}
-  .welcome{display:flex;flex-direction:column;align-items:center;padding:40px 32px 24px;text-align:center;}
+  .welcome{display:flex;flex-direction:column;align-items:center;padding:44px 32px 24px;text-align:center;}
   .welcome svg{width:64px;height:64px;margin-bottom:12px;}
   .welcome h3{font-size:22px;font-weight:900;margin:0 0 6px;}
   .welcome .wsub{font-size:14px;color:#616061;margin:0 0 22px;}
-  .wcards{display:flex;flex-direction:column;gap:10px;width:100%;max-width:400px;}
-  .wcard{display:flex;align-items:flex-start;gap:12px;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;cursor:pointer;text-align:left;}
+  .wcard{display:flex;align-items:flex-start;gap:12px;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;max-width:380px;}
   .wcard:hover{background:#f8f8f8;border-color:#ccc;}
-  .wcard.hl{border-color:#611f69;box-shadow:0 0 0 1px #611f69 inset;}
-  .wcard .wi{font-size:20px;}
   .wcard h4{margin:0 0 2px;font-size:14px;font-weight:800;}
   .wcard p{margin:0;font-size:12.5px;color:#616061;line-height:1.4;}
-  .wcard .arr{margin-left:auto;color:#616061;align-self:center;}
 
   .day{text-align:center;margin:16px 0 14px;position:relative;}
   .day::before{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:#e8e8e8;}
@@ -66,13 +61,14 @@
   .mhead .tm{font-size:12px;color:#616061;}
   .used-skill{font-size:12.5px;color:#616061;margin:0 0 4px;}
   .used-skill b{color:#1d1c1d;}
+  .invoke{font-size:12.5px;color:#616061;margin:3px 0 8px;}
   .skill-chip{display:inline-flex;align-items:center;gap:6px;background:#f4ede4;border:1px solid #e9dccb;border-radius:6px;padding:3px 9px;font-size:14px;font-weight:700;}
   .mtext{font-size:15px;line-height:1.55;}
   .mtext p{margin:6px 0;}
   .mtext ul{margin:6px 0;padding-left:22px;}
   .mtext li{margin:3px 0;}
-  .newtag{display:inline-block;background:#611f69;color:#fff;font-size:10px;font-weight:900;letter-spacing:.4px;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle;}
-  .newtag.concept{background:#ecb22e;color:#3f0e40;}
+  .mtext a{color:#1264a3;cursor:pointer;text-decoration:none;} .mtext a:hover{text-decoration:underline;}
+  .newtag{display:inline-block;background:#ecb22e;color:#3f0e40;font-size:10px;font-weight:900;letter-spacing:.4px;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle;}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px;}
   .chips button{border:1px solid #ccc;background:#fff;border-radius:14px;padding:4px 11px;font-family:inherit;font-weight:600;font-size:12.5px;color:#1d1c1d;cursor:pointer;}
   .chips button:hover{background:#f0eef8;border-color:#611f69;color:#611f69;}
@@ -80,102 +76,81 @@
   .typing-dots i{width:5px;height:5px;border-radius:50%;background:#9a9a9a;animation:td 1s infinite;}
   .typing-dots i:nth-child(2){animation-delay:.15s;} .typing-dots i:nth-child(3){animation-delay:.3s;}
   @keyframes td{0%,100%{opacity:.3;}50%{opacity:1;}}
-  .disc{font-size:12px;color:#616061;border-left:3px solid #dcdcdc;padding:4px 10px;margin:10px 0 2px;font-style:italic;}
+  .disc{border-left:3px solid #dcdcdc;padding:6px 12px;margin:12px 0 4px;font-size:12px;color:#616061;font-style:italic;}
 
-  /* Snapshot tiles in chat */
-  .snap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0;max-width:600px;}
-  .snap div{border:1px solid #e3e3e3;border-radius:8px;padding:9px 11px;}
-  .snap small{display:block;font-size:11.5px;color:#616061;font-weight:700;}
-  .snap b{font-size:17px;font-weight:900;white-space:nowrap;}
-  .snap .neg b{color:#b42318;} .snap .net{background:#f2f8f4;border-color:#cfe5d6;} .snap .net b{color:#106b3f;}
+  /* Slackbot table, as the Comp skill renders today */
+  .sk-table{background:#f0f0f0;border-radius:12px;padding:0 6px 8px;margin:10px 0 12px;max-width:640px;}
+  .sk-tools{display:flex;justify-content:flex-end;gap:6px;padding:8px 2px;background:#fff;margin:0 -6px;}
+  .sk-tools span{width:30px;height:30px;border:1px solid #ccc;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;color:#454545;font-size:14px;background:#fff;}
+  .sk-table .hd{display:grid;column-gap:14px;padding:9px 14px;font-size:13.5px;font-weight:700;color:#454545;}
+  .sk-table .bd{background:#fff;border:1px solid #ccc;border-radius:8px;}
+  .sk-table .rw{display:grid;column-gap:14px;padding:10px 14px;font-size:14.5px;border-top:1px solid #e3e3e3;}
+  .sk-table .rw:first-child{border-top:none;}
+  .sk-table .rw.tot{font-weight:800;}
+  .sk-pg{display:flex;justify-content:center;align-items:center;gap:14px;padding:8px 0 0;font-size:14px;color:#454545;}
+  .sk-pg b{display:inline-flex;width:26px;height:26px;border-radius:5px;align-items:center;justify-content:center;cursor:pointer;font-weight:600;}
+  .sk-pg b.on{background:#2f7a5b;color:#fff;}
+  .sk-pg i{font-style:normal;cursor:pointer;color:#9a9a9a;}
+  .amt{white-space:nowrap;}
 
-  /* Block Kit style form */
-  .bk{border:1px solid #ddd;border-radius:8px;padding:12px 14px;margin:10px 0 4px;max-width:600px;}
-  .bk h5{margin:0 0 8px;font-size:14px;font-weight:900;}
-  .bk-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
-  .bk label{font-size:11.5px;font-weight:800;color:#454545;display:block;margin-bottom:3px;}
-  .bk select{width:100%;font:inherit;font-size:13px;padding:6px 8px;border:1px solid #bbb;border-radius:6px;background:#fff;}
-  .bk-check{font-size:13px;color:#454545;display:flex;gap:6px;align-items:center;margin-bottom:10px;}
-  .btns{display:flex;gap:8px;flex-wrap:wrap;}
-  .btn{border:1px solid #bbb;background:#fff;border-radius:6px;padding:6px 14px;font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer;color:#1d1c1d;}
-  .btn:hover{background:#f6f6f6;}
-  .btn.pri{background:#007a5a;border-color:#007a5a;color:#fff;}
-  .btn.pri:hover{background:#006548;}
-  .btn[disabled]{opacity:.5;cursor:default;}
-
-  /* progress */
-  .steps{list-style:none;padding:0;margin:6px 0;font-size:14px;}
-  .steps li{display:flex;gap:8px;align-items:center;padding:3px 0;color:#9a9a9a;}
-  .steps li .dot{width:16px;text-align:center;}
-  .steps li.done{color:#1d1c1d;} .steps li.done .dot{color:#007a5a;font-weight:900;}
-  .steps li.run{color:#1d1c1d;font-weight:700;}
-  .steps li small{color:#616061;font-weight:400;margin-left:4px;}
-  .spin{display:inline-block;width:12px;height:12px;border:2px solid #ccc;border-top-color:#611f69;border-radius:50%;animation:sp .7s linear infinite;}
-  @keyframes sp{to{transform:rotate(360deg);}}
-
-  /* Google Doc file card */
-  .gfile{display:flex;align-items:center;gap:12px;border:1px solid #ddd;border-radius:8px;padding:10px 12px;max-width:520px;margin:8px 0 4px;cursor:pointer;background:#fff;}
-  .gfile:hover{background:#f8f8f8;}
-  .gicon{width:30px;height:38px;flex-shrink:0;}
-  .gfile .gt{font-weight:800;font-size:14px;}
-  .gfile .gs{font-size:12.5px;color:#616061;margin-top:1px;}
+  /* Google Drive link unfurl (Slack attachment style) */
+  .unfurl{border-left:4px solid #dddddd;padding:4px 0 4px 12px;margin:8px 0 4px;max-width:520px;}
+  .unfurl .src{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#1d1c1d;}
+  .unfurl .src svg{width:16px;height:16px;}
+  .unfurl .ttl{font-size:15px;font-weight:700;color:#1264a3;cursor:pointer;margin:3px 0 1px;}
+  .unfurl .ttl:hover{text-decoration:underline;}
+  .unfurl .sub{font-size:13px;color:#616061;}
 
   .composer{flex-shrink:0;padding:0 16px 16px;}
   .cbox{border:1px solid #c7c7c7;border-radius:10px;overflow:hidden;}
   .cbox-top{padding:10px 14px;display:flex;gap:8px;align-items:center;}
   .cbox-top input{flex:1;border:none;outline:none;font-size:15px;font-family:inherit;}
-  .shortcut{font-size:12px;font-weight:800;color:#611f69;background:#f0eef8;border-radius:12px;padding:4px 10px;cursor:pointer;white-space:nowrap;}
+  .ai-suggest{display:none;align-items:center;gap:6px;padding:6px 14px 8px;font-size:12.5px;color:#616061;border-top:1px solid #eee;background:#fafafa;cursor:pointer;}
+  .ai-suggest .tab-hint{background:#e8e8e8;border-radius:3px;padding:1px 6px;font-size:11px;font-family:monospace;color:#454545;}
   .send-btn{width:32px;height:32px;border-radius:6px;background:#007a5a;border:none;cursor:pointer;color:#fff;font-size:16px;}
 
-  /* ===== Google Doc preview pane ===== */
-  .docpane{width:0;flex-shrink:0;background:#f1f3f4;border-left:1px solid #dadce0;display:flex;flex-direction:column;overflow:hidden;transition:width .25s;}
-  .docpane.open{width:min(760px,52vw);}
-  .dbar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:#fff;border-bottom:1px solid #dadce0;flex-shrink:0;font-family:Arial,sans-serif;}
-  .dbar .dt{font-size:16px;color:#202124;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .dbar .dsub{font-size:11.5px;color:#5f6368;}
-  .dbar .lock{font-size:12px;color:#5f6368;background:#f1f3f4;border-radius:12px;padding:3px 9px;white-space:nowrap;}
-  .dbar .share{margin-left:auto;background:#c2e7ff;color:#001d35;border:none;border-radius:18px;padding:7px 16px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;}
-  .dbar .x{cursor:pointer;color:#5f6368;font-size:18px;padding:0 4px;}
+  /* ===== Google Doc (opens in a browser tab) ===== */
+  .gtab{position:fixed;inset:0;background:rgba(29,28,29,.45);display:none;align-items:center;justify-content:center;z-index:400;}
+  .gtab.show{display:flex;}
+  .gwin{width:min(900px,94vw);height:92vh;background:#f1f3f4;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 30px rgba(0,0,0,.3);}
+  .gchrome{background:#dee1e6;padding:8px 12px;display:flex;align-items:center;gap:10px;font-size:12.5px;color:#3c4043;font-family:Arial,sans-serif;}
+  .gchrome .url{flex:1;background:#fff;border-radius:14px;padding:4px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .gchrome .x{cursor:pointer;font-size:16px;}
+  .dbar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:#fff;border-bottom:1px solid #dadce0;font-family:Arial,sans-serif;}
+  .dbar svg{width:20px;height:26px;}
+  .dbar .dt{font-size:16px;color:#202124;}
+  .dbar .lock{font-size:12px;color:#5f6368;background:#f1f3f4;border-radius:12px;padding:3px 9px;margin-left:auto;}
   .dscroll{flex:1;overflow-y:auto;padding:22px 0 40px;}
-  .page{background:#fff;width:92%;max-width:680px;margin:0 auto;box-shadow:0 1px 3px rgba(60,64,67,.3);padding:44px 52px;font-family:Arial,sans-serif;color:#202124;font-size:12.5px;line-height:1.5;}
-  .page h1{font-size:21px;margin:0 0 2px;font-weight:700;}
-  .page .meta{color:#5f6368;font-size:11.5px;margin-bottom:16px;}
-  .page h2{font-size:14px;margin:20px 0 6px;color:#1a73e8;font-weight:700;}
-  .page table{border-collapse:collapse;width:100%;font-size:11.5px;margin:4px 0 6px;}
-  .page th{text-align:left;background:#f1f3f4;font-weight:700;padding:5px 7px;border:1px solid #dadce0;}
-  .page td{padding:5px 7px;border:1px solid #dadce0;vertical-align:top;}
-  .page td.n,.page th.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;}
-  .page tr.tot td{font-weight:700;background:#fafafa;}
-  .page .neg{color:#b42318;}
-  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-  .tiles div{border:1px solid #dadce0;border-radius:6px;padding:8px 10px;}
-  .tiles small{display:block;color:#5f6368;font-size:10.5px;}
-  .tiles b{font-size:15px;}
-  .page .note{font-size:11px;color:#5f6368;margin-top:4px;}
-  .page .foot{border-top:1px solid #dadce0;margin-top:22px;padding-top:8px;font-size:10.5px;color:#5f6368;}
-  .page .ok{color:#137333;font-weight:700;}
+  .page{background:#fff;width:92%;max-width:720px;margin:0 auto;box-shadow:0 1px 3px rgba(60,64,67,.3);padding:40px 48px;font-family:Arial,sans-serif;color:#202124;font-size:12px;line-height:1.45;}
+  .page table{border-collapse:collapse;width:100%;font-size:11.5px;margin:0 0 16px;}
+  .page td{padding:5px 8px;border:1px solid #dadce0;vertical-align:top;}
+  .page tr.ban td{background:#1f3864;color:#fff;font-weight:700;}
+  .page tr.hdr td{background:#d9e2f3;font-weight:700;}
+  .page tr:nth-child(even):not(.ban):not(.hdr):not(.tot) td{background:#f7f9fc;}
+  .page tr.tot td{font-weight:700;}
+  .page td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .page .neg{color:#c00000;}
+  .page .info{margin:-8px 0 16px;font-size:11.5px;}
+  .page .head td{font-size:14px;}
 
   /* ===== How it works overlay ===== */
   .ov{position:fixed;inset:0;background:rgba(29,28,29,.45);display:none;align-items:center;justify-content:center;z-index:500;}
   .ov.show{display:flex;}
-  .ovc{background:#fff;border-radius:12px;width:min(900px,94vw);max-height:90vh;overflow-y:auto;padding:24px 28px;}
+  .ovc{background:#fff;border-radius:12px;width:min(920px,94vw);max-height:90vh;overflow-y:auto;padding:24px 28px;}
   .ovc h3{margin:0 0 4px;font-size:20px;font-weight:900;}
-  .ovc .lead{color:#616061;font-size:14px;margin:0 0 16px;}
-  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px;}
-  .flow div{border:1px solid #e3e3e3;border-radius:8px;padding:10px;font-size:12.5px;line-height:1.45;position:relative;}
-  .flow b{display:block;font-size:13px;margin-bottom:3px;color:#611f69;}
-  .flow .tag{display:inline-block;font-size:10px;font-weight:900;border-radius:4px;padding:1px 6px;margin-top:6px;}
-  .tag.det{background:#e6f4ea;color:#137333;} .tag.ai{background:#f0eef8;color:#611f69;}
-  .ovc h4{margin:14px 0 6px;font-size:14px;font-weight:900;}
+  .ovc .lead{color:#616061;font-size:14px;margin:0 0 14px;}
+  .ovc h4{margin:16px 0 6px;font-size:14px;font-weight:900;}
   .ovc table{border-collapse:collapse;width:100%;font-size:13px;}
   .ovc td,.ovc th{border:1px solid #e3e3e3;padding:6px 9px;text-align:left;vertical-align:top;}
   .ovc th{background:#f8f8f8;}
   .ovc ul{margin:4px 0;padding-left:20px;font-size:13.5px;line-height:1.55;}
+  .ovc code{font-size:12px;background:#f4f4f4;padding:1px 4px;border-radius:3px;}
   .ovc .close{float:right;cursor:pointer;font-size:20px;color:#616061;}
+  .yes{color:#137333;font-weight:800;} .no{color:#b42318;font-weight:800;} .maybe{color:#8a5a00;font-weight:800;}
 
   .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#1d1c1d;color:#fff;border-radius:8px;padding:10px 18px;font-size:13.5px;font-weight:600;z-index:999;opacity:0;transition:opacity .2s;pointer-events:none;}
   .toast.show{opacity:1;}
-  @media (max-width:1100px){ .side{display:none;} }
+  @media (max-width:1000px){ .side{display:none;} }
 </style>
 </head>
 <body>
@@ -221,111 +196,63 @@
     <div class="chead">
       <svg viewBox="0 0 36 36"><use href="#slackbot"/></svg>
       <h2>Slackbot</h2>
-      <span class="reset" onclick="resetDemo()">↺ Restart demo</span>
+      <span class="reset" onclick="location.reload()">↺ Restart demo</span>
     </div>
-    <div class="verbar"><b>Concept · YTD Earnings Summary</b> — not in the Nov 24 release. Sample data. Shows how a seller would get a year-to-date Google Doc from the Comp skill.</div>
+    <div class="verbar"><b>Concept · YTD statement in the Incentive Comp skill</b> — not aligned or scheduled. Sample data. Uses only what a Slackbot skill can render today: text, tables and links.</div>
 
     <div class="stream" id="stream">
       <div class="welcome" id="welcome">
         <svg viewBox="0 0 36 36"><use href="#slackbot"/></svg>
         <h3>Good afternoon, Sai Sowmya!</h3>
-        <p class="wsub">Pick a skill or just ask.</p>
-        <div class="wcards">
-          <div class="wcard" onclick="launch()">
-            <div class="wi">⚡</div>
-            <div><h4>Incentive Compensation</h4><p>Credits, comp plan, payout timing, Spiff statements &amp; more</p></div>
-            <span class="arr">›</span>
-          </div>
-          <div class="wcard hl" onclick="launch('ytd')">
-            <div class="wi">📄</div>
-            <div><h4>My YTD earnings summary <span class="newtag concept">CONCEPT</span></h4><p>One Google Doc with your quota, credits, attainment, commission, clawbacks and draws so far this year</p></div>
-            <span class="arr">›</span>
-          </div>
+        <p class="wsub">I've been here the whole time, but it's nicer when you're here, too.</p>
+        <div class="wcard" onclick="launch()">
+          <div style="font-size:20px;">⚡</div>
+          <div><h4>Incentive Compensation</h4><p>Credits, comp plan, payout timing, eligibility &amp; more — ask in plain language</p></div>
         </div>
       </div>
     </div>
 
     <div class="composer">
-      <div class="cbox"><div class="cbox-top">
-        <span class="shortcut" onclick="launch('ytd')">📄 YTD summary</span>
-        <input id="q" placeholder="Message Slackbot" autocomplete="off" />
-        <button class="send-btn" onclick="send()">↑</button>
-      </div></div>
+      <div class="cbox">
+        <div class="cbox-top">
+          <input id="q" placeholder="Message Slackbot or type /incentive…" autocomplete="off" />
+          <button class="send-btn" onclick="send()">↑</button>
+        </div>
+        <div class="ai-suggest" id="aiSuggest" onclick="useSuggest()"><span id="aiSuggestText"></span><span class="tab-hint">Tab</span></div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- Google Doc preview -->
-  <div class="docpane" id="docpane">
-    <div class="dbar">
-      <svg class="gicon" style="width:22px;height:28px;"><use href="#gdoc"/></svg>
-      <div style="min-width:0;">
-        <div class="dt">FY27 YTD Comp Summary — Sai Sowmya Sanagala</div>
-        <div class="dsub">My Drive › Comp Agent · Generated Nov 10, 2026</div>
-      </div>
-      <span class="lock">🔒 Only you</span>
-      <button class="share" onclick="shareMgr()">Share</button>
-      <span class="x" onclick="closeDoc()">✕</span>
-    </div>
+<!-- Google Doc opens in a new browser tab -->
+<div class="gtab" id="gtab" onclick="if(event.target===this)closeDoc()">
+  <div class="gwin">
+    <div class="gchrome"><span>●●●</span><span class="url">docs.google.com/document/d/1xYtd…/edit — YTD_Commission_Details_10045821_2026-11-18</span><span class="x" onclick="closeDoc()">✕</span></div>
+    <div class="dbar"><svg><use href="#gdoc"/></svg><span class="dt">YTD_Commission_Details_10045821_2026-11-18</span><span class="lock">🔒 Shared with you only</span></div>
     <div class="dscroll"><div class="page">
-      <h1>FY27 Year-to-Date Compensation Summary</h1>
-      <div class="meta">Sai Sowmya Sanagala · Account Executive, Core · Plan: FY27 Core AE<br>
-        Period: Feb 1 – Oct 31, 2026 (9 frozen statements) · Generated Nov 10, 2026 by the Comp Agent</div>
-
-      <h2>1. At a glance</h2>
-      <div class="tiles">
-        <div><small>Commission earned</small><b>$50,000</b></div>
-        <div><small>Clawbacks</small><b class="neg">−$12,000</b></div>
-        <div><small>Draw recovery</small><b class="neg">−$1,000</b></div>
-        <div><small>Net paid</small><b style="color:#137333">$37,000</b></div>
-      </div>
-      <p class="note">$50,000 earned − $12,000 clawed back − $1,000 draw recovered = $37,000 paid.</p>
-
-      <h2>2. Quota, credits and attainment</h2>
-      <table>
-        <tr><th>Component</th><th class="n">Annual quota</th><th class="n">YTD credit</th><th class="n">Attainment</th><th class="n">Commission earned</th></tr>
-        <tr><td>ACV Product 1</td><td class="n">$1,200,000</td><td class="n">$780,000</td><td class="n">65%</td><td class="n">$28,000</td></tr>
-        <tr><td>Territory ACV <span style="color:#5f6368">(Quarterly 60)</span></td><td class="n">$400,000</td><td class="n">$310,000</td><td class="n">78%</td><td class="n">$9,000</td></tr>
-        <tr><td>NNAOV</td><td class="n">$600,000</td><td class="n">$504,000</td><td class="n">84%</td><td class="n">$10,000</td></tr>
-        <tr><td>FIC</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">$3,000</td></tr>
-        <tr class="tot"><td>Total</td><td></td><td></td><td></td><td class="n">$50,000</td></tr>
+      <table class="head">
+        <tr class="ban"><td>YTD Commission Details</td><td></td></tr>
+        <tr class="ban"><td>Sai Sowmya Sanagala &nbsp;|&nbsp; Employee ID: 10045821</td><td></td></tr>
       </table>
-      <p class="note">Territory ACV is paid 60 days in arrears, so Q3 (Aug–Oct) credit pays in December and isn't in these totals.</p>
+      <p class="info">Payout Currency: USD &nbsp; | &nbsp; Plan Period: FY27 (2026-02-01 to 2027-01-31) &nbsp; | &nbsp; Generated: 2026-11-18</p>
 
-      <h2>3. Month by month</h2>
       <table>
-        <tr><th>Month</th><th class="n">Earned</th><th class="n">Clawbacks</th><th class="n">Draw recovery</th><th class="n">Balance carried</th><th class="n">Net paid</th></tr>
-        <tr><td>Feb</td><td class="n">$3,000</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">$3,000</td></tr>
-        <tr><td>Mar</td><td class="n">$4,000</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">$4,000</td></tr>
-        <tr><td>Apr</td><td class="n">$5,500</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">$5,500</td></tr>
-        <tr><td>May</td><td class="n">$4,500</td><td class="n">—</td><td class="n neg">−$1,000</td><td class="n">—</td><td class="n">$3,500</td></tr>
-        <tr><td>Jun</td><td class="n">$8,000</td><td class="n neg">−$4,000</td><td class="n">—</td><td class="n">—</td><td class="n">$4,000</td></tr>
-        <tr><td>Jul</td><td class="n">$5,000</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">$5,000</td></tr>
-        <tr><td>Aug</td><td class="n">$6,000</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">$6,000</td></tr>
-        <tr><td>Sep</td><td class="n">$7,500</td><td class="n neg">−$8,000</td><td class="n">—</td><td class="n">+$500 carried forward</td><td class="n">$0</td></tr>
-        <tr><td>Oct</td><td class="n">$6,500</td><td class="n">—</td><td class="n">—</td><td class="n neg">−$500 applied</td><td class="n">$6,000</td></tr>
-        <tr class="tot"><td>YTD</td><td class="n">$50,000</td><td class="n neg">−$12,000</td><td class="n neg">−$1,000</td><td class="n">$0</td><td class="n">$37,000</td></tr>
+        <tr class="ban"><td>1. YTD Attainment – ACV Product 1 (Annual)</td><td></td></tr>
+        <tr class="hdr"><td>Metric</td><td class="n">USD</td></tr>
+        <tr><td>Component Quota</td><td class="n">$1,200,000.00</td></tr>
+        <tr><td>YTD Credit for Component</td><td class="n">$780,000.00</td></tr>
+        <tr><td>YTD Attainment</td><td class="n">65.00%</td></tr>
       </table>
-      <p class="note">In September the clawback was bigger than that month's earnings. Statements can't go below zero, so $500 carried forward and was taken from October.</p>
-
-      <h2>4. Clawbacks and adjustments</h2>
       <table>
-        <tr><th>Statement</th><th>Order</th><th>What happened</th><th class="n">Amount</th></tr>
-        <tr><td>Jun</td><td>36230011</td><td>Credit moved to another seller after an order team change (prior period adjustment for April).</td><td class="n neg">−$4,000</td></tr>
-        <tr><td>Sep</td><td>36241188</td><td>Order reduced after a partial return (prior period adjustment for July).</td><td class="n neg">−$8,000</td></tr>
+        <tr class="ban"><td>2. YTD Attainment – NNAOV (Territory) (Annual)</td><td></td></tr>
+        <tr class="hdr"><td>Metric</td><td class="n">USD</td></tr>
+        <tr><td>Component Quota</td><td class="n">$600,000.00</td></tr>
+        <tr><td>YTD Credit for Component</td><td class="n">$504,000.00</td></tr>
+        <tr><td>YTD Attainment</td><td class="n">84.00%</td></tr>
       </table>
-
-      <h2>5. Draws</h2>
-      <table>
-        <tr><th>Item</th><th>Detail</th><th class="n">Amount</th></tr>
-        <tr><td>Recoverable draw paid</td><td>Feb (new-hire ramp)</td><td class="n">$1,000</td></tr>
-        <tr><td>Draw recovered</td><td>May statement</td><td class="n neg">−$1,000</td></tr>
-        <tr class="tot"><td>Draw balance left</td><td></td><td class="n">$0</td></tr>
-      </table>
-
-      <div class="foot">
-        <span class="ok">✓ Matches your Spiff statements</span>: every total above was checked against your Feb–Oct statements. November is still open and isn't included.<br>
-        This summary is for information only. Your Spiff statement and comp plan are the system of record. Questions? Ask the Comp Agent in Slack or raise a case with the Commissions queue.
-      </div>
+      <table id="docSummary"></table>
+      <table id="docEarned"></table>
+      <table id="docClaw"></table>
     </div></div>
   </div>
 </div>
@@ -334,31 +261,46 @@
 <div class="ov" id="ov" onclick="if(event.target===this)showHow(false)">
   <div class="ovc">
     <span class="close" onclick="showHow(false)">✕</span>
-    <h3>How the YTD Earnings Summary would work</h3>
-    <p class="lead">This is a concept for the Comp skill forum, based on the working Claude skill from Srini's and Mahesh's team. Data pulls stay fixed and repeatable. The AI only handles the conversation.</p>
-    <div class="flow">
-      <div><b>1. Seller asks</b>Taps the "YTD summary" button or asks in plain words ("what have I earned this year?").<span class="tag ai">AI · intent</span></div>
-      <div><b>2. Who's asking</b>The seller comes from their Slack login. No employee ID box, so they can only ever pull their own data.<span class="tag det">Fixed rule</span></div>
-      <div><b>3. Pull the data</b>The same queries every time: frozen Spiff statements, credits, attainment, clawbacks, draws (Snowflake through the Sales Agent MCP).<span class="tag det">No AI</span></div>
-      <div><b>4. Check the totals</b>The totals are checked against the seller's statements before anything is shown. If they don't match, no doc is made and the seller is told why.<span class="tag det">No AI</span></div>
-      <div><b>5. Build the doc</b>A fixed Google Doc template is filled in and saved to the seller's Drive. Only the seller can see it until they share it.<span class="tag det">Template</span></div>
-    </div>
-    <h4>What the seller gets</h4>
+    <h3>Where the YTD statement fits in the Comp skill</h3>
+    <p class="lead">No new UI. It's one more thing the Incentive Comp skill can answer. The answer comes back as text and tables in the DM, and the full statement comes back as a Google Doc link.</p>
+
+    <h4>The seller experience</h4>
     <ul>
-      <li><b>In Slack:</b> a short snapshot (earned, clawbacks, net paid) and a choice of a Google Doc or just the answer in chat.</li>
-      <li><b>In the doc:</b> what they see at a glance, quota and attainment by component, month by month, clawbacks with order numbers, draws, and a "matches your statements" check.</li>
-      <li><b>After:</b> they can ask follow-ups about the doc in the same chat ("why was $8,000 clawed back?"), and those answers use the existing Spiff use cases (PPA, BCF).</li>
+      <li><b>Discovery:</b> one new line in the skill's opening message ("Your YTD statement"), plus a suggested prompt.</li>
+      <li><b>Ask:</b> plain language, like "show my YTD statement", "how much have I earned this year?" or "what was clawed back?"</li>
+      <li><b>Answer in chat:</b> attainment by component and a YTD summary by statement period, using the same Slackbot tables the skill already shows.</li>
+      <li><b>Full statement:</b> if the seller asks for it, the skill replies with a Google Doc link in the format Srini's team already uses. Slack shows it as a Google Drive link preview.</li>
+      <li><b>Follow-ups:</b> "why was $8,000 clawed back?" reuses the PPA and audit-comment logic.</li>
     </ul>
-    <h4>What we need to work out</h4>
+
+    <h4>What a Slack skill can and can't do</h4>
     <table>
-      <tr><th>Topic</th><th>Question</th></tr>
-      <tr><td>Data</td><td>Do the Spiff outbound tables cover quota, attainment, draws and clawbacks for every month? Which tables does the current skill use? (Mahesh's design doc)</td></tr>
-      <tr><td>Accuracy</td><td>Do generated totals match the seller's statements exactly? What's our rule when they don't?</td></tr>
-      <tr><td>Google Docs</td><td>Can the Comp skill create a doc in the seller's Drive, or do we need a service account and share it to them?</td></tr>
-      <tr><td>Privacy</td><td>Default is private to the seller. Should sharing with a manager be allowed from Slack?</td></tr>
-      <tr><td>Fit</td><td>Is it a new intent inside the Comp skill or a separate skill? Does it change how the Comp skill routes questions?</td></tr>
-      <tr><td>Capacity</td><td>It isn't in the Nov 24 scope. It goes through intake and gets prioritized after the design review.</td></tr>
+      <tr><th>Element</th><th>Feasible?</th><th>Notes</th></tr>
+      <tr><td>Text, bullets, Slackbot tables</td><td class="yes">Yes</td><td>Same as today's credit and PPA answers</td></tr>
+      <tr><td>Suggested follow-up prompts</td><td class="yes">Yes</td><td>Same as today</td></tr>
+      <tr><td>Link to a Google Doc</td><td class="yes">Yes</td><td>The preview depends on the Google Drive app being installed in the workspace</td></tr>
+      <tr><td>Creating the Google Doc</td><td class="maybe">To confirm</td><td>Has to happen in our backend tool (service account plus sharing to the seller), not in the skill</td></tr>
+      <tr><td>Buttons, forms, progress UI, embedded doc preview</td><td class="no">No</td><td>Not available to Slackbot skills, so not used here</td></tr>
     </table>
+
+    <h4>How it would run</h4>
+    <table>
+      <tr><th>Step</th><th>Where</th><th>Based on Srini's SKILL.md</th></tr>
+      <tr><td>Who's asking</td><td>Slack identity → employee ID (same as the Comp skill today)</td><td>Replaces the employee ID typed in by Comp Ops</td></tr>
+      <tr><td>Transactions</td><td>Backend tool (Sales Agent MCP)</td><td><code>REVOPS_GIC_CURATED.T_YTD_SPIFF_TRANSACTIONS_LATEST_SNAPSHOT</code> + <code>ORG62_CEO__C</code>, with pagination beyond 1,000 rows</td></tr>
+      <tr><td>Quota</td><td>Backend tool</td><td><code>EOS_CPS_QUOTA__C</code> through QUOTA_ID, carried before full</td></tr>
+      <tr><td>Totals and tables</td><td>Backend code, not the LLM</td><td>Attainment per component, summary by statement period, earned-period breakup, clawback detail, all in local currency</td></tr>
+      <tr><td>Google Doc</td><td>Backend tool with a service account</td><td>Same format as <code>write_ytd_gdoc.py</code>; personal OAuth isn't usable in production</td></tr>
+      <tr><td>Reply</td><td>Comp skill</td><td>Summarizes, shows the tables, links the doc</td></tr>
+    </table>
+
+    <h4>Open questions</h4>
+    <ul>
+      <li>Alignment with the Tableau YTD attainment dashboards and the new Comp Station tab</li>
+      <li>Which numbers to trust: the GIC curated table or the <code>FACT_SPIFF_*</code> tables the Nov 24 release uses</li>
+      <li>Google Doc creation and sharing in production (security review)</li>
+      <li>Who owns the data layer (GIC or Bharath's team) and who owns the skill experience (Comp Agent team)</li>
+    </ul>
   </div>
 </div>
 
@@ -369,30 +311,75 @@
   const q = document.getElementById('q');
   const SB = '<svg viewBox="0 0 36 36"><use href="#slackbot"/></svg>';
   const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-  let started = false, docMade = false, seq = 0;
+  let started = false, seq = 0, tbl = 0, suggestion = '';
+
+  // Sample data, shaped like the SKILL.md output
+  const PERIODS = [
+    ['Feb', 3000, 0], ['Mar', 4000, 0], ['Apr', 5500, 0], ['May', 4500, 0], ['Jun', 8000, -4000],
+    ['Jul', 5000, 0], ['Aug', 6000, 0], ['Sep', 7000, -8000], ['Oct', 6000, 0]
+  ];
+  const EARNED = [
+    ['Feb', [['Feb', 3000]]], ['Mar', [['Mar', 4000]]], ['Apr', [['Apr', 5500], ['Jun', -4000]]],
+    ['May', [['May', 4500]]], ['Jun', [['Jun', 8000]]], ['Jul', [['Jul', 5000], ['Sep', -8000]]],
+    ['Aug', [['Aug', 6000]]], ['Sep', [['Sep', 7000]]], ['Oct', [['Oct', 6000]]]
+  ];
+  const CLAW = [['Jun', -4000, 'ACV Product 1'], ['Sep', -6000, 'ACV Product 1'], ['Sep', -2000, 'NNAOV (Territory)']];
+
+  const usd = (n, dec) => (n < 0 ? '−' : '') + '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: dec ? 2 : 0, maximumFractionDigits: dec ? 2 : 0 });
+  const N = (n, dec) => '<span class="amt">' + (n < 0 ? '🔴 ' : '') + usd(n, dec) + '</span>';
+  const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
+  const COMM = sum(PERIODS, p => p[1]), CB = sum(PERIODS, p => p[2]);
 
   function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2200); }
   function now() { const d = new Date(); let h = d.getHours(), a = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12; return h + ':' + String(d.getMinutes()).padStart(2, '0') + ' ' + a; }
   function down() { stream.scrollTop = stream.scrollHeight; }
   function showHow(on) { document.getElementById('ov').classList.toggle('show', on); }
 
-  function userMsg(inner) {
-    stream.insertAdjacentHTML('beforeend', `<div class="msg"><div class="ava user">SS</div><div class="mbody"><div class="mhead"><span class="nm">Sai Sowmya Sanagala</span><span class="tm">${now()}</span></div>${inner}</div></div>`);
+  // Paged Slackbot table, same look as the Comp skill prototype
+  function skTable(head, rows, cols, perPage = 5) {
+    const id = 'skt' + (tbl++), g = ' style="grid-template-columns:' + cols + '"';
+    const pages = []; for (let i = 0; i < rows.length; i += perPage) pages.push(rows.slice(i, i + perPage));
+    const page = (rs, i) => '<div class="bd" data-pg="' + i + '"' + (i ? ' style="display:none"' : '') + '>' +
+      rs.map(r => '<div class="rw' + (r.tot ? ' tot' : '') + '"' + g + '>' + r.map(c => '<span>' + c + '</span>').join('') + '</div>').join('') + '</div>';
+    return '<div class="sk-table" id="' + id + '"><div class="sk-tools"><span>⌕</span><span>⤢</span><span>⋮</span></div>' +
+      '<div class="hd"' + g + '>' + head.map(h => '<span>' + h + '</span>').join('') + '</div>' + pages.map(page).join('') +
+      (pages.length > 1 ? '<div class="sk-pg"><i onclick="skPage(\'' + id + '\',-1)">‹</i>' + pages.map((_, i) => '<b class="' + (i ? '' : 'on') + '" onclick="skPage(\'' + id + '\',' + i + ',true)">' + (i + 1) + '</b>').join('') + '<i onclick="skPage(\'' + id + '\',1)">›</i></div>' : '') + '</div>';
+  }
+  function skPage(id, n, abs) {
+    const t = document.getElementById(id), pgs = t.querySelectorAll('.bd'), btns = t.querySelectorAll('.sk-pg b');
+    let cur = [...pgs].findIndex(p => p.style.display !== 'none');
+    cur = abs ? n : Math.max(0, Math.min(pgs.length - 1, cur + n));
+    pgs.forEach((p, i) => p.style.display = i === cur ? '' : 'none');
+    btns.forEach((b, i) => b.classList.toggle('on', i === cur));
+  }
+  const total = r => Object.assign(r, { tot: true });
+
+  function userMsg(text) {
+    stream.insertAdjacentHTML('beforeend', `<div class="msg"><div class="ava user">SS</div><div class="mbody"><div class="mhead"><span class="nm">Sai Sowmya Sanagala</span><span class="tm">${now()}</span></div>${text}</div></div>`);
     down();
   }
   function typing(label) {
     stream.insertAdjacentHTML('beforeend', `<div class="msg" id="typing"><div class="ava">${SB}</div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="tm">${now()}</span></div><div class="mtext" style="color:#8a8a8a;font-size:13px;">${label}<span class="typing-dots"><i></i><i></i><i></i></span></div></div></div>`);
     down();
   }
-  function botMsg(inner) {
+  function botMsg(inner, tool) {
     const t = document.getElementById('typing'); if (t) t.remove();
     const id = 'm' + (seq++);
-    stream.insertAdjacentHTML('beforeend', `<div class="msg" id="${id}"><div class="ava">${SB}</div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="tm">${now()}</span></div><div class="used-skill">⚡ Used <b>Incentive Compensation</b></div>${inner}</div></div>`);
-    down();
-    return id;
+    stream.insertAdjacentHTML('beforeend', `<div class="msg" id="${id}"><div class="ava">${SB}</div><div class="mbody"><div class="mhead"><span class="nm">Slackbot</span><span class="tm">${now()}</span></div><div class="used-skill">⚡ Used <b>Incentive Compensation</b></div>` +
+      (tool ? '<div class="invoke">⚙ Used Sales Agent from Seller Hub (Salesforce) ›<span class="newtag">CONCEPT</span></div>' : '') + inner + '</div></div>');
+    const el = document.getElementById(id);
+    if (el.offsetHeight > stream.clientHeight) stream.scrollTop = el.offsetTop - 8; else down();
   }
   const chips = list => '<div class="chips">' + list.map(c => `<button onclick="ask('${c.replace(/'/g, "\\'")}')">${esc(c)}</button>`).join('') + '</div>';
+  const DISC = '<div class="disc"><b>Disclaimer:</b> Incentive Compensation Skill surfaces information from the compensation system of record and does not calculate or modify any figures. This AI-generated response is informational and does not replace your official Compensation Plan, statement, or payout records, which remain the source of truth.</div>';
   function ask(t) { q.value = t; send(); }
+  function setSuggest(t) {
+    suggestion = t || '';
+    const el = document.getElementById('aiSuggest');
+    el.style.display = t ? 'flex' : 'none';
+    document.getElementById('aiSuggestText').textContent = t || '';
+  }
+  function useSuggest() { if (suggestion) ask(suggestion); }
 
   function begin() {
     if (started) return;
@@ -401,138 +388,126 @@
     stream.insertAdjacentHTML('beforeend', '<div class="day"><span>Today</span></div>');
   }
 
-  function launch(mode) {
-    const first = !started;
+  // The skill opens exactly as it does today, with one extra line
+  function launch() {
+    if (started) { q.focus(); return; }
     begin();
-    if (mode === 'ytd') { userMsg('<div class="mtext"><p>Can I get my YTD earnings summary?</p></div>'); ytdOffer(); return; }
-    if (!first) { q.focus(); return; }
     userMsg('<div class="skill-chip">⚡ Incentive Compensation</div>');
     typing('Incentive Compensation is starting');
-    setTimeout(() => botMsg(
-      `<div class="mtext"><p>Hey Sai Sowmya 👋 I can help with credits, commission, comp plans and your Spiff statement. New: I can put together a <b>year-to-date summary</b> of your earnings as a Google Doc.<span class="newtag concept">CONCEPT</span></p></div>` +
-      chips(['Can I get my YTD earnings summary?', 'What have I earned so far this year?', 'Why do I have a negative balance?'])), 900);
+    setTimeout(() => {
+      botMsg(`<div class="mtext"><p>Hey Sai Sowmya 👋 I'm here to help with your incentive compensation questions. Here's what I can look into:</p><ul>
+        <li><b>Credits &amp; commission</b> — incorrect credit, ACV mismatches, missing or pending commission</li>
+        <li><b>Product eligibility</b> — which products on an order qualify for commission</li>
+        <li><b>Attrition relief</b> — eligibility check on a specific order</li>
+        <li><b>Comp plans</b> — LOA plans, plan components, G4G, and related questions</li>
+        <li><b>Your Spiff statement</b> — negative balance, the red number at the top, prior period adjustments</li>
+        <li><b>Your YTD statement</b><span class="newtag">CONCEPT</span> — attainment, commission and clawbacks so far this year, with a Google Doc you can keep</li>
+        <li><b>Commission policies</b> — NNAOV, recoverable draws, attrition relief rules</li>
+        </ul><p>What would you like to know?</p></div>` +
+        chips(['Show my YTD statement', 'How much have I earned this year?', 'Why do I have a negative balance?']));
+      setSuggest('Show my YTD statement');
+      q.focus();
+    }, 900);
   }
 
-  // Step 1: snapshot in chat + options
-  function ytdOffer() {
-    typing('Checking your Spiff statements');
-    setTimeout(() => botMsg(
-      `<div class="mtext"><p>Here's your FY27 so far, from your <b>9 frozen statements (Feb–Oct)</b>:</p></div>
-      <div class="snap">
-        <div><small>Commission earned</small><b>$50,000</b></div>
-        <div class="neg"><small>Clawbacks</small><b>−$12,000</b></div>
-        <div class="neg"><small>Draw recovery</small><b>−$1,000</b></div>
-        <div class="net"><small>Net paid</small><b>$37,000</b></div>
-      </div>
-      <div class="bk" id="bk">
-        <h5>📄 Want the full breakdown as a Google Doc?</h5>
-        <div class="bk-row">
-          <div><label>Fiscal year</label><select><option>FY27 (current)</option><option>FY26</option></select></div>
-          <div><label>Period</label><select><option>Feb – Oct (YTD)</option><option>Q1 – Q2</option><option>Q3 only</option></select></div>
-          <div><label>Plan</label><select><option>FY27 Core AE</option></select></div>
-        </div>
-        <div class="bk-check"><input type="checkbox" checked disabled> Include clawbacks and adjustments with order numbers</div>
-        <div class="btns">
-          <button class="btn pri" onclick="generate(this)">Create Google Doc</button>
-          <button class="btn" onclick="inChat(this)">Just show me here</button>
-        </div>
-      </div>
-      <div class="disc">November is still open, so it isn't included yet.</div>`), 1100);
+  // Answer in chat: attainment + statement-period summary
+  function ytdAnswer() {
+    const att = skTable(['Component', 'Quota', 'YTD credit', 'Attainment'], [
+      ['ACV Product 1', N(1200000), N(780000), '65.00%'],
+      ['NNAOV (Territory)', N(600000), N(504000), '84.00%']
+    ], '1.3fr 1fr 1fr .8fr');
+    const sumRows = PERIODS.map(p => [p[0] + ' 2026', N(p[1]), p[2] ? N(p[2]) : '—', N(p[1] + p[2])]);
+    sumRows.push(total(['Total', N(COMM), N(CB), N(COMM + CB)]));
+    const summ = skTable(['Statement period', 'Commission', 'Clawback', 'Net paid'], sumRows, '1.1fr 1fr 1fr 1fr', 5);
+    return `<div class="mtext"><p>Here's your <b>FY27 YTD statement</b> (Feb–Oct, from your frozen Spiff statements, in USD). So far you've earned <b>${usd(COMM)}</b> in commission, <b>${usd(-CB)}</b> was clawed back, and you've been paid <b>${usd(COMM + CB)}</b> net.</p>
+      <p><b>Attainment by component</b></p></div>${att}
+      <div class="mtext"><p><b>Summary by statement period</b></p></div>${summ}
+      <div class="mtext"><p>The clawbacks were in <b>June</b> (${usd(4000)}) and <b>September</b> (${usd(8000)}). November is still open, so it isn't included yet.</p>
+      <p>Want the full statement as a Google Doc? It also has the earned-period breakup and clawback detail.</p></div>` + DISC +
+      chips(['Yes, create the Google Doc', 'Why was $8,000 clawed back in September?', 'Make one for my team']);
   }
 
-  function lockForm(b) { (b.closest('.bk') || b.parentElement).querySelectorAll('button,select').forEach(x => x.disabled = true); }
-
-  // Step 2: progress, then the doc
-  function generate(b) {
-    lockForm(b);
-    userMsg('<div class="mtext"><p>Create Google Doc</p></div>');
-    const steps = [
-      ['Confirmed it\'s you', 'from your Slack login'],
-      ['Pulled 9 Spiff statements', 'Feb – Oct, FY27 Core AE'],
-      ['Pulled quota, credits and attainment', '4 components'],
-      ['Pulled clawbacks, adjustments and draws', '2 clawbacks · 1 draw'],
-      ['Checked totals against your statements', 'all 9 match'],
-      ['Created the Google Doc in your Drive', 'only you can see it']
-    ];
-    const id = botMsg('<div class="mtext"><p>On it. This takes about 20 seconds.</p></div><ul class="steps">' +
-      steps.map(s => `<li><span class="dot">○</span>${s[0]}<small></small></li>`).join('') + '</ul>');
-    const lis = document.querySelectorAll('#' + id + ' .steps li');
-    let i = 0;
-    (function tick() {
-      if (i > 0) { const p = lis[i - 1]; p.className = 'done'; p.querySelector('.dot').textContent = '✓'; p.querySelector('small').textContent = '· ' + steps[i - 1][1]; }
-      if (i === lis.length) { setTimeout(docReady, 350); return; }
-      lis[i].className = 'run'; lis[i].querySelector('.dot').innerHTML = '<span class="spin"></span>';
-      i++; down(); setTimeout(tick, 650);
-    })();
+  // Full statement: the backend creates the doc, the skill replies with the link
+  function docAnswer() {
+    return `<div class="mtext"><p>Here's your full YTD statement. It's shared with you only.</p>
+      <p><a onclick="openDoc()">https://docs.google.com/document/d/1xYtd…/edit</a></p></div>
+      <div class="unfurl"><div class="src"><svg><use href="#gdoc"/></svg>Google Docs</div>
+        <div class="ttl" onclick="openDoc()">YTD_Commission_Details_10045821_2026-11-18</div>
+        <div class="sub">Attainment · Summary by statement period · Earned-period breakup · Clawback detail</div></div>` +
+      chips(['Why was $8,000 clawed back in September?', 'What is the earned-period breakup?']);
   }
-
-  function docReady() {
-    docMade = true;
-    botMsg(
-      `<div class="mtext"><p>Your summary is ready. It's private to you until you share it.</p></div>
-      <div class="gfile" onclick="openDoc()">
-        <svg class="gicon"><use href="#gdoc"/></svg>
-        <div><div class="gt">FY27 YTD Comp Summary — Sai Sowmya Sanagala</div><div class="gs">Google Docs · 2 pages · 🔒 Only you</div></div>
-      </div>
-      <div class="btns" style="margin-top:8px;">
-        <button class="btn pri" onclick="openDoc()">Open doc</button>
-        <button class="btn" onclick="shareMgr()">Share with my manager</button>
-        <button class="btn" onclick="toast('Monthly refresh: you\\'ll get a new doc after each statement freezes')">Send me one every month</button>
-      </div>
-      <div class="mtext"><p style="font-size:14px;color:#454545;">Ask me anything about it, for example:</p></div>` +
-      chips(['Why was $8,000 clawed back in September?', 'Why is my Territory ACV not in the total?', 'Make one for my whole team']));
-    setTimeout(openDoc, 500);
-  }
-
-  function inChat(b) {
-    lockForm(b);
-    userMsg('<div class="mtext"><p>Just show me here</p></div>');
-    typing('Pulling your breakdown');
-    setTimeout(() => botMsg(
-      `<div class="mtext"><p><b>Commission earned by component</b></p><ul>
-        <li>ACV Product 1: <b>$28,000</b> (65% of quota)</li>
-        <li>NNAOV: <b>$10,000</b> (84%)</li>
-        <li>Territory ACV: <b>$9,000</b> (78%, paid 60 days in arrears)</li>
-        <li>FIC: <b>$3,000</b></li></ul>
-        <p><b>Taken back:</b> $4,000 in June (Order 36230011, credit moved) and $8,000 in September (Order 36241188, partial return). A $1,000 draw was recovered in May.</p>
-        <p>Want this as a Google Doc to keep or share?</p></div>
-        <div class="btns"><button class="btn pri" onclick="this.disabled=true;generate(this)">Create Google Doc</button></div>`), 1000);
-  }
-
-  function openDoc() { document.getElementById('docpane').classList.add('open'); }
-  function closeDoc() { document.getElementById('docpane').classList.remove('open'); }
-  function shareMgr() { toast('Shared view-only with your manager, Jordan Lee'); }
 
   function answer(t) {
     const s = t.toLowerCase();
-    if (/team|someone|other|for (john|jordan)|employee id/.test(s))
-      return `<div class="mtext"><p>I can only make a summary for <b>your own</b> comp, so I can't create one for your team or another seller. Managers can find team views in the Spiff manager dashboard.</p></div>`;
+    if (/team|someone else|another (rep|seller|ae)|employee id|for (john|jordan|my reports)/.test(s))
+      return { html: '<div class="mtext"><p>I can only share <b>your own</b> YTD statement, so I can\'t create one for your team or another seller. Managers can find team views in the Spiff manager dashboard.</p></div>' };
+    if (/case/.test(s) && /yes/.test(s))
+      return { html: '<div class="mtext"><p>Done. I created case <b>70588413</b> for the Commissions queue about Order 36241188 and added the September clawback details.</p></div>' };
+    if (/google doc|create (the|a) doc|create it|^yes|full statement|download|pdf/.test(s))
+      return { html: docAnswer(), tool: true, wait: 'Incentive Compensation is creating your Google Doc' };
     if (/sept|8,?000|clawed|clawback/.test(s))
-      return `<div class="mtext"><p>The <b>−$8,000</b> on your September statement is a prior period adjustment for July. <b>Order 36241188</b> was reduced after a partial return, so the credit and commission from July were recalculated.</p>
-        <p>It was more than September's $7,500 in earnings, so your statement went to $0 and the extra <b>$500 carried forward</b> to October.</p></div>` + chips(['What is balance carried forward?', 'Can I dispute this?']);
-    if (/territory|arrears|quarterly/.test(s))
-      return `<div class="mtext"><p>Territory ACV is paid <b>60 days in arrears</b>. Q1 and Q2 are in your total ($9,000). Q3 (Aug–Oct) credit will show up in the PPA section of your <b>December</b> statement, so it isn't in this summary yet.</p></div>`;
-    if (/dispute|case/.test(s))
-      return `<div class="mtext"><p>I can raise a case with the Commissions queue for Order 36241188 and attach this summary so they have the context. Want me to?</p></div><div class="btns"><button class="btn pri" onclick="toast('Case 70588413 created · Commissions queue')">Raise a case</button></div>`;
-    if (/carried|carry|negative balance/.test(s))
-      return `<div class="mtext"><p>A statement can't go below $0. When adjustments are bigger than what you earned that month, the rest <b>carries forward</b> and is taken from your next statement. For you, $500 carried from September and was cleared in October. Nothing is carried now.</p></div>`;
-    if (/ytd|summary|earned|so far|this year/.test(s)) return null;
-    return `<div class="mtext"><p>In this concept I can help with your YTD summary. Try one of these:</p></div>` + chips(['Can I get my YTD earnings summary?', 'Why was $8,000 clawed back in September?']);
+      return { tool: true, html: '<div class="mtext"><p>The <b>' + usd(-8000) + '</b> on your September statement came from orders you were paid on in July:</p></div>' +
+        skTable(['Component', 'Order', 'Amount', 'Reason'], [
+          ['ACV Product 1', '36241188', N(-6000), 'Order reduced after a partial return'],
+          ['NNAOV (Territory)', '36241188', N(-2000), 'Same order, NNAOV recalculated']
+        ], '1.1fr .8fr .8fr 1.6fr') +
+        '<div class="mtext"><p><b>Commission Audit Comment:</b> "Partial return processed 9/4; credit recalculated for July earned period."</p><p>If this doesn\'t look right, should I create a case?</p></div>' + DISC +
+        chips(['Yes, create a case', 'No, thanks']) };
+    if (/earned.?period|breakup|break up/.test(s))
+      return { tool: true, html: '<div class="mtext"><p>Commission is grouped by the month you <b>earned</b> it, then by the statement it landed on. Most months pay in the same month. Two didn\'t:</p></div>' +
+        skTable(['Earned', 'Statement', 'Commission'], [
+          ['Apr', 'Apr', N(5500)], ['Apr', 'Jun', N(-4000)], total(['Apr subtotal', '', N(1500)]),
+          ['Jul', 'Jul', N(5000)], ['Jul', 'Sep', N(-8000)], total(['Jul subtotal', '', N(-3000)])
+        ], '1fr 1fr 1fr', 6) +
+        '<div class="mtext"><p>Every month is in the Google Doc.</p></div>' };
+    if (/no,? thanks/.test(s)) return { html: '<div class="mtext"><p>No problem. Anything else?</p></div>' };
+    if (/negative balance|carried/.test(s))
+      return { tool: true, html: '<div class="mtext"><p>Your September clawbacks (' + usd(8000) + ') were more than September\'s commission (' + usd(7000) + '), so ' + usd(1000) + ' carried forward and was taken from October. Nothing is carried now.</p></div>' + DISC };
+    if (/ytd|statement|earned|so far|this year|attainment|how much/.test(s))
+      return { html: ytdAnswer(), tool: true, wait: 'Incentive Compensation is pulling your YTD statement' };
+    return { html: '<div class="mtext"><p>In this concept I can show your YTD statement. Try "Show my YTD statement".</p></div>' };
   }
 
   function send() {
     const t = q.value.trim(); if (!t) return;
-    q.value = '';
-    begin();
+    q.value = ''; setSuggest('');
+    if (!started) { launch(); setTimeout(() => ask(t), 1000); return; }
     userMsg(`<div class="mtext"><p>${esc(t)}</p></div>`);
     const a = answer(t);
-    if (a === null) { ytdOffer(); return; }
-    typing('Looking into it');
-    setTimeout(() => botMsg(a), 900);
+    typing(a.wait || 'Incentive Compensation is looking into it');
+    setTimeout(() => {
+      botMsg(a.html, a.tool);
+      if (/YTD statement/.test(a.html) && /Google Doc\?/.test(a.html)) setSuggest('Yes, create the Google Doc');
+    }, a.wait ? 1800 : 1100);
   }
-  q.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+  q.addEventListener('keydown', e => {
+    if (e.key === 'Enter') send();
+    if (e.key === 'Tab' && suggestion) { e.preventDefault(); q.value = suggestion; }
+  });
 
-  function resetDemo() { location.reload(); }
+  // Doc tables, same structure as write_ytd_gdoc.py
+  (function buildDoc() {
+    const L = (n, dash) => (dash && !n) ? '—' : '<span class="' + (n < 0 ? 'neg' : '') + '">USD ' + (n < 0 ? '-' : '') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2 }) + '</span>';
+    const row = (cells, cls) => '<tr' + (cls ? ' class="' + cls + '"' : '') + '>' + cells.map((c, i) => '<td' + (i ? ' class="n"' : '') + '>' + c + '</td>').join('') + '</tr>';
+    document.getElementById('docSummary').innerHTML =
+      row(['3. YTD Summary by Statement Period', '', '', ''], 'ban') +
+      row(['Period', 'Commission (Local)', 'Clawback (Local)', 'Net Commission Paid (Local)'], 'hdr') +
+      PERIODS.map(p => row([p[0] + ' 2026', L(p[1]), L(p[2], true), L(p[1] + p[2])])).join('') +
+      row(['TOTAL', L(COMM), L(CB), L(COMM + CB)], 'tot');
+    document.getElementById('docEarned').innerHTML =
+      row(['4. Commission (USD) by Earned Period – Statement Period Breakup', '', ''], 'ban') +
+      row(['Earned Period', 'Statement Period', 'Commission (Local)'], 'hdr') +
+      EARNED.map(e => e[1].map(s => row([e[0] + ' 2026', s[0] + ' 2026', L(s[1])])).join('') +
+        row([e[0] + ' 2026 Subtotal', '', L(sum(e[1], s => s[1]))], 'tot')).join('');
+    document.getElementById('docClaw').innerHTML =
+      row(['5. Clawback Detail by Statement Period', '', ''], 'ban') +
+      row(['Statement Period', 'Clawback (Local)', 'Component Name'], 'hdr') +
+      CLAW.map(c => '<tr><td>' + c[0] + ' 2026</td><td class="n">' + L(c[1]) + '</td><td>' + c[2] + '</td></tr>').join('') +
+      '<tr class="tot"><td>TOTAL CLAWBACK</td><td class="n">' + L(sum(CLAW, c => c[1])) + '</td><td></td></tr>';
+  })();
+
+  function openDoc() { document.getElementById('gtab').classList.add('show'); }
+  function closeDoc() { document.getElementById('gtab').classList.remove('show'); }
 </script>
 </body>
 </html>

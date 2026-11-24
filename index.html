@@ -897,18 +897,16 @@
         <span>🔄</span><span><b>Manually refreshed</b> — data reflects the latest available snapshot. This dashboard does not auto-update.</span>
       </div>
     </div>
-    <!-- Exec metrics page (comp-agent-metrics.html, served by Apps Script). Opens in a new tab:
-         the script is limited to salesforce.com, and Google blocks that sign-in inside an iframe. -->
-    <div style="border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);background:#fff;padding:28px 30px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;">
-      <div style="max-width:640px;">
-        <div style="font-size:12px;font-weight:600;color:#0d6efd;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;">Exec Metrics · GA to now</div>
-        <div style="font-size:18px;font-weight:700;color:#032d60;margin-bottom:6px;">Usage, answer rate on live topics, resolved sessions and deflection</div>
-        <div style="font-size:13.5px;color:#3a4a63;">Opens in a new tab. Sign in with your Salesforce Google account.</div>
-      </div>
-      <a href="https://script.google.com/a/macros/salesforce.com/s/AKfycbyBK14R0NvXYuv-kanPxQ8Evq0EMzEp_PcZbv_avRjhc-dExWZyfLepCJWPLPTM0rso/exec"
-         target="_blank" rel="noopener"
-         style="display:inline-flex;align-items:center;gap:8px;background:#032d60;color:#fff;text-decoration:none;font-weight:600;font-size:14px;border-radius:999px;padding:11px 22px;">Open Exec Metrics ↗</a>
+    <!-- Exec metrics page (comp-agent-metrics.html, served by Apps Script) -->
+    <div style="border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;">
+      <iframe
+        id="metricsFrame"
+        src="https://script.google.com/a/macros/salesforce.com/s/AKfycbyBK14R0NvXYuv-kanPxQ8Evq0EMzEp_PcZbv_avRjhc-dExWZyfLepCJWPLPTM0rso/exec"
+        style="width:100%;height:1700px;border:none;display:block;background:#f6fafe;"
+        title="Comp Agent Metrics Dashboard">
+      </iframe>
     </div>
+    <div style="margin-top:8px;font-size:12.5px;color:var(--mute,#6a7d97);">Not loading? <a href="https://script.google.com/a/macros/salesforce.com/s/AKfycbyBK14R0NvXYuv-kanPxQ8Evq0EMzEp_PcZbv_avRjhc-dExWZyfLepCJWPLPTM0rso/exec" target="_blank" rel="noopener">Open in a new tab ↗</a></div>
   </div>
 </div>
 
